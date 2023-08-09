@@ -29,7 +29,8 @@ El  **modelo de aplicación**  son metadatos que definen  **la estructura de nav
 
 La siguiente imagen muestra el cuadro de diálogo integrado  **Editor de modelos**. Pruebe el comando  **Editar modelo**  en cualquiera de las demostraciones de  **eXpressApp Framework**  para acceder a este editor.
 
-![Application Model - End-User Editor](https://docs.devexpress.com/eXpressAppFramework/images/application-model-first-look.png)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/393d0bea-f4aa-4b23-b124-d4e334d3f24a)
+
 
 ## Cómo XAF utiliza el modelo de aplicación
 
@@ -98,7 +99,8 @@ Si diferentes capas tienen valores diferentes para la misma propiedad, XAF utili
 
 La siguiente imagen ilustra esta estructura en capas:
 
-![Application Model: Differences on Multiple Levels](https://docs.devexpress.com/eXpressAppFramework/images/modelmergelayers.png)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/101c916f-7e8b-4e8b-8f8f-58eafad43065)
+
 
 ## Diferencias en el modelo de aplicación: tipos de almacenamiento
 
@@ -126,7 +128,8 @@ Para almacenar las diferencias de modelo en archivos, XAF utiliza archivos *.xaf
 -   **Diferencias de modelo**: contiene personalizaciones generales de la interfaz de usuario
 -   **Aspectos de diferencia del modelo**: contiene personalizaciones de interfaz de usuario localizadas
 
-![ModelDiffAspects](https://docs.devexpress.com/eXpressAppFramework/images/modeldiffaspects117612.png)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/06d4d467-dfd7-4db6-89db-5a874f408cca)
+
 
 >PROPINA
 Para obtener más información sobre la localización de modelos de aplicación, consulte el siguiente artículo: [Conceptos básicos de la localización](https://docs.devexpress.com/eXpressAppFramework/112595/localization/localization-basics).
@@ -160,7 +163,8 @@ Si necesita habilitar el  **almacenamiento**  de base de datos en  una aplicaci�
 
 XAF utiliza dos entidades para almacenar las diferencias de modelo en la base de datos. Las entidades forman una relación de uno a muchos.
 
-![ModelDiffs_DB_Tables](https://docs.devexpress.com/eXpressAppFramework/images/modeldiffs_db_tables117613.png)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8797e761-029b-4b98-8d26-29f64366861c)
+
 
 #### Diferencia de modelo
 
@@ -191,10 +195,9 @@ El comportamiento predeterminado de XAF es cargar siempre la configuración en t
 Puede quitar la marca de comentario de la suscripción al evento  [XafApplication.CreateCustomModelDifferenceStore.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomModelDifferenceStore)  El contenido del archivo  _Model.xafml_  se cargará en la base de datos una vez iniciada la aplicación. XAF omitirá los cambios adicionales en este archivo si el registro de base de datos ya existe para las diferencias de modelo compartido. Para volver a cargar la configuración desde  _Model.xafml_,  [habilite la interfaz de usuario administrativa](https://docs.devexpress.com/eXpressAppFramework/113704/ui-construction/application-model-ui-settings-storage/application-model-storages/enable-the-administrative-ui-for-managing-users-model-differences)  y use la acción  **Importar diferencia**  de modelo compartido (o elimine el registro Diferencia de modelo compartido y reinicie).
 
 >NOTA
-The following combination of features is not supported when used together.
->- SecuredObjectSpaceProvider or XPObjectSpaceProvider created using the constructor with the threadSafe parameter set to true (this parameter enables the ThreadSafeDataLayer).
->- Application-wide model differences are stored in the database using the XafApplication.CreateCustomModelDifferenceStore event (you can still store user-specific differences in the database using the XafApplication.CreateCustomUserModelDifferenceStore event).
->- Custom Persistent Fields declared in the application-level model differences.
+La siguiente combinación de características no es compatible cuando se usan juntas.
+>- [SecuredObjectSpaceProvider](https://docs.devexpress.com/eXpressAppFramework/113437/data-security-and-safety/security-system/security-tiers/2-tier-security-integrated-mode-and-ui-level/change-the-client-side-security-mode-from-ui-level-to-integrated-in-xpo-applications) o [XPObjectSpaceProvider](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Xpo.XPObjectSpaceProvider) creado con el constructor con el parámetro threadSafe establecido en verdadero (este parámetro habilita [ThreadSafeDataLayer](https://docs.devexpress.com/XPO/DevExpress.Xpo.ThreadSafeDataLayer)).
+>-Las diferencias de modelo de toda la aplicación [se almacenan en la base de datos](https://docs.devexpress.com/eXpressAppFramework/113698/ui-construction/application-model-ui-settings-storage/application-model-storages/store-the-application-model-differences-in-the-database) mediante el evento [XafApplication.CreateCustomModelDifferenceStore](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomModelDifferenceStore) (todavía puede almacenar las diferencias específicas del usuario en la base de datos mediante el evento [XafApplication.CreateCustomUserModelDifferenceStore](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomUserModelDifferenceStore)).
+>- [Campos persistentes personalizados](https://docs.devexpress.com/eXpressAppFramework/113583/business-model-design-orm/types-info-subsystem/use-metadata-to-customize-business-classes-dynamically) declarados en las diferencias del modelo a nivel de aplicación.
 >
->In this configuration, your application loads information on custom persistent fields from the database and then updates the database schema. However, a thread-safe data layer does not support altering the data model after the database connection is established.
-
+>En esta configuración, su aplicación carga información sobre campos persistentes personalizados de la base de datos y luego actualiza el esquema de la base de datos. Sin embargo, una capa de datos segura para subprocesos no admite la modificación del modelo de datos después de establecer la conexión con la base de datos.
