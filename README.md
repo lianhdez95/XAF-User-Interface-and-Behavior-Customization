@@ -4969,3 +4969,1668 @@ Consulte los artículos siguientes para obtener información sobre cómo diagnos
 -   [Definir el alcance de los controladores y las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions)
 -   [Determinar el controlador y el identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier)
 -   [ActionBase.DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.DiagnosticInfo)
+
+
+# Acciones de acceso en diferentes áreas de la interfaz de usuario
+
+En esta sección se proporcionan tareas específicas para acciones en diferentes áreas de la interfaz de usuario.
+
+
+# Menú: Barra de herramientas principal
+
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  de la barra de herramientas principal. También puede utilizar enfoques específicos de este artículo.
+
+## ASP.NET  Core Blazor
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/56d17fd5-a18f-435d-93a1-bbac11f92431)
+
+**Documentación**
+
+-   [Cómo: Crear una plantilla de aplicación de Blazor personalizada](https://docs.devexpress.com/eXpressAppFramework/403452/ui-construction/templates/in-blazor/custom-blazor-application-template)
+-   [Ubicación de contenedores de acciones en la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers#aspnet-core-blazor-action-containers)
+-   [Usar el contenedor SaveOptions](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers#in-aspnet-core-blazor-application-template)
+
+**Ejemplos**
+
+-   [XAF Blazor - Implementar un tipo  de acción personalizado](https://github.com/DevExpress-Examples/xaf-custom-action-type-blazor)
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/54f11e30-d4db-40b1-93b1-d59e34225d13)
+
+**Documentación:**
+
+-   [Agregar un contenedor de acciones personalizado](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template)
+-   [Cómo: Habilitar las barras de menú principal o la cinta de opciones en WinForms](https://docs.devexpress.com/eXpressAppFramework/404212/ui-construction/templates/in-winforms/how-to-toggle-win-forms-ribbon-interface)
+-   [IModelAction.QuickAccess](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelAction.QuickAccess)
+-   [SupportClientScriptsExtensions.SetClientScript](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SupportClientScriptsExtensions.SetClientScript.overloads)
+
+**Ejemplos:**
+
+-   [Acceso al Administrador de documentos, al Administrador de barras y al control  de cinta](https://github.com/DevExpress-Examples/XAF_how-to-access-the-documentmanager-barmanager-and-ribboncontrol-e4027)
+-   [Cómo establecer el foco en una acción parametrizada (búsqueda de texto completo) en código](https://supportcenter.devexpress.com/Ticket/Details/Q559647/how-to-set-focus-to-a-parametrizedaction-full-text-search-in-code)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/699441d7-b4ac-4ecd-943f-ef3b5baddada)
+
+**Documentación:**
+
+-   [Cómo: Personalizar una plantilla de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113460/ui-construction/templates/in-webforms/how-to-customize-an-asp-net-template#add-an-action-container-to-the-template)
+-   [Uso de WebActionContainer](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers#in-aspnet-web-forms-application-template)
+-   [IModelActionWeb.AdaptivePriority](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelActionWeb.AdaptivePriority)
+-   [IModelActionWeb.CustomCSSClassName](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelActionWeb.CustomCSSClassName)
+-   [IModelActionWeb.ConfirmUnsavedChanges](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelActionWeb.ConfirmUnsavedChanges)
+-   [IModelActionWeb.IsPostBackRequired](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelActionWeb.IsPostBackRequired)
+
+**Ejemplos:**
+
+-   [Cómo implementar métodos abreviados de teclado en aplicaciones  XAF ASP.NET Web Forms](https://supportcenter.devexpress.com/ticket/details/s18977/how-to-support-keyboard-shortcuts-for-actions-in-an-xaf-asp-net-webforms-and-blazor)
+-   [Cómo unir varias acciones en un solo menú  desplegable](https://supportcenter.devexpress.com/Ticket/Details/T570804/how-to-join-multiple-actions-to-a-single-dropdown-menu-as-this-is-done-for-the-save-action)
+
+
+# Menú: Barra de herramientas anidada
+
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  anidadas de la barra de herramientas. También puede utilizar enfoques específicos de esta sección.
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7fb73c6b-77da-46d7-b4ad-9e22c8cd94b2)
+
+**Documentación:**
+
+-   [ActionBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase)
+-   [ActionBase.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewNesting)
+-   [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)
+-   [ViewController.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewNesting)
+-   [Ocultar la barra de herramientas DashboardViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelDashboardViewItem.ActionsToolbarVisibility)
+-   [Ocultar la barra de herramientas de la vista de lista anidada](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CustomizeTemplate)
+
+**Ejemplos:**
+
+-   [Buscar objetos dentro de ListPropertyEditor o habilitar el FillTextSearchAction estándar para un control ListView  anidado](https://supportcenter.devexpress.com/Ticket/Details/S19503/filtering-how-to-search-objects-within-listpropertyeditor-or-enabling-the-standard)
+-   [Ocultar la barra de herramientas  de DetailPropertyEditor](https://supportcenter.devexpress.com/Ticket/Details/Q493232/disable-toolbar-from-detailpropertyeditor)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/71e01b42-5d1e-485d-9baa-db236fb7e77c)
+
+**Documentación:**
+
+-   [ActionBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase)
+-   [ActionBase.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewNesting)
+-   [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)
+-   [ViewController.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewNesting)
+-   [Ocultar la barra de herramientas DashboardViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelDashboardViewItem.ActionsToolbarVisibility)
+-   [Ocultar la barra de herramientas de la vista de lista anidada](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CustomizeTemplate)
+
+**Ejemplos:**
+
+-   [Buscar objetos dentro de ListPropertyEditor o habilitar el FillTextSearchAction estándar para un control ListView  anidado](https://supportcenter.devexpress.com/Ticket/Details/S19503/filtering-how-to-search-objects-within-listpropertyeditor-or-enabling-the-standard)
+-   [Ocultar la barra de herramientas  de DetailPropertyEditor](https://supportcenter.devexpress.com/Ticket/Details/Q493232/disable-toolbar-from-detailpropertyeditor)
+
+
+# Navegación
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  de navegación. También puede utilizar enfoques específicos de esta sección.
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b1b75da0-d7c5-4c60-acc9-01f251f0f892)
+
+**Documentación:**
+
+-   [Agregar un elemento al control de navegación](https://docs.devexpress.com/eXpressAppFramework/402131/getting-started/in-depth-tutorial-blazor/customize-navigation-between-views/add-an-item-to-navigation-control)
+-   [Cambiar el estilo de los elementos de navegación](https://docs.devexpress.com/eXpressAppFramework/404199/getting-started/in-depth-tutorial-blazor/customize-navigation-between-views/change-style-of-navigation-items)
+-   [Definir el estilo de control de navegación en una aplicación WinForms](https://docs.devexpress.com/eXpressAppFramework/113198/application-shell-and-base-infrastructure/navigation-system#define-the-navigation-control-style-in-a-winforms-application)
+-   [Cómo: Obtener acceso al control de navegación](https://docs.devexpress.com/eXpressAppFramework/112617/application-shell-and-base-infrastructure/navigation/how-to-access-navigation-control)
+-   [Cómo: Obtener acceso a la barra de navegación de Office](https://docs.devexpress.com/eXpressAppFramework/116417/application-shell-and-base-infrastructure/navigation/how-to-access-the-office-navigation-bar)
+-   [IModelRootGroupsStyle.RootGroupsStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelRootGroupsStyle.RootGroupsStyle)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/103bda78-6f5a-4f6c-b048-84f035815792)
+
+**Documentación:**
+
+-   [Definir el estilo de control de navegación en una aplicación ASP.NET de formularios Web Forms](https://docs.devexpress.com/eXpressAppFramework/113198/application-shell-and-base-infrastructure/navigation-system#define-the-navigation-control-style-in-an-aspnet-web-forms-application)
+-   [Cómo: Obtener acceso al control de navegación](https://docs.devexpress.com/eXpressAppFramework/112617/application-shell-and-base-infrastructure/navigation/how-to-access-navigation-control)
+-   [IModelRootNavigationItems.ShowImages](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelRootNavigationItems.ShowImages)
+-   [IModelRootNavigationItemsWeb.ShowNavigationOnStart](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelRootNavigationItemsWeb.ShowNavigationOnStart)
+
+
+# Ventana emergente
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  de ventana emergente. También puede utilizar enfoques específicos de esta sección.
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/0c5af38a-e416-4fd3-a35a-9ea32c1357e8)
+
+**Documentación:**
+
+-   [Controladores y acciones de formularios de inicio de sesión](https://docs.devexpress.com/eXpressAppFramework/113475/ui-construction/controllers-and-actions/logon-form-controllers-and-actions)
+-   [Agregar acciones a una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/112804/ui-construction/controllers-and-actions/add-actions-to-a-popup-window)
+-   [Cómo personalizar las acciones OK y Cancel](https://docs.devexpress.com/eXpressAppFramework/112805/ui-construction/controllers-and-actions/dialog-controller)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b4efa5bb-c01a-4aff-9765-0a5c7411b622)
+
+**Documentación:**
+
+-   [Controladores y acciones de formularios de inicio de sesión](https://docs.devexpress.com/eXpressAppFramework/113475/ui-construction/controllers-and-actions/logon-form-controllers-and-actions)
+-   [Agregar acciones a una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/112804/ui-construction/controllers-and-actions/add-actions-to-a-popup-window)
+-   [Cómo personalizar las acciones OK y Cancel](https://docs.devexpress.com/eXpressAppFramework/112805/ui-construction/controllers-and-actions/dialog-controller)
+-   [PersonalizePopupWindowSizeEventArgs.ShowPopupMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.ShowPopupMode)
+
+
+# Vista de lista de búsqueda
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  de vista de lista de búsqueda. También puede utilizar enfoques específicos de esta sección.
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6e53abf7-1cb4-4696-82be-306a321a336a)
+
+### Documentación
+
+-   [Cómo: Detectar una vista de lista de búsqueda en código](https://docs.devexpress.com/eXpressAppFramework/112908/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-detect-a-lookup-list-view-in-code)
+-   [Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dfe5e155-14ca-478c-b815-9b81b0e4b78b)
+
+### Documentación
+
+-   [Cómo: Detectar una vista de lista de búsqueda en código](https://docs.devexpress.com/eXpressAppFramework/112908/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-detect-a-lookup-list-view-in-code)
+-   [Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows)
+
+## ASP.NET  Core Blazor
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b059c9de-3607-4447-a39d-d4e960e27ba1)
+
+Consulte el tema siguiente para obtener más información sobre cómo configurar las opciones de búsqueda:  [Personalizar un editor de propiedades integrado (Blazor).](https://docs.devexpress.com/eXpressAppFramework/402188/ui-construction/view-items-and-property-editors/property-editors/customize-a-built-in-property-editor-blazor)
+
+
+# Vista detallada
+
+
+Utilice esta sección para agregar y manipular  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  dentro de  [las vistas detalladas](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview).
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/91702a09-dec8-4899-bf94-c1a89af80ee2)
+
+**Documentación:**
+
+-   [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)
+-   [Cómo: Agregar un botón a una vista detallada mediante un elemento de vista personalizada](https://docs.devexpress.com/eXpressAppFramework/113653/ui-construction/view-items-and-property-editors/add-a-button-to-a-detail-view-using-custom-view-item)
+-   [Cómo: Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout)
+
+**Ejemplos:**
+
+-   [Personalización de  acciones ActionContainerViewItem](https://supportcenter.devexpress.com/Ticket/Details/Q304471/actioncontainerviewitem-actions-customization)
+-   [Cómo personalizar el alto y el ancho  de la acción de ActionContainerViewItem](https://supportcenter.devexpress.com/ticket/details/t368884/winforms-how-to-customize-actioncontainerviewitem-s-action-height-and-width)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c6922583-fe70-441f-815e-87f7fdc71bfd)
+
+**Documentación:**
+
+-   [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)
+-   [Cómo: Agregar un botón a una vista detallada mediante un elemento de vista personalizada](https://docs.devexpress.com/eXpressAppFramework/113653/ui-construction/view-items-and-property-editors/add-a-button-to-a-detail-view-using-custom-view-item)
+-   [Cómo: Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout)
+
+**Ejemplos**:
+
+-   [Cómo personalizar el alto y el ancho  de la acción de ActionContainerViewItem](https://supportcenter.devexpress.com/ticket/details/q470346/web-how-to-customize-actioncontainerviewitem-s-action-height-and-width)
+-   [Cómo limitar el ancho de WebActionContainer a su ancho  de control primario](https://supportcenter.devexpress.com/Ticket/Details/T299059/how-to-limit-webactioncontainer-s-width-to-its-parent-control-width)
+
+## ASP.NET  Core Blazor
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3ebd188f-d49e-4b27-867c-b68999e8e292)
+
+**Documentación:**
+
+-   [Configuración del editor de acceso](https://docs.devexpress.com/eXpressAppFramework/402153/getting-started/in-depth-tutorial-blazor/customize-data-display-and-view-layout/access-editor-settings)
+-   [Cómo: Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout)
+
+
+# Otros menús
+
+
+Puede realizar  [tareas comunes](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)  con  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  dentro de Menús. También puede utilizar enfoques específicos de esta sección.
+
+## Formularios de Win
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d726c2d1-1340-4508-be36-ce42f186ec7e)
+
+**Documentación:**
+
+-   [Cómo agregar una acción a un menú contextual](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category#how-to-add-an-action-to-a-context-menu-or-command-column)
+-   [Cómo: Reemplazar la acción predeterminada de una vista de lista](https://docs.devexpress.com/eXpressAppFramework/112820/ui-construction/controllers-and-actions/actions/how-to-replace-a-list-views-default-action)
+
+## Formularios Web Forms ASP.NET
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6e8caa3c-f6f3-4f20-a72e-b8666e848e20)
+
+**Documentación:**
+
+-   [Cómo agregar una acción a una columna de comandos](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)
+-   [Cómo: Ocultar la columna Editar acción de un control ListView en una aplicación de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/114715/ui-construction/controllers-and-actions/actions/how-to-hide-the-edit-action-column-from-a-list-view-in-an-asp-net-application)
+-   [Cómo: Reemplazar la acción predeterminada de una vista de lista](https://docs.devexpress.com/eXpressAppFramework/112820/ui-construction/controllers-and-actions/actions/how-to-replace-a-list-views-default-action)
+
+**Ejemplos:**
+
+-   [Agregar una acción en línea a la fila  Control de vista de lista](https://supportcenter.devexpress.com/Ticket/Details/K18108/how-to-provide-an-inline-action-shown-right-within-the-listview-control-row-on-the-web)
+-   [Ocultar un botón de edición en línea de una vista  de lista](https://supportcenter.devexpress.com/ticket/details/t548509/web-how-to-hide-the-inline-edit-button-from-a-listview)
+
+
+# Cómo: Personalizar controles de acción
+
+
+En este ejemplo se muestra cómo personalizar el control que visualiza una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  en una interfaz de usuario. Se creará una acción personalizada, que permitirá a los usuarios introducir una fecha y filtrar la vista de lista en consecuencia. La acción implementada aceptará la entrada del teclado y proporcionará un calendario desplegable. El control que representa la acción se personalizará para aceptar la entrada del teclado mediante una máscara personalizada. La siguiente imagen muestra la acción resultante en una interfaz de usuario.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4519c118-f84d-4f1a-af3e-90f129f26d78)
+
+>NOTA
+>
+>Puede ver una demostración de los siguientes controladores (**Personalizarel controlador de acciones de menúpara formularios Web Forms ASP.NET y Personalizar controlador de acciones**  **parametrizadopara formularios Win) en la sección Acciones del Centro de características**  aplicación que se incluye con XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework.  XPO._
+
+En primer lugar, defina la clase de negocio  **MyDomainObject**  de ejemplo. La clase contiene dos propiedades. La primera es la propiedad "CreatedOn" del tipo  **DateTime**  y la segunda es la propiedad "Title" del tipo  **de cadena**.
+
+**EF Core**
+
+```csharp
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl.EF;
+// ...
+[DefaultClassOptions]
+public class MyDomainObject : BaseObject {
+    public virtual DateTime CreatedOn { get; set; }
+    public virtual string Title { get; set; }
+}
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+
+```
+**XPO**
+
+```csharp
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+// ...
+[DefaultClassOptions]
+public class MyDomainObject : BaseObject {
+    public MyDomainObject(Session session) : base(session) { }
+
+    public DateTime CreatedOn {
+        get { return GetPropertyValue<DateTime>(nameof(CreatedOn)); }
+        set { SetPropertyValue(nameof(CreatedOn), value); }
+    }
+
+    public string Title {
+        get { return GetPropertyValue<string>(nameof(Title)); }
+        set { SetPropertyValue(nameof(Title), value); }
+    }
+}
+```
+A continuación, cree un nuevo  [controlador de vistas](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  y defina una  [acción parametrizada](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction). Configure el controlador y la acción para que se activen solo para la clase  **MyDomainObject**. Establezca  [ParametrizedAction.ValueType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction.ValueType)  de la acción en  **DateTime**. En el controlador de eventos  [ParametrizedAction.Execute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction.Execute)  de la acción, compruebe si se ha introducido una fecha. Si se ha introducido una fecha, filtre la vista de lista  **MyDomainObject**  para que contenga sólo los objetos cuyo valor de la propiedad "CreatedOn" sea igual a la fecha especificada. Si un usuario ha ejecutado la Acción con un campo de edición vacío, elimine el filtro aplicado, de modo que la Vista de lista muestre todos los objetos, independientemente de su fecha de creación.
+
+
+
+```csharp
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
+//...
+public class MyFilterController : ViewController {
+    public ParametrizedAction dateFilterAction;
+    public MyFilterController() {
+        TargetViewType = ViewType.ListView;
+        TargetObjectType = typeof(MyDomainObject);
+        dateFilterAction = new ParametrizedAction(this, "MyDateFilter", PredefinedCategory.Search, typeof(DateTime));
+        dateFilterAction.NullValuePrompt = "Enter date";
+        dateFilterAction.Execute += dateFilterAction_Execute;
+    }
+    private void dateFilterAction_Execute(object sender, ParametrizedActionExecuteEventArgs e) {
+        CriteriaOperator criterion = null;
+        if(e.ParameterCurrentValue != null && e.ParameterCurrentValue.ToString() != string.Empty) {
+            criterion = new BinaryOperator("CreatedOn", Convert.ToDateTime(e.ParameterCurrentValue));
+        }
+        ((ListView)View).CollectionSource.Criteria[dateFilterAction.Id] = criterion;
+    }
+}
+
+```
+
+Para configurar una máscara de edición personalizada, suscríbase al evento  [ActionBase.CustomizeControl.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.CustomizeControl)  Este evento permite personalizar el control de elementos creados y proporciona acceso al control de acciones correspondiente.
+
+## Formularios de Win
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.XtraBars;
+using DevExpress.XtraEditors.Repository;
+//...
+public class CustomizeActionControlControllerWin : Controller {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Frame.GetController<MyFilterController>().dateFilterAction.CustomizeControl += CustomizeActionControlControllerWin_CustomizeControl;
+    }
+    private void CustomizeActionControlControllerWin_CustomizeControl(object sender, 
+CustomizeControlEventArgs e) {
+        BarEditItem barItem = e.Control as BarEditItem;
+        if (barItem != null) {
+            RepositoryItemDateEdit repositoryItem = (RepositoryItemDateEdit)barItem.Edit;
+            repositoryItem.Mask.UseMaskAsDisplayFormat = true;
+            repositoryItem.Mask.EditMask = "yyyy-MMM-dd";
+            barItem.Width = 270;
+        }
+    }
+    protected override void OnDeactivated() {
+        Frame.GetController<MyFilterController>().dateFilterAction.CustomizeControl -= 
+CustomizeActionControlControllerWin_CustomizeControl;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+## Formularios Web Forms ASP.NET
+
+Este enfoque utiliza las propiedades del servidor. Emplee este enfoque cuando necesite cambiar el comportamiento de un control. Si necesita cambiar la apariencia de un control, use estilos CSS como se describe en el artículo  [Personalización de acciones](https://docs.devexpress.com/eXpressAppFramework/114832/application-shell-and-base-infrastructure/themes/how-to-customize-layout-elements-using-custom-css-classes/how-to-customize-asp-net-layout-elements-using-custom-css-classes#4).
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.Web.Templates.ActionContainers.Menu;
+using DevExpress.Web;
+//...
+public class CustomizeActionControlControllerWeb : Controller {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Frame.GetController<MyFilterController>().dateFilterAction.CustomizeControl += CustomizeActionControlControllerWeb_CustomizeControl;
+    }
+    private void CustomizeActionControlControllerWeb_CustomizeControl(object sender, 
+CustomizeControlEventArgs e) {
+        ParametrizedActionMenuActionItem actionItem = e.Control as ParametrizedActionMenuActionItem;
+        if (actionItem != null) {
+            ASPxDateEdit editor = actionItem.Control.Editor as ASPxDateEdit;
+            if (editor != null) {
+                editor.UseMaskBehavior = true;
+                editor.EditFormat = EditFormat.DateTime;
+                editor.EditFormatString = "yyyy-MMM-dd";
+                editor.Width = 270;
+            }
+        }
+    }
+    protected override void OnDeactivated() {
+        Frame.GetController<MyFilterController>().dateFilterAction.CustomizeControl -= 
+CustomizeActionControlControllerWeb_CustomizeControl;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+## ASP.NET Core Blazor
+
+Add the following Controller to the ASP.NET Core Blazor  [module project](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  (_MySolution.Module.Blazor_). If your solution does not contain this project, add this Controller to the  [application project](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  (_MySolution.Blazor.Server_).
+
+
+
+```csharp
+using MySolution.Module.Controllers;
+using DevExpress.ExpressApp.Blazor.Components.Models;
+using DevExpress.ExpressApp.Blazor.Templates.Toolbar.ActionControls;
+// ...
+
+public class CustomizeActionControlControllerBlazor : Controller {
+    private MyFilterController myFilterController;
+    protected override void OnActivated() {
+        base.OnActivated();
+        myFilterController = Frame.GetController<MyFilterController>();
+        if(myFilterController != null) {
+            myFilterController.dateFilterAction.CustomizeControl += 
+                CustomizeActionControlController_CustomizeControl;
+        }
+    }
+    private void CustomizeActionControlController_CustomizeControl(object sender, 
+        CustomizeControlEventArgs e) {
+        if(e.Control is DxToolbarItemParametrizedActionControl actionControl && 
+            actionControl.EditModel is DxDateEditModel dateEditModel) {
+            dateEditModel.Format = "yyyy-MMM-dd";
+        }
+    }
+    protected override void OnDeactivated() {
+        if(myFilterController != null) {
+            myFilterController.dateFilterAction.CustomizeControl -= 
+            CustomizeActionControlController_CustomizeControl;
+            myFilterController = null;
+        }
+        base.OnDeactivated();
+    }
+}
+
+```
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/27ac5723-4d89-46fc-8e5a-8786b1ee2a61)
+
+
+# Cómo: Crear una acción mediante el atributo Action
+
+
+En este ejemplo se muestra cómo crear una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  dentro de una declaración de clase persistente (es decir, cómo convertir un método de clase persistente en  [SimpleAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction)  o  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)).
+
+## Notas importantes sobre el uso del atributo action
+
+Las acciones creadas con  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  no están diseñadas para funcionar en vistas de lista sin ningún objeto seleccionado. El parámetro  [ActionAttribute.SelectionDependencyType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute.SelectionDependencyType)  del atributo se puede establecer en  **RequireSingleObject**  o  **RequireMultipleObjects**  (vea  [MethodActionSelectionDependencyType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.MethodActionSelectionDependencyType)). Para crear una acción que no requiera el objeto seleccionado, agregue un  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  e implemente una acción en él (consulte Agregar una acción  [simple y Agregar](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action)  una  [acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-that-displays-a-pop-up-window)).
+
+[ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  se utiliza principalmente en escenarios sencillos sólo cuando se ejecuta lógica basada en datos disponibles en el contexto de clase empresarial (por ejemplo, modificar propiedades de clase).  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  NO es adecuado para ninguna lógica relacionada con la interfaz de usuario ni para interacciones de usuario complejas. Tampoco es posible acceder a  [XafApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication),  [Views](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  y otras entidades relacionadas con la interfaz de usuario de XAF dentro del código de clase empresarial, ya que viola el principio de  [separación de preocupaciones](https://en.wikipedia.org/wiki/Separation_of_concerns) y va en contra de la arquitectura  [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (su modelo de datos no debe estar vinculado a la interfaz de usuario). Para acceder a  [XafApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication),  [Views](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  y otras entidades relacionadas con la interfaz de usuario, implemente  [Controllers](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  with  [Actions](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions).
+
+## Crear una acción simple
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e3884/how-to-create-an-action-using-the-actionattribute](https://supportcenter.devexpress.com/ticket/details/e3884/how-to-create-an-action-using-the-actionattribute) .
+
+Comencemos con la siguiente clase de negocios  **de tareas**.
+
+**EF Core**
+
+```csharp
+[DefaultClassOptions,ImageName("BO_Task"),DefaultProperty(nameof(Subject))]
+public class Task : BaseObject {
+    public virtual string Subject { get; set; }
+    public virtual bool IsCompleted { get; set; }
+}
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+
+```
+
+**XPO**
+```
+[DefaultClassOptions, ImageName("BO_Task"), DefaultProperty(nameof(Subject))]
+public class Task : BaseObject {
+    public Task(Session session) : base(session) { }
+    private string subject;
+    public string Subject {
+        get { return subject; }
+        set { SetPropertyValue(nameof(Subject), ref subject, value); }
+    }
+    private bool isCompleted;
+    public bool IsCompleted {
+        get { return isCompleted; }
+        set { SetPropertyValue(nameof(IsCompleted), ref isCompleted, value); }
+    }
+}
+```
+Suponga que es necesario implementar una acción que cambie el valor  **IsCompleted**  a  **true**. Agregue el siguiente método  **Complete**  a la clase  **Task**  y decórelo con el atributo  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute).
+
+
+
+```csharp
+[Action(Caption="Complete", TargetObjectsCriteria = "Not [IsCompleted]")]
+public void Complete() {
+    IsCompleted = true;
+}
+
+```
+
+**ObjectMethodActionsViewController**  recopila automáticamente estos métodos de las clases de negocio. Este controlador creará la acción  **Task.Complete**, que invocará el método  **Complete**  para cada  **tarea**  seleccionada. Tenga en cuenta el uso del parámetro  [ActionAttribute.TargetObjectsCriteria.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute.TargetObjectsCriteria)  La acción se deshabilitará para  **las tareas**  que ya se han completado (la propiedad  **IsCompleted**  es  **true**). Puede pasar otros parámetros para personalizar el aspecto y el comportamiento de la acción. Las imágenes siguientes ilustran la acción  **completa**  en la interfaz de usuario.
+
+**WinForms**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/62e3e6c6-86d8-4a61-b238-0aaf7ae6b743)
+
+**ASP.NET formularios web**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5eb49323-2b61-47ff-b3f1-25e50777f2c2)
+
+**Blazor**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/be99f295-c869-415d-babf-40e478889f72)
+
+## Crear una acción que muestre el cuadro de diálogo emergente
+
+A continuación, amplíe la clase  **Task**  mostrada en la sección anterior de este tema con varias propiedades adicionales para demostrar un escenario más complejo. Aquí están estas propiedades (**Fecha límite**  y  **Comentarios**).
+
+**EF Core**
+
+```csharp
+using DevExpress.ExpressApp.Model;
+// ...
+public virtual DateTime? Deadline { get; set; }
+
+[FieldSize(FieldSizeAttribute.Unlimited),ModelDefault("AllowEdit", "False")]
+public virtual string Comments { get; set; }
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+```
+**XPO**
+```csharp
+using DevExpress.ExpressApp.Model;
+// ...
+public virtual DateTime? Deadline { get; set; }
+
+[FieldSize(FieldSizeAttribute.Unlimited),ModelDefault("AllowEdit", "False")]
+public virtual string Comments { get; set; }
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+
+```
+
+Suponga que debe implementar una acción que posponga la  **fecha límite**  durante un número específico de días y actualice el texto de  **los comentarios**. En primer lugar,  [implemente la siguiente clase no persistente](https://docs.devexpress.com/eXpressAppFramework/116516/business-model-design-orm/non-persistent-objects)  que declara los parámetros que se especificarán cuando un usuario final posponga una  **tarea**.
+
+
+
+```csharp
+using DevExpress.ExpressApp.DC;
+// ...
+[DomainComponent]
+public class PostponeParametersObject {
+    public PostponeParametersObject() { PostponeForDays = 1; }
+    public uint PostponeForDays { get; set; }
+    [FieldSize(FieldSizeAttribute.Unlimited)]
+    public string Comment { get; set; }
+}
+
+```
+
+A continuación, agregue el siguiente método  **Postpone**  a la clase  **Task**. Este método toma un parámetro del tipo  **PostponeParametersObject**  y se decora con el atributo  **Action**.
+
+
+
+```csharp
+[Action(Caption = "Postpone",
+    TargetObjectsCriteria = "[Deadline] Is Not Null And Not [IsCompleted]")]
+public void Postpone(PostponeParametersObject parameters) {
+    if (Deadline.HasValue && !IsCompleted && (parameters.PostponeForDays > 0)) {
+        Deadline += TimeSpan.FromDays(parameters.PostponeForDays);
+        Comments += String.Format("Postponed for {0} days, new deadline is {1:d}\r\n{2}\r\n",
+        parameters.PostponeForDays, Deadline, parameters.Comment);
+    }
+}
+
+```
+
+Como resultado, la acción  **Task.Postpon**, que acompaña a las vistas de  **tareas**, se creará automáticamente. Esta acción invoca un cuadro de diálogo con la vista de detalles  **PostponeParametersObject**  y ejecuta el método  **Postpone**  después de que un usuario final especifique los parámetros y haga clic en  **Aceptar**. Las siguientes imágenes ilustran esto.
+
+**WinForms**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3ab517b3-5737-4d72-b61b-814ad54efa2c)
+
+**ASP.NET formularios web**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3657466a-da80-4c2b-a49e-de995854283e)
+
+**Blazor**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a765df1c-2e89-4e95-af12-299f5829af47)
+
+>PROPINA
+>
+>Si es necesario reordenar los parámetros que se muestran en un cuadro de diálogo emergente, modifique el diseño de la Vista detallada de un objeto de parámetro en el [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). En el ejemplo anterior, el nodo Vista detallada apropiado es **PosponerparámetrosObject_DetailVista**. Consulte el tema Personalización del diseño de elementos de vista  para obtener más información sobre las personalizaciones  [de diseño](https://docs.devexpress.com/eXpressAppFramework/112817/ui-construction/views/layout/view-items-layout-customization).
+
+### Acceso a la instancia de objeto actual
+
+Si declara un constructor  **PostponeParametersObject**  que toma un parámetro del tipo de objetos de negocio de destino (Task), la instancia  de  **Task**  actual se pasará a este constructor cuando se ejecute la acción.
+
+
+
+```csharp
+[DomainComponent]
+public class PostponeParametersObject {
+    private Task task;
+    public PostponeParametersObject(Task task) {
+        PostponeForDays = 1;
+        this.task = task;
+    }
+    // ...
+}
+```
+
+
+# Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos
+
+
+Si ya ha ejecutado una aplicación de formularios Windows Forms o ASP.NET Web Forms, es posible que observe que los editores de propiedades de búsqueda, que muestran propiedades de referencia, contienen una lista de objetos existentes del tipo especificado en el menú desplegable. Del mismo modo, la ventana emergente de la acción de vínculo muestra una lista de objetos disponibles del tipo especificado. La siguiente imagen muestra tanto la ventana desplegable del Editor de propiedades de búsqueda como la ventana emergente de la Acción de vínculo:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b8930d67-bcfd-4842-8dd1-50f895f8a1ee)
+
+Sin embargo, este enfoque para mostrar simultáneamente todos los objetos, no es apropiado cuando hay muchos objetos para mostrar. Por lo tanto,  **eXpressApp Framework**  proporciona una funcionalidad de  **búsqueda**  incorporada. En este tema se detalla cómo activarlo.
+
+La funcionalidad de búsqueda se activa en WinForms y ASP.NET aplicaciones de formularios Web Forms cuando una vista de lista en un editor de propiedades de búsqueda o una ventana emergente de acción de vínculo contiene más  **de**  25 objetos de forma predeterminada. Puede cambiar este número. Para ello, utilice la propiedad  [IModelOptions.LookupSmallCollectionItemCount](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelOptions.LookupSmallCollectionItemCount)  del nodo  **Opciones**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3dee6031-833c-400e-b68c-917a24d850c9)
+
+Esta propiedad especifica el recuento mínimo de objetos que deben estar en una vista de lista para activar la funcionalidad de búsqueda.
+
+En ASP.NET aplicaciones Core Blazor, la funcionalidad de búsqueda se activa en todas las ventanas emergentes de Acción de vínculo y se deshabilita en todos los editores de propiedades de  **búsqueda**.
+
+La funcionalidad  **de búsqueda**  es proporcionada por un editor y el botón  **Buscar**:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/02b81d10-dd36-4866-9e56-f9e8b2363552)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/60525129-cb6d-448a-ba18-287b8f7de8d3)
+
+Este botón ejecuta la acción  [FilterController.FullTextFilterAction de FilterController.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController.FullTextFilterAction)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController)Esta acción filtra el origen de la colección de la vista de lista, buscando los objetos cuya representación de cadena de propiedades incluye el valor especificado por un usuario final. Las propiedades incluyen las que se enumeran en  **Vistas**  |  **_<ListView>_**  nodo que define la vista de lista, sin importar si es visible o invisible, persistente o no persistente. Para obtener más información, consulte la descripción de la clase  [FilterController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController).
+
+Puede tener la funcionalidad de  **búsqueda**  disponible en el Editor de propiedades de búsqueda o en la ventana emergente de la acción de vínculo cuando haya cualquier número de objetos contenidos en el origen de la colección de la vista de lista. Para ello, aplique  [LookupEditorModeAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.LookupEditorModeAttribute)  a la propiedad requerida (una referencia de la propiedad collection). Con este atributo, puede establecer uno de los siguientes modos para el Editor de propiedades de búsqueda correspondiente o la ventana emergente de Acción de vínculo:
+
+-   **Automático**
+    
+    La característica  **Buscar**  se agrega si el recuento de objetos presunto de su colección de orígenes de datos es mayor que el valor del atributo  **LookupSmallCollectionItemCount**.
+    
+-   **AllItems**
+    
+    Se cargan todos los objetos del tipo especificado.
+    
+-   **Buscar**
+    
+    No se carga ninguno de los objetos existentes del tipo especificado y la característica  **Buscar**  está disponible.
+    
+-   **AllItemsWithSearch**
+    
+    Se cargan todos los objetos del tipo especificado y la función  **Buscar**  está disponible.
+    
+
+Para establecer el modo requerido, pase el valor correspondiente como parámetro  **de LookupEditorModeAttribute**. Como alternativa, puede utilizar el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). El valor del  _parámetro mode_  del atributo LookupEditorMode se establece para la propiedad  **LookupEditorMode**  de  **BOModel**  |  **_<Clase>_**  |  **Miembros Propios**  |  **_<Miembro>_**  nodo.
+
+Si no se utiliza el atributo  **LookupEditorModeAttribute**, el Editor de propiedades de búsqueda se muestra en el modo  **Auto**.
+
+
+# Cómo: Agregar la acción Analizar a vistas de lista
+
+
+Para agregar la capacidad de analizar datos en su aplicación,  **eXpressApp Framework**  proporciona el módulo de  [gráfico dinámico](https://docs.devexpress.com/eXpressAppFramework/113024/analytics/pivot-chart-module). El tema  [Analizar datos](https://docs.devexpress.com/eXpressAppFramework/404213/analytics/pivot-chart/how-to-analyze-data)  explica que para iniciar la funcionalidad Análisis en una aplicación, debe agregar este módulo y la clase empresarial de Análisis integrada a la aplicación. En este caso, el control de navegación contendrá el elemento Análisis y el usuario final podrá crear objetos Análisis. Sin embargo, es posible que deba proporcionar la capacidad de crear un objeto Analysis desde cualquier vista de lista, estableciendo la propiedad  **DataType**  del nuevo objeto Analysis en el tipo de objeto de la vista de lista. En este tema se muestra cómo realizar esta tarea.
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no admiten el  [módulo de gráfico dinámico](https://docs.devexpress.com/eXpressAppFramework/113024/analytics/pivot-chart-module), por lo que el enfoque descrito en este tema no se puede implementar en la plataforma ASP.NET Core Blazor.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e389/how-to-add-the-analyze-action-to-list-views](https://supportcenter.devexpress.com/ticket/details/e389/how-to-add-the-analyze-action-to-list-views) .
+
+-   Cree un nuevo  [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)  en el  [proyecto de módulo](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  de aplicación. Si la solución no contiene este proyecto, cree este Controller en un  [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure). Invoque al  **diseñador**  y establezca la propiedad  [ViewController.TargetViewType en ListView.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewType)  Esto significa que el controlador se activará solo para vistas de lista.
+    
+    Para obtener más información sobre la creación del controlador, consulte la sección  [Agregar acciones (comandos de menú)](https://docs.devexpress.com/eXpressAppFramework/402128/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands)  en el Tutorial.
+    
+-   En el Diseñador del controlador, agregue una acción simple (consulte  [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action)). Establezca su propiedad  [ActionBase.Id](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Id)  en  **AnalyzeData**, la propiedad ActionBase.Category en  **RecordEdit**, la propiedad ActionBase.Caption en  **Analyze**  y la propiedad  [ActionBase.ImageName](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.ImageName)  en  **BO_Analysis**  (una imagen integrada).[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Caption)
+-   Para desactivar la acción cuando  [VisibleInReportsAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.VisibleInReportsAttribute)  no se aplica a la clase empresarial representada por la vista de lista actual, suscríbase al evento  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  del Controller. Controle este evento de la siguiente manera:
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.Model;
+    // ...
+    public partial class AnalyseDataFromAnyViewController : ViewController {
+        //...
+        private void AnalyseDataFromAnyViewController_Activated(object sender, EventArgs e) {
+            analyseDataAction.Active["VisibleInReports"] =
+                ((IModelClassReportsVisibility)View.Model.Application.BOModel.GetClass(
+                    View.ObjectTypeInfo.Type)).IsVisibleInReports;
+        }
+    }
+    
+    ```
+    
+    Para desactivar la acción, se utiliza su propiedad  [ActionBase.Active.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)
+    
+-   Suscríbase al evento  [SimpleAction.Execute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction.Execute)  de la acción para ejecutar el código que invocará una vista detallada con un objeto Analysis recién creado. Controle este evento de la siguiente manera:
+    
+
+    ```csharp
+    using DevExpress.Persistent.BaseImpl;
+    //...
+    public partial class AnalyseDataFromAnyViewController : ViewController {
+       //...
+       private void analyseDataAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
+          IObjectSpace objectSpaceInternal = Application.CreateObjectSpace(typeof(Analysis));
+          Analysis obj = objectSpaceInternal.CreateObject<Analysis>();
+          obj.DataType = View.ObjectTypeInfo.Type;
+          obj.Name = "Analysis: " + View.Caption + " " + DateTime.Now.ToString();
+          e.ShowViewParameters.CreatedView = Application.CreateDetailView(objectSpaceInternal, obj);
+          e.ShowViewParameters.TargetWindow = TargetWindow.Default;
+          e.ShowViewParameters.Context = TemplateContext.View;
+       }
+    }
+    
+    ```
+    
+    En el código anterior, se utiliza el objeto  [ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters). Para obtener más información sobre cómo utilizar objetos de este tipo, consulte el tema  [Formas de mostrar una vista](https://docs.devexpress.com/eXpressAppFramework/112803/ui-construction/views/ways-to-show-a-view/ways-to-show-a-view).
+    
+-   Dado que el objeto Analysis se creará con las propiedades  **Name**  y  **DataType**  de configuración, es apropiado enlazar datos a la vez. De lo contrario, un usuario final tendrá que realizar esta acción adicional él mismo. Para enlazar datos, ejecute  **BindAnalysisData**  (![BindAnalysisData](https://docs.devexpress.com/eXpressAppFramework/images/bindanalysisdata116076.png)) en código. Para ello, implemente un descendiente de  **AnalysisDataBindController,**  tal como se detalla en el tema  [Data Bind Aspects](https://docs.devexpress.com/eXpressAppFramework/113048/analytics/pivot-chart/data-bind-aspects).
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.PivotChart;
+    //...
+    public class AssignAnalysisDataSourceViewController : AnalysisDataBindController {
+       protected override void OnActivated() {
+          base.OnActivated();
+          Analysis obj = View.CurrentObject as Analysis;
+          //Allow data source loading if the ObjectTypeName property is specified
+          if(obj.ObjectTypeName != null) {
+             analysisEditor.IsDataSourceReady = true;
+             UpdateBindUnbindActionsState();
+          }
+       }
+    }
+    
+    ```
+    
+    >NOTA
+    >
+    >Tenga en cuenta que debe tener el _DevExpress.Gráfico dinámico de ExpressApp.Pivot.  v23.1_ ensamblaje al que se hace referencia en el proyecto con el Controller.
+    
+
+En la siguiente imagen se muestra la acción  **AnalyzeData**  que está disponible para una vista de lista de contactos. Al hacer clic en esta acción, se muestra un objeto Análisis recién creado en una vista de detalles invocada. Las propiedades  **Name**  y  **DataType**  del objeto se especifican automáticamente.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b39b4bbd-fa88-43a9-8d7f-af08dbe146ec)
+
+
+# Cómo: Personalizar la lista de elementos de la nueva acción
+
+
+En este tema se muestra cómo tener acceso a la lista de  [clases de negocio](https://docs.devexpress.com/eXpressAppFramework/113664/business-model-design-orm)  agregadas a la lista de elementos  [NewObjectViewController.NewObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectAction)  en WinForms y ASP.NET aplicaciones de formularios Web Forms con la  [interfaz de usuario web clásica](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance).
+
+Por lo general, puede utilizar la propiedad  [NewObjectViewController.NewObjectActionItemListMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectActionItemListMode)  para elegir el modo predefinido de rellenar la lista de elementos Nueva acción. Si los modos enumerados en la enumeración  [NewObjectActionItemListMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectActionItemListMode)  no se ajustan a sus requisitos, consulte cómo rellenar la lista manualmente.
+
+Para personalizar la lista Elementos de la nueva acción, controle los eventos NewObjectViewController.CollectDescendantTypes y  [NewObjectViewController.CollectCreatableItemTypes](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectCreatableItemTypes)  de  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController), que contiene la  **nueva**  acción[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectDescendantTypes)  El primer evento se genera cuando el tipo de objeto actual y sus descendientes se agregan a la lista Elementos de acción, y el segundo se genera cuando se agregan todos los tipos restantes cuya propiedad  **CreatableItem**  se establece en  **true**  en el modelo de aplicación (vea  [IModelBOModel](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelBOModel)). En el ejemplo siguiente, se quita el elemento  **Tarea**.
+
+Tenga en cuenta que en ASP.NET aplicaciones Core Blazor y ASP.NET Web Forms con la  [nueva interfaz de usuario web](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance), este controlador oculta la  **nueva**  acción de las vistas de  **tareas**.
+
+>NOTA
+>
+>Un proyecto de muestra completo está disponible en [https://github.com/DevExpress-Examples/XAF_how-to-customize-the-new-actions-items-list-e238](https://github.com/DevExpress-Examples/XAF_how-to-customize-the-new-actions-items-list-e238) .
+
+-   [PersonalizeNewActionItemsListController.cs](https://docs.devexpress.com/eXpressAppFramework/112915/ui-construction/controllers-and-actions/actions/how-to-customize-the-new-actions-items-list#tabpanel_G+uVdswYOE_tabid-csharpCustomizeNewActionItemsListController-cs)
+-   [PersonalizeNewActionItemsListController.vb](https://docs.devexpress.com/eXpressAppFramework/112915/ui-construction/controllers-and-actions/actions/how-to-customize-the-new-actions-items-list#tabpanel_G+uVdswYOE_tabid-vbCustomizeNewActionItemsListController-vb)
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DevExpress.ExpressApp;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp.SystemModule;
+
+namespace CustomizeNewActionItemsListExample.Module.Controllers {
+    public class CustomizeNewActionItemsListController : ObjectViewController<ObjectView, Task> {
+        protected override void OnActivated() {
+            base.OnActivated();
+            NewObjectViewController controller = Frame.GetController<NewObjectViewController>();
+            if (controller != null) {
+                controller.CollectCreatableItemTypes += NewObjectViewController_CollectCreatableItemTypes;
+                controller.CollectDescendantTypes += NewObjectViewController_CollectDescendantTypes;
+                if (controller.Active) {
+                    controller.UpdateNewObjectAction();
+                }
+            }
+        }
+        private void NewObjectViewController_CollectDescendantTypes(object sender, CollectTypesEventArgs e) {
+            CustomizeList(e.Types);
+        }
+        private void NewObjectViewController_CollectCreatableItemTypes(object sender, CollectTypesEventArgs e) {
+            CustomizeList(e.Types);
+        }
+        private void CustomizeList(ICollection<Type> types) {
+            List<Type> unusableTypes = new List<Type>();
+            foreach (Type item in types) {
+                if (item == typeof(Task)) {
+                    unusableTypes.Add(item);
+                }
+            }
+            foreach (Type item in unusableTypes) {
+                types.Remove(item);
+            }
+        }
+        protected override void OnDeactivated() {
+            NewObjectViewController controller = Frame.GetController<NewObjectViewController>();
+            if (controller != null) {
+                controller.CollectCreatableItemTypes -= NewObjectViewController_CollectCreatableItemTypes;
+                controller.CollectDescendantTypes -= NewObjectViewController_CollectDescendantTypes;
+            }
+            base.OnDeactivated();   
+        }
+    }
+ }
+```
+
+
+# Formas de ocultar o deshabilitar una acción (botón, comando de menú)
+
+
+Puede ocultar o deshabilitar una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Si una acción (botón) está desactivada, aparece atenuada. La tabla siguiente muestra diferentes estados de acción.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ff608734-f67c-4fec-b17c-9d0fef825b2e)
+
+
+XAF le permite cambiar el estado de las acciones personalizadas e integradas. En el tema siguiente se describe cómo identificar las acciones integradas:  [determinar el controlador y el identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier).
+
+## Formas de deshabilitar una acción
+
+Puede utilizar las siguientes técnicas para desactivar una acción (botón, elemento de menú):
+
+-   Utilice la propiedad  [Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled). Consulte el tema siguiente para ver ejemplos:  [Desactivar (ocultar) una acción en código](https://docs.devexpress.com/eXpressAppFramework/112728/ui-construction/controllers-and-actions/actions/how-to-deactivate-hide-an-action-in-code).
+    
+-   Especifique las propiedades  [ActionBase.TargetObjectsCriteria](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectsCriteria)  y  [ActionBase.SelectionDependencyType.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.SelectionDependencyType)  Cuando no se cumplen las condiciones especificadas en estas propiedades, se deshabilita una acción. Consulte las descripciones de las propiedades para obtener información adicional.
+    
+-   Utilice el módulo  [Apariencia condicional](https://docs.devexpress.com/eXpressAppFramework/113286/conditional-appearance). Puede habilitar y deshabilitar acciones basadas en las reglas especificadas (por ejemplo, deshabilitar una acción basada en las propiedades del objeto de negocio). Consulte el tema siguiente para obtener más información:  [Declarar reglas de apariencia condicional en código](https://docs.devexpress.com/eXpressAppFramework/113371/conditional-appearance/declare-conditional-appearance-rules-in-code). Consulte la regla con el identificador de  **ActionState**  en la sección  **Ejemplos**.
+    
+
+## Formas de ocultar una acción
+
+Puede utilizar las siguientes técnicas para ocultar una acción (botón, elemento de menú):
+
+-   Utilice la propiedad  [Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active). Consulte el tema siguiente para ver ejemplos:  [Desactivar (ocultar) una acción en código](https://docs.devexpress.com/eXpressAppFramework/112728/ui-construction/controllers-and-actions/actions/how-to-deactivate-hide-an-action-in-code).
+    
+-   Especifique las propiedades ActionBase.TargetObjectType,  [ActionBase.TargetViewType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectType), ViewController.TargetObjectType y  [ViewController.TargetViewType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetObjectType)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewType)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewType)  Consulte el tema siguiente para obtener más información:  [Definir el ámbito de los controladores y las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions).
+    
+-   Utilice el módulo  [Apariencia condicional](https://docs.devexpress.com/eXpressAppFramework/113286/conditional-appearance). Puede mostrar y ocultar acciones basadas en las reglas especificadas (por ejemplo, ocultar una acción basada en propiedades de objeto de negocio). Consulte el tema siguiente para obtener más información:  [Declarar reglas de apariencia condicional en código](https://docs.devexpress.com/eXpressAppFramework/113371/conditional-appearance/declare-conditional-appearance-rules-in-code). Consulte la regla con el identificador de  **ActionState**  en la sección Ejemplos.
+    
+-   Utilice el  [sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system). Puede definir los permisos  _Leer_,  _Escribir_,  _Crear_,  _Eliminar_  y  _Navegar_  para clases empresariales, objetos y miembros. Los controladores integrados muestran las acciones de acuerdo con estos permisos. Por ejemplo, la acción  **Eliminar**  está deshabilitada si un usuario no tiene permiso para eliminar los objetos seleccionados.
+    
+    Puede especificar manualmente permisos para acciones personalizadas y del sistema. Consulte el siguiente vínculo para obtener más información:  [Permisos de acción](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system#action-permissions).
+    
+    También es posible establecer permisos para acciones personalizadas en código como se describe en el tema siguiente:  [Usar el sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/404204/getting-started/in-depth-tutorial-blazor/enable-additional-modules/use-the-security-system).
+    
+-   Especifique las propiedades IModelView.AllowNew, IModelView.AllowDelete, IModelView.AllowEdit e  [IModelCommonMemberViewItem.AllowClear](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelCommonMemberViewItem.AllowClear)  en el modelo de aplicación[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView.AllowNew)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView.AllowDelete)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView.AllowEdit)  Estas propiedades definen las operaciones permitidas con objetos de negocio en una vista.
+    
+-   Utilice el nodo  [IModelHiddenActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelHiddenActions)  que permite ocultar una acción de una vista específica en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor).
+
+
+# Ocultar o deshabilitar una acción (botón, elemento de menú) en el código
+
+En este tema se describe cómo ocultar o deshabilitar elementos de la interfaz de usuario  [de Action](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  en el código. También puede usar otras formas de ocultar/deshabilitar acciones que puedan adaptarse mejor a su escenario. Consulte el tema siguiente para obtener más información:  [Formas de ocultar o deshabilitar una acción](https://docs.devexpress.com/eXpressAppFramework/403709/ui-construction/controllers-and-actions/actions/ways-to-hide-or-disable-an-action).
+
+La siguiente imagen muestra ejemplos de botones de la barra de herramientas que puede eliminar o deshabilitar:
+
+![Ocultar (deshabilitar) un botón de acción en la barra de herramientas](https://docs.devexpress.com/eXpressAppFramework/images/remove-action-button-from-toolbar.png)
+
+Los botones de la imagen de arriba son  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  XAF. Cada acción pertenece a un  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers).
+
+Para personalizar los Controllers en aplicaciones XAF, puede heredar Controllers u obtener sus instancias en otros Controllers. Para obtener más información, consulte el tema siguiente:  [Personalizar controladores y acciones](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions).
+
+Siga los pasos a continuación para eliminar o deshabilitar una acción de otro controlador:
+
+1.  Cree un nuevo Controller. Elija el tipo de clase base del controlador en función del ámbito de destino:  [Defina el ámbito de los controladores y las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions).
+    
+2.  [Anule](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  el método del controlador.`OnActivated`
+    
+3.  Determine el nombre de la clase Controller de la acción de destino para administrar la acción. Para obtener más información sobre cómo encontrar el controlador de una acción, consulte el tema siguiente:  [Determinar el controlador y el identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier).
+    
+4.  Utilice el método o la propiedad para acceder al controlador de la acción.`Frame.GetController``Frame.Controllers`
+    
+5.  Utilice la propiedad de la clase Controller () o las propiedades integradas de Controller (por ejemplo, ) para acceder a una acción.`Actions``YourController.Actions["YourActionId"]``NewObjectViewController.NewObjectAction`
+    
+    Cuando define una acción, genera la acción en tiempo de ejecución. XAF utiliza el siguiente patrón para crear el identificador de la acción: (por ejemplo, ).`ActionAttribute``ObjectMethodActionsViewController``<short name of the container class> + <name of the method marked with ActionAttribute>``Task.MarkCompleted`
+    
+6.  Para quitar un objeto Action, llame al método  [SetItemValue(String, Boolean)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.BoolList.SetItemValue(System.String-System.Boolean))  de la propiedad  [Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  de la acción y páselo como segundo parámetro.`False`
+    
+    Para deshabilitar una acción, llame al método  [SetItemValue(String, Boolean)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.BoolList.SetItemValue(System.String-System.Boolean))  de la propiedad  [Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled)  de la acción y pásela como segundo parámetro.`False`
+    
+
+El siguiente controlador oculta la acción  **FullTextSearch**  en la vista Lista de  **cheques de pago**:
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+
+public class HideFullTextSearchController : ViewController {
+    public HideFullTextSearchController() {
+        TargetViewId = "Paycheck_ListView";
+    }
+
+    private FilterController filterController;
+    const string deactivateReason = "HiddenInPaycheck";
+
+    protected override void OnActivated() {
+        base.OnActivated();
+        filterController = Frame.GetController<FilterController>();
+        if (filterController != null) {
+            filterController.FullTextFilterAction.Active.SetItemValue(deactivateReason, false);
+            // The line below disables the Action button
+            // filterController.FullTextFilterAction.Enabled.SetItemValue(deactivateReason, false);
+        }
+    }
+
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        if(filterController != null) {
+            filterController.FullTextFilterAction.Active.RemoveItem(deactivateReason);
+            filterController = null;
+        }
+    }
+}
+
+```
+
+Para deshacer estos cambios cuando se cierra la vista Lista de  **cheques de pago**, el Controller elimina su elemento personalizado de la lista  [ActionBase.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  del método. Esto es necesario porque XAF utiliza la misma instancia para cada vista de la ventana actual (marco). Para obtener información adicional, consulte el tema siguiente:  [Controladores (lógica e interacción de la interfaz de usuario).](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)`OnDeactivated``FilterController`
+
+Vínculos adicionales relacionados con este tema:
+
+-   La sección  **Administración de la disponibilidad de controladores y acciones**  del tema siguiente:  [Prácticas recomendadas para crear módulos XAF reutilizables por ejemplo de una extensión  de módulo View Variants](https://community.devexpress.com/blogs/xaf/archive/2011/07/04/best-practices-of-creating-reusable-xaf-modules-by-example-of-a-view-variants-module-extension.aspx)
+    
+-   [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)
+
+
+
+# Cómo: Deshabilitar una acción cuando la vista actual tiene cambios no guardados
+
+En este tema se muestra cómo deshabilitar una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  cuando se cambian los objetos de negocio cargados en el  [espacio de objetos](https://docs.devexpress.com/eXpressAppFramework/113707/data-manipulation-and-business-logic/object-space)  actual. Para ello, se controla el evento IObjectSpace.ModifiedChanged y la propiedad  [ActionBase.Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled)  se establece en función de la propiedad  [IObjectSpace.IsModified.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.ModifiedChanged)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.IsModified)
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using System;
+// ...
+public class ViewController1 : ViewController {
+    SimpleAction action1;
+    public ViewController1() {
+        action1 = new SimpleAction(this, "Action1", DevExpress.Persistent.Base.PredefinedCategory.View);
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        ObjectSpace.ModifiedChanged += ObjectSpace_ModifiedChanged;
+        UpdateActionState();
+    }
+    void ObjectSpace_ModifiedChanged(object sender, EventArgs e) {
+        UpdateActionState();
+    }
+    protected virtual void UpdateActionState() {
+        action1.Enabled["ObjectSpaceIsModified"] = !ObjectSpace.IsModified;
+    }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        ObjectSpace.ModifiedChanged -= ObjectSpace_ModifiedChanged;
+    }
+}
+
+```
+
+Como resultado, la  **acción1**  aparece atenuada en la interfaz de usuario cuando hay cambios no guardados en la vista actual. Es imposible ejecutar la acción hasta que los cambios se guarden en un almacén de datos (por ejemplo, utilizando la acción  **Guardar**). Cuando se guardan los cambios, la  **acción1**  vuelve a su estado normal.
+
+
+# Cómo: Ocultar la columna Editar acción de una vista de listaen una aplicación ASP.NET  Web Forms
+
+
+Si  [reemplaza la acción predeterminada de una vista de lista](https://docs.devexpress.com/eXpressAppFramework/112820/ui-construction/controllers-and-actions/actions/how-to-replace-a-list-views-default-action), es posible que también desee ocultar la columna  **Editar**  acción sin desactivar la acción de  **edición**  que se muestra en la barra de herramientas. En este tema se describe cómo resolver esta tarea.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/70028662-38fd-400b-a91d-7d060d5fc231)
+
+En un proyecto de módulo de formularios Web Forms ASP.NET, cree la siguiente clase  [de View Controller](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers).
+
+
+
+```csharp
+using DevExpress.Web;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Web.Editors.ASPx;
+// ...
+public class HideEditColumnController : ObjectViewController<ListView, Contact> {
+    protected override void OnViewControlsCreated() {
+        base.OnViewControlsCreated();
+        ASPxGridListEditor gridListEditor = View.Editor as ASPxGridListEditor;
+        if (gridListEditor != null) {
+            ((ASPxGridViewContextMenu)gridListEditor.ContextMenuTemplate).ControlsCreated +=
+                HideEditColumnController_ControlsCreated;
+        }
+    }
+    void HideEditColumnController_ControlsCreated(object sender, EventArgs e) {
+        ASPxGridViewContextMenu contextMenu = (ASPxGridViewContextMenu)sender;
+        contextMenu.ControlsCreated -= HideEditColumnController_ControlsCreated;
+        foreach (GridViewColumn column in contextMenu.Editor.Grid.Columns) {
+            if (column is GridViewDataActionColumn && ((GridViewDataActionColumn)column).Action.Id == "Edit") {
+                column.Visible = false;
+            }
+        }
+    }
+}
+
+```
+
+Como resultado, la columna  **Editar**  acción está oculta:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c79fb0b0-356b-4dd3-b948-65824a2b452f)
+
+
+# Cómo: Inicializar un objeto creado mediante la nueva acción
+
+
+En este tema se describe cómo tener acceso a un objeto creado mediante la  **acción Nueva**[](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Suponga que está utilizando la clase de negocio Task de la  [biblioteca de clase Business](https://docs.devexpress.com/eXpressAppFramework/112571/business-model-design-orm/built-in-business-classes-and-interfaces). Al crear una nueva tarea mediante la nueva acción, la propiedad  **Task.StartDate**  se establecerá  **en la fecha**  actual.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e229/how-to-initialize-an-object-created-via-the-new-action](https://supportcenter.devexpress.com/ticket/details/e229/how-to-initialize-an-object-created-via-the-new-action) .
+
+Para tener acceso a un objeto creado mediante  la acción New, controle el evento NewObjectViewController.ObjectCreated del  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)  que contiene la acción  [New.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.ObjectCreated)  Para ello, implemente un nuevo  [controlador de vistas](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers). Reemplace el método  **OnActivated**  del controlador y suscríbase al evento  **ObjectCreated**  de la siguiente manera:
+
+
+
+```csharp
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp.SystemModule;
+//...
+public class MyController : ViewController {
+    private NewObjectViewController controller;
+    protected override void  OnActivated() {
+        base.OnActivated();
+        controller = Frame.GetController<NewObjectViewController>();
+        if (controller != null) {
+            controller.ObjectCreated += controller_ObjectCreated;
+        }
+    }
+    void controller_ObjectCreated(object sender, ObjectCreatedEventArgs e) {
+        if (e.CreatedObject is Task) {
+            ((Task)e.CreatedObject).StartDate = DateTime.Now;
+        }
+    }
+    protected override void OnDeactivated() {
+        if (controller != null) {
+            controller.ObjectCreated -= controller_ObjectCreated;
+        }
+        base.OnDeactivated();
+    }
+}
+
+```
+
+En determinados escenarios, puede ser necesario inicializar un nuevo objeto creado a través del botón Nuevo del editor de búsquedas, utilizando un valor de la Vista de detalles principal. Para tener acceso al objeto primario desde el controlador de eventos  **ObjectCreated**, convierta el valor Controller.Frame en el tipo NestedFrame, obtenga acceso a la propiedad  [NestedFrame.ViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.NestedFrame)  y, a continuación, obtenga el objeto maestro mediante la propiedad  [ViewItem.CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.CurrentObject)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Frame)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.NestedFrame.ViewItem)
+
+
+```csharp
+void controller_ObjectCreated(object sender, ObjectCreatedEventArgs e) {
+    NestedFrame nestedFrame = Frame as NestedFrame;
+    if (nestedFrame != null) {
+        Item createdItem = e.CreatedObject as Item;
+        if (createdItem != null) {
+            Parent parent = ((NestedFrame)Frame).ViewItem.CurrentObject as Parent;
+            if (parent != null) {
+                createdItem.Title = parent.DefaultItemTitle;
+            }
+        }
+    }
+}
+```
+
+
+# Cómo: Limitar la cantidad de objetos creados mediante la nueva acción
+
+
+En este tema se describe cómo limitar el número de objetos que un usuario final puede crear mediante la  **nueva**  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Suponga que está utilizando la clase de negocio Task de la  [biblioteca de clase Business](https://docs.devexpress.com/eXpressAppFramework/112571/business-model-design-orm/built-in-business-classes-and-interfaces). Al crear una nueva tarea utilizando la  **nueva**  acción, se comprobará el recuento de objetos de tarea existentes y un usuario final no podrá crear objetos adicionales si ya hay tres objetos.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e239/how-to-limit-the-amount-of-objects-created-via-the-new-action](https://supportcenter.devexpress.com/ticket/details/e239/how-to-limit-the-amount-of-objects-created-via-the-new-action) .
+
+Para tener acceso a la  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  Lista de tareas cuando la  **nueva**  acción está a punto de crear un nuevo objeto, controle el evento NewObjectViewController.ObjectCreating de  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController), que contiene la acción  **Nueva**[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.ObjectCreating)  Para ello, implemente un nuevo  [controlador de vista](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  e invalide el método  **OnActivated**  de la siguiente manera.
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp.SystemModule;
+//...
+public class LimitTaskAmountController : ViewController {
+    private NewObjectViewController controller;
+    protected override void OnActivated() {
+        base.OnActivated();
+        controller = Frame.GetController<NewObjectViewController>();
+        if (controller != null) {
+            controller.ObjectCreating += controller_ObjectCreating;
+        }
+    }
+    void controller_ObjectCreating(object sender, ObjectCreatingEventArgs e) {
+        if ((e.ObjectType == typeof(Task)) && 
+            (e.ObjectSpace.GetObjectsCount(typeof(Task), null) >= 3)) {
+                e.Cancel = true;
+                throw new UserFriendlyException(
+                    "Cannot create a task. Maximum allowed task count exceeded.");
+        }
+    }
+    protected override void OnDeactivated() {
+        if (controller != null) {
+            controller.ObjectCreating -= controller_ObjectCreating;
+        }
+        base.OnDeactivated();
+    }
+}
+
+```
+
+>NOTA
+>
+>Puede deshabilitar una acción en lugar de interrumpir su ejecución. Consulte el ejemplo  [Cómo: Deshabilitar una acción cuando la vista actual tiene cambios no guardados](https://docs.devexpress.com/eXpressAppFramework/113656/ui-construction/controllers-and-actions/actions/how-to-disable-an-action-when-the-current-view-has-unsaved-changes).
+
+
+# Cómo: Reordenar la colección de acciones de un contenedor de acciones
+
+
+En la interfaz de usuario de una aplicación XAF,  [las](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  acciones se encuentran dentro de  [los contenedores de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers). Puede utilizar la propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  y  **ActionDesign**  |  **ActionToContainerMapping**  para mover la acción a otro contenedor de acciones (vea  [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location)). En este tema se describe cómo reordenar las acciones dentro de un contenedor específico.
+
+Suponga que tiene la acción  **MyAction**  implementada en  MyController  [Controller](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers). La propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  se establece en  **Ver**  para esta acción. Esto significa que la acción se muestra dentro del contenedor  **Ver**  acción. Este contenedor también puede contener otras acciones: acciones personalizadas y acciones de módulos a los que se hace referencia. Para reordenar las acciones del contenedor de acciones de  **vista**  (o cualquier otro contenedor de acciones), invoque el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  para el proyecto de aplicación WinForms, ASP.NET formularios Web Forms o ASP.NET Core Blazor. Localice  **ActionDesign**  |  **ActionToContainerMapping**  |  **Ver**  nodo. La siguiente imagen muestra que hay tres acciones en el contenedor  **de acciones de vista**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c1470e56-90e7-469a-a00b-bd2af6bd82dd)
+
+Para reordenar estas acciones, cambie la propiedad  **Index**  para cada acción. Por ejemplo, utilice el valor "0" para  **MyAction**, "1" - para  **Refresh**, "2" - para  **ExecuteReport**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ea41ffff-dbaa-44f7-a3d1-2e77fbb80e28)
+
+Si ejecuta la aplicación, puede asegurarse de que el orden de las acciones se cambia de la siguiente manera.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7adce754-1930-45c9-8c4e-393a0ce8d6a8)
+
+>NOTA
+>
+>-   Otro contenedor puede mostrar  las acciones del contenedor de acciones **no especificadas** si cambia la [plantilla IFrame.Valor de contenedor predeterminado](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IFrameTemplate.DefaultContainer) para la [plantilla](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  actual. Estas acciones se anexan al final de la colección. Si necesita cambiar su posición dentro del contenedor, primero especifique su contenedor de acciones explícitamente.
+>-   En la aplicación con el tipo de interfaz de usuario  **MDI con fichas** (consulte [MdiShowViewStrategy](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy)), la colección Actions de la ventana  principal se combina con Actions de la ventana secundaria, lo que puede influir en el orden de las acciones resultante.
+
+>PROPINA
+>
+>Para cambiar el orden y la ubicación de los contenedores de acciones, [personalice la plantilla](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template). En las aplicaciones de Formularios Windows, también puede usar las capacidades de personalización en tiempo de [ejecución](https://docs.devexpress.com/WindowsForms/117515/controls-and-libraries/ribbon-bars-and-menu/bars/runtime-customization-and-layout-management/runtime-customization).
+
+
+# Cómo: Reemplazar la acción predeterminada de una vista de lista
+
+
+[Las](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  vistas de lista pueden ir acompañadas de  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  que representan características específicas de estas vistas de lista. Además de estas acciones, cada vista de lista tiene una acción simple predeterminada invisible. En las aplicaciones de Windows Forms, esta acción se ejecuta al presionar la tecla ENTRAR o al hacer doble clic en un objeto seleccionado. En ASP.NET aplicaciones Web Forms y ASP.NET Core Blazor, esta acción se ejecuta cuando se hace clic en un objeto. Esta acción se especifica mediante la propiedad  [ListViewProcessCurrentObjectController de ListViewProcessCurrentObjectController.ProcessCurrentObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.ProcessCurrentObjectAction)  Puede reemplazar esta acción con una acción simple personalizada. En este tema se muestra cómo hacerlo.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e3275/how-to-replace-a-list-view-s-default-action](https://supportcenter.devexpress.com/ticket/details/e3275/how-to-replace-a-list-view-s-default-action) .
+
+## Establecer una acción personalizada como predeterminada
+
+Suponga que tiene la siguiente clase persistente  **AddressBookRecord**.
+
+**EF Core**
+
+```csharp
+[DefaultClassOptions,ImageName("BO_Contact")]
+public class AddressBookRecord : BaseObject {
+    public virtual string Name { get; set; }
+    public virtual string Email { get; set; }
+    public virtual string PhoneNumber { get; set; }
+}
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+
+```
+
+**XPO**
+
+
+```csharp
+[DefaultClassOptions, ImageName("BO_Contact")]
+public class AddressBookRecord : BaseObject {
+    public AddressBookRecord(Session session) : base(session) { }
+    private string name;
+    public string Name {
+        get { return name; }
+        set { SetPropertyValue(nameof(Name), ref name, value); }
+    }
+    private string email;
+    public string Email {
+        get { return email; }
+        set { SetPropertyValue(nameof(Email), ref email, value); }
+    }
+    private string phoneNumber;
+    public string PhoneNumber {
+        get { return phoneNumber; }
+        set { SetPropertyValue(nameof(PhoneNumber), ref phoneNumber, value); }
+    }
+}
+```
+
+Consideremos el  [controlador de vista](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  **WriteMailController**  que proporciona la acción  **WriteMail**  para objetos  **AddressBookRecord**. Esta acción invoca el programa asociado con el protocolo  **MailTo**  en el equipo de un usuario final.
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no permiten iniciar procesos del sistema, pero puede utilizar este enfoque para ejecutar otra acción.
+
+
+
+```csharp
+using System.Diagnostics;
+// ...
+public class WriteMailController : ViewController {
+    private SimpleAction writeMailAction;
+    public WriteMailController() {
+        TargetObjectType = typeof(AddressBookRecord);
+        writeMailAction = new SimpleAction(this, "WriteMail", PredefinedCategory.Edit);
+        writeMailAction.ToolTip = "Write e-mail to the selected address book record";
+        writeMailAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
+        writeMailAction.ImageName = "BO_Contact";
+        writeMailAction.Execute += writeMailAction_Execute;
+    }
+    void writeMailAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
+        AddressBookRecord record = (AddressBookRecord)e.CurrentObject;
+        string startInfo = String.Format(
+            "mailto:{0}?body=Hello, {1}!%0A%0A", record.Email, record.Name);
+        Process.Start(startInfo);
+    }
+}
+
+```
+
+De forma predeterminada, la acción especificada por la propiedad  **ProcessCurrentObjectAction de ListViewProcessCurrentObjectController**  invoca una vista detallada con el objeto en el que se hace clic (la acción  **ListViewShowObject**  se especifica de forma predeterminada).  Sin embargo, ListViewProcessCurrentObjectController expone el evento  [ListViewProcessCurrentObjectController.CustomProcessSelectedItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.CustomProcessSelectedItem), que puede controlar para reemplazar la acción predeterminada.  El código siguiente muestra cómo controlar este evento en  **WriteMailController**  para ejecutar una acción  **WriteMail**  en lugar de  **ListViewShowObject**. Suscríbase al evento  **CustomProcessSelectedItem**  en el método  **OnActivated**  reemplazado. En el controlador de eventos, ejecute la acción  **WriteMail**  invocando el método  [SimpleAction.DoExecute.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction.DoExecute)
+
+
+
+```csharp
+using DevExpress.ExpressApp.SystemModule;
+// ...
+public class WriteMailController : ViewController {
+    // ...
+    private ListViewProcessCurrentObjectController processCurrentObjectController;
+    protected override void OnActivated() {
+        base.OnActivated();
+        processCurrentObjectController =
+            Frame.GetController<ListViewProcessCurrentObjectController>();
+        if (processCurrentObjectController != null) {
+            processCurrentObjectController.CustomProcessSelectedItem +=
+                processCurrentObjectController_CustomProcessSelectedItem;
+        }
+    }
+    private void processCurrentObjectController_CustomProcessSelectedItem(
+        object sender, CustomProcessListViewSelectedItemEventArgs e) {
+        e.Handled = true;
+        writeMailAction.DoExecute();
+    }
+    protected override void OnDeactivated() {
+        if (processCurrentObjectController != null) {
+            processCurrentObjectController.CustomProcessSelectedItem -= 
+                processCurrentObjectController_CustomProcessSelectedItem;
+        }
+        base.OnDeactivated();
+    }
+}
+
+```
+
+La siguiente imagen muestra que la acción  **EscribirCorreo**  se ejecuta al hacer clic en un registro en la vista de lista de los objetos  **AddressBookRecord**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dc6e57c9-9812-4962-9cd0-ee7c84f9a57d)
+
+Puede observar que ahora no hay ninguna opción para invocar una vista detallada para editar un registro. Puede agregar al siguiente Controller para solucionar esto.
+
+
+
+```csharp
+using DevExpress.ExpressApp.SystemModule;
+// ...
+public class EditAddressBookRecordController : ViewController<ListView> {
+    public EditAddressBookRecordController() {
+        TargetObjectType = typeof(AddressBookRecord);
+        SimpleAction editAddressBookRecordAction = 
+            new SimpleAction(this, "EditAddressBookRecord", PredefinedCategory.Edit);
+        editAddressBookRecordAction.ImageName = "Action_Edit";
+        editAddressBookRecordAction.SelectionDependencyType = 
+            SelectionDependencyType.RequireSingleObject;
+        editAddressBookRecordAction.Execute += editAddressBookRecordAction_Execute;
+    }
+    void editAddressBookRecordAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
+        ListViewProcessCurrentObjectController.ShowObject(
+            e.CurrentObject, e.ShowViewParameters, Application, Frame, View);
+    }
+}
+
+```
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8cf9233b-be74-4c4a-b575-827e93888ee0)
+
+>NOTA
+>
+>Este controlador sólo es necesario para las aplicaciones de Windows Forms y ASP.NET Core Blazor, como el controlador de modificaciones web. [La acción de edición está disponible en las aplicaciones de](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebModificationsController.EditAction)  formularios  Web Forms ASP.NET.
+
+Para dejar una opción para reemplazar la acción  **WriteMail**  en otro Controller, puede exponer esta acción a través de una propiedad pública.
+
+
+
+```csharp
+public class WriteMailController : ViewController {
+    // ...
+    public SimpleAction DefaultListViewAction {
+        get { return writeMailAction; }
+        set { writeMailAction = value; }
+    }
+}
+
+```
+
+Continúe con la siguiente sección de este tema para ver cómo se puede usar esta propiedad.
+
+## Reemplazar una acción predeterminada personalizada
+
+Considere el siguiente controlador de vista  **PhoneCallController**  que proporciona la acción  **PhoneCall.**  Esta acción inicia el marcado  **PhoneNumber**  del objeto  **AddressBookRecord**  actual en  **Skype**.
+
+
+```csharp
+public class PhoneCallController : ViewController {
+    private SimpleAction phoneCallAction;
+    public PhoneCallController() {
+        TargetObjectType = typeof(AddressBookRecord);
+        phoneCallAction = new SimpleAction(this, "PhoneCall", PredefinedCategory.Edit);
+        phoneCallAction.ToolTip = "Call the current record via Skype";
+        phoneCallAction.ImageName = "BO_Phone";
+        phoneCallAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
+        phoneCallAction.Execute += skypeCallAction_Execute;
+    }
+    void skypeCallAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
+        Process.Start("skype:" + ((AddressBookRecord)e.CurrentObject).PhoneNumber);
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        View.CurrentObjectChanged += View_CurrentObjectChanged;
+    }
+    void View_CurrentObjectChanged(object sender, EventArgs e) {
+        phoneCallAction.Enabled.SetItemValue("PhoneIsSpecified",
+            !String.IsNullOrEmpty(((AddressBookRecord)View.CurrentObject).PhoneNumber));
+    }
+}
+
+```
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no permiten iniciar procesos del sistema, pero puede utilizar este enfoque para ejecutar otra acción.
+
+La acción predeterminada de la vista de lista proporcionada por el controlador  **WriteMailController**  personalizado se puede reemplazar con otra acción, si se expone a través de una propiedad pública. Para reemplazar la acción  **WriteMail**  por PhoneCall, agregue el código siguiente al método  **OnActivated**  de la clase  **PhoneCallController**.
+
+
+
+```csharp
+protected override void OnActivated() {
+    // ...
+    WriteMailController writeMailController = Frame.GetController<WriteMailController>();
+    if (writeMailController != null)
+        writeMailController.DefaultListViewAction = phoneCallAction;
+}
+
+```
+
+La siguiente imagen ilustra que la acción  **PhoneCall**  se ejecuta al hacer clic en un registro en la vista de lista de los objetos  **AddressBookRecord**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d2deb8e3-e470-403c-b313-932c737cd0dd)
+
+No se recomienda suscribirse al evento  **CustomProcessSelectedItem**  de  **ListViewProcessCurrentObjectController**, como se muestra al principio de este tema, ya que existe la posibilidad de que  **PhoneCallController**  se active después de  **WriteMailController**, por lo que la acción  **WriteMail**  seguirá siendo la predeterminada.
+
+>NOTA
+>
+>Un ejemplo proporcionado en este tema es específico de formularios Windows Forms simplemente porque las acciones que inician programas externos utilizan el [proceso.Método de inicio  ](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process.start#System_Diagnostics_Process_Start_System_String_). Sin embargo, el concepto principal ilustrado aquí es independiente de la plataforma: puede tener acceso al controlador de  **controlador de objetosactual de procesode vistade listadesde controladores específicos de formularios Web Forms de ASP.NET de** la misma manera.
+
+
+# Cómo: Colocar una acción en una ubicación diferente
+
+
+En este artículo se explica cómo mover una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  a otro  [contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers).
+
+_Las acciones_  son elementos de la barra de herramientas u otros controles que ejecutan código asociado cuando un usuario interactúa con ellos.
+
+_Los contenedores de_  acciones son controles que muestran una o más acciones. XAF asigna acciones a contenedores de acciones en función de los valores de la propiedad  [Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category).
+
+Para cambiar la ubicación de una acción en la interfaz de usuario de la aplicación, mueva la acción de su contenedor de acciones actual a otra.
+
+>NOTA
+>
+>Para los fines de este artículo, puede utilizar la aplicación  **de demostración principal** instalada como parte del paquete XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF._
+
+En la aplicación  **MainDemo**, la acción pertenece al contenedor de acciones. La siguiente imagen muestra la ubicación actual de en la interfaz de usuario:`ClearTaskAction``RecordEdit``ClearTaskAction`
+
+ASP.NET Core Blazor
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dcff728c-8057-4623-8b92-bc3855201704)
+
+Windows Forms
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d48c5399-a51a-40fa-9095-bdfaf656638c)
+
+Las instrucciones a continuación explican cómo mudarse a otra ubicación.`ClearTaskAction`
+
+1.  En el  **Explorador de soluciones**, expanda el proyecto y haga doble clic en el archivo  _Model.DesignedDiffs.xafml_  para abrirlo en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor).`MainDemo.Module`
+    
+2.  Vaya a  **ActionDesign**  |  **ActionToContainerMapping**  y expándalo. Los nodos secundarios del nodo  **ActionToContainerMapping**  corresponden a los contenedores de acciones de la aplicación.
+    
+3.  Expanda el nodo  **RecordEdit**. Arrastre el nodo secundario  **ClearTasksAction**  al nodo  **View**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6f55bdd7-9c18-4cba-bcdc-f774876858a5)
+
+
+4.  Guarde los cambios y ejecute la aplicación. Cuando se invoca la Vista de detalles del  **empleado**, la acción aparece en una ubicación diferente:`ClearTaskAction`
+    
+    ASP.NET Core Blazor
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/cfd8c21a-1a1f-4c26-8e4c-77db683795d1)
+
+    
+Windows Forms
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5aed92c8-7134-49ec-b781-dbf9a63b2807)
+
+
+>PROPINA
+>
+>Para cambiar la ubicación de una acción en el código, controle el [`ActionControlsSiteController.CustomizeContainerActions`](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ActionControlsSiteController.CustomizeContainerActions).
+
+
+# Cómo: Modificar propiedades de acción en el Editor de modelos
+
+
+En este artículo se describe cómo modificar las propiedades de una acción en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). Esta herramienta permite examinar y editar un  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  en Visual Studio.
+
+Una  _acción_  es un elemento abstracto de la interfaz de usuario. XAF genera la interfaz de usuario predeterminada en función de las clases de negocio declaradas y del modelo de aplicación.
+
+Un  _modelo de aplicación_  son metadatos que definen la estructura de navegación, los formatos de visualización de datos y los comandos disponibles. Tiene un formato neutro que puedes adaptar a cualquier plataforma de destino.
+
+>NOTA
+>
+>Para los fines de este artículo, puede utilizar la aplicación  **de demostración principal** instalada como parte del paquete XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF._
+
+Las instrucciones siguientes explican cómo cambiar la información sobre herramientas y el mensaje de confirmación del botón  **Borrar tareas**  en la  [barra de herramientas principal](https://docs.devexpress.com/eXpressAppFramework/400496/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/menu-main-toolbar).
+
+1.  En el  **Explorador de soluciones**, expanda el proyecto y haga doble clic en el archivo  _Model.DesignedDiffs.xafml_  para abrirlo en el  **Editor de modelos**.`MainDemo.Module`
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d6be1999-2535-45be-9c44-10dae9a130ac)
+    
+    
+2.  Vaya a  **ActionDesign**  |  **Acciones**  |  **Nodo ClearTasksAction**. En el panel derecho, busque la sección  **Varios**  de las propiedades.
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/457b329b-3fef-45b4-925b-4b12d203a49e)
+    
+    
+3.  Establezca la propiedad en .`ConfirmationMessage``This action will remove all tasks of the current Employee. Do you still want to proceed?`    
+4.  Establezca la propiedad en .`Tooltip``Clear the task list of the current Employee`
+5.  Guarde los cambios y ejecute la aplicación. Abra la vista Detalles del  **empleado**. Desplace el puntero del mouse sobre el botón  **Borrar tareas**  para ver la información sobre herramientas:
+    
+    ASP.NET Core Blazor
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/710405cf-5bc1-45d9-a008-b03a39cd4099)
+
+        
+    Windows Forms
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ffb26344-18ec-4823-8a85-ca314b161a84)
+
+    
+6.  Haga clic en el botón  **Borrar tareas**  para ver el mensaje de confirmación:
+    
+    ASP.NET Core Blazor
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c242cd6f-173a-4b01-89a9-e277a7eee1e2)
+
+    
+    Windows Forms
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3566eb00-1a64-4215-9e4d-478af8806ca9)
+
+    
+
+>NOTA
+>
+>También puede modificar las propiedades de Action en el código. Consulte los siguientes temas para obtener más información:
+>
+>[Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action)
+>Describe cómo implementar una acción personalizada.
+>
+>[Personalizar controladores y acciones](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions)
+>Explica cómo personalizar una acción integrada o una acción de módulo de terceros.
+
+
+
+# Personalizar controladores y acciones
+
+
+Para implementar una nueva característica en  **eXpressApp Framework**, cree un nuevo  [Controller](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers). Si la característica requiere interacción del usuario final, agréguele  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Al mismo tiempo, es posible que deba personalizar un Controlador o Acción proporcionada por  **eXpressApp Framework**  o un tercero. La mayoría de  [los controladores integrados](https://docs.devexpress.com/eXpressAppFramework/113016/ui-construction/controllers-and-actions/built-in-controllers-and-actions)  exponen eventos que puede controlar para agregar su código personalizado. Otro enfoque es heredar del controlador existente y anular sus métodos virtuales. En algunas situaciones, es más fácil y más eficaz manejar los eventos del Controlador o los eventos de la Acción. En este tema, detallaremos las situaciones en las que cada uno de estos enfoques para personalizar las características proporcionadas es más apropiado.
+
+## Eventos y propiedades de Access Controller
+
+Este enfoque para personalizar una característica determinada es más apropiado si se requieren varias personalizaciones independientes adicionales del comportamiento de una acción o del comportamiento de un controlador. Por ejemplo, dos módulos declaran objetos de negocio que requieren inicialización adicional cuando se crean a través de la  **Nueva**  acción. En este caso, ambos módulos deben extender el comportamiento de  **Nueva**  acción de forma independiente. En este caso, controlar eventos es más apropiado que heredar de un Controller.
+
+>NOTA
+>
+>En situaciones específicas, es posible que deba manejar una cadena de eventos, en lugar de un solo evento.
+
+Puede acceder a cualquier controlador integrado desde su  [controlador](https://docs.devexpress.com/eXpressAppFramework/113016/ui-construction/controllers-and-actions/built-in-controllers-and-actions)  personalizado mediante el método  [Frame.GetController<ControllerType>.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)
+
+En el código siguiente se muestra cómo quitar el elemento Persona de la lista de elementos de  **Nueva**  acción, para prohibir que los usuarios finales creen objetos Persona. Se crea un nuevo controlador para este propósito. En su método  **OnActivated**, se obtiene acceso a NewObjectViewController para suscribirse a su evento  [NewObjectViewController.CollectDescendantTypes.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectDescendantTypes)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)Este evento se desencadena al generar la lista de elementos de  **Nueva**  acción. En el controlador de eventos  **CollectDescendantTypes**, el elemento  **Person**  se quita de esta lista. El método  **OnDectivated**  cancela la suscripción al evento  **CollectDescendantTypes**.
+
+
+
+```csharp
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.Persistent.BaseImpl;
+// ...
+public class CustomizeNewActionWindowController : ViewController {
+    protected override void OnActivated(){
+        base.OnActivated();
+        NewObjectViewController controller = Frame.GetController<NewObjectViewController>();
+        if (controller != null) {
+            controller.CollectDescendantTypes += NewObjectViewController_CollectDescendantTypes;
+        }
+    }
+    private void NewObjectViewController_CollectDescendantTypes(
+        object sender, CollectTypesEventArgs e) {
+        foreach (Type type in e.Types) {
+            if (type.Name == nameof(Person)) { e.Types.Remove(type); break; }
+        }
+    }
+    protected override void OnDeactivated() {
+        NewObjectViewController controller = Frame.GetController<NewObjectViewController>();
+        if (controller != null) {
+            controller.CollectDescendantTypes -= NewObjectViewController_CollectDescendantTypes;
+        }
+        base.OnDeactivated();
+    }
+}
+
+```
+
+>IMPORTANTE
+>
+>Para evitar posibles excepciones de referencia nula al acceder a un Controller existente desde el código, asegúrese siempre de que el [Frame.GetController<ControllerType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1) no es _nulo_ cuando la [XafApplication.OptimizedControllersCreation](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.OptimizedControllersCreation) es **true**.
+
+## Heredar de un controlador
+
+Al crear una aplicación  **XAF**, puede enfrentarse a la siguiente tarea: un controlador proporciona una característica útil, pero debe personalizarla ligeramente. Esta personalización no depende de ninguna condición, por lo que no necesitará modificar las personalizaciones en otro módulo. En este caso, la mejor técnica es heredar del controlador requerido y anular sus métodos virtuales. Es posible que también deba personalizar una acción en particular. En este caso, dado que las acciones están contenidas en los controladores, también deberá heredar del controlador de la acción y anular sus métodos virtuales.
+
+Todos los controladores que no tienen descendientes se instancian para un  [marco](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame). Además, dado que un controlador descendiente hereda las acciones del controlador base, generalmente no tiene sentido crear varios descendientes de un controlador dentro de módulos que podrían usarse juntos en una aplicación  **XAF**. En esta situación, se creará una instancia de todos estos descendientes y habrá varias copias disponibles de las acciones del controlador base. Esta situación provoca una excepción porque las acciones deben tener identificadores únicos. Por lo tanto, es mejor crear solo un descendiente del controlador base y realizar todas las personalizaciones en él. Sin embargo, si es necesario, puede tener varios Controllers descendientes, pero en este caso deberá deshabilitar manualmente las Acciones heredadas en el código de los Controllers.
+
+>IMPORTANTE
+>
+>-   Tome una nota especial sobre la selección de un tipo de controlador integrado apropiado al crear su descendiente. En la mayoría de los casos, la creación de un descendiente de un controlador integrado requiere seleccionar el último descendiente de la cadena de herencia. Por ejemplo, si un controlador tiene formularios Win, ASP.NET Web Forms o ASP.Descendientes específicos de NET Core Blazor (como los [WinModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.WinModificationsController), [WebModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebModificationsController) y [BlazorModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Blazor.SystemModule.BlazorModificationsController) descendientes de la clase  [ModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController)), es necesario crear sus descendientes en lugar de un descendiente de la clase padre. De lo contrario, se activarán tanto el controlador integrado como su descendiente, y se mostrarán las acciones duplicadas, como se mencionó anteriormente.
+>    
+>    Sin embargo, recuerde que [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)  y [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController) son controladores básicos. No proporcionan ninguna característica particular y están diseñados para desarrollar nuevos controladores. Por lo tanto, puede heredar de estos controladores primarios para crear nuevos controladores en los proyectos de módulo específicos de la interfaz de usuario. Si la solución no contiene estos proyectos, agregue un Controller a un [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure). Los elementos recién implementados no entrarán en conflicto con ningún otro elemento secundario de **View**  Controller  y **WindowsController**.
+>    
+>-   No cambie el [ViewController.TargetObjectType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetObjectType), [ViewController.TargetViewType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewType), [ViewController.TargetViewId](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewId) o [ViewController.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewNesting) al heredar un controlador integrado. De lo contrario, perderá la funcionalidad del controlador heredado en otras vistas que no coincidan con las condiciones especificadas por estas propiedades.
+
+Al heredar de un Controller, el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  contendrá información sobre los Controllers base y heredados. En el  **ActionDesign**  |  **Controllers**, el nuevo Controller contendrá Acciones declaradas en él. Las acciones heredadas se mostrarán bajo el nodo del controlador base.
+
+Como ejemplo de este tipo de personalización, considere el controlador  **WebModificationsController**. Contiene las siguientes acciones:  **Cancelar**,  **Guardar**,  **GuardarAndCerrar**  y  **Editar**. Cada acción tiene un método virtual:  **Cancel**,  **Save**,  **SaveAndClose**  y  **ExecuteEdit**. Este método se invoca cuando un usuario final realiza una determinada operación con la acción. Por lo tanto, para personalizar un proceso de ejecución predeterminado, puede heredar del controlador  **WebModificationsController**  y anular cualquiera de estos métodos virtuales. En este caso, se reutilizarán todos los ajustes de la interfaz de usuario (**Categoría**,  **Título**,  **Imagen**,  **Acceso directo**,  **Información sobre herramientas**, etc.) y el estado de administración (**Activo**  y  **Habilitado**) de las Acciones.
+
+De forma predeterminada, después de ejecutar la acción  **SaveAndClose**  en una aplicación ASP.NET de formularios Web Forms, se muestra una vista detallada en modo de vista. Con el controlador demostrado en el código siguiente, la vista detallada del incidente se cierra después de ejecutar esta acción.
+
+
+
+```csharp
+using DevExpress.ExpressApp.Web.SystemModule;
+// ...
+public class MyWebModificationsController : WebModificationsController
+{
+   protected override void SaveAndClose(SimpleActionExecuteEventArgs e) {
+      View view = View;
+      base.SaveAndClose(e);
+      if ((view != null) && (view.ObjectTypeInfo.Type == typeof(Incident))) {
+            view.Close();
+      }
+   }
+}
+
+```
+
+En este ejemplo, un comportamiento Action se personaliza a través de un único método. Sin embargo, los controladores y las acciones pueden ser más complejos, por lo que es posible que deba anular varios métodos virtuales.
+
+
+# Agregar acciones a una ventana emergente
+
+
+Una ventana emergente contiene una  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  (vista de detalle o de lista) y  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions), como cualquier otra ventana. Las acciones se muestran mediante los  [contenedores de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  de la plantilla de la ventana. Si necesita agregar una acción a una ventana emergente, debe agregarla al contenedor de acciones de la plantilla adecuada. En este tema se detalla qué plantillas integradas se usan para mostrar ventanas emergentes y cómo agregar acciones a sus contenedores de acciones. Para obtener información sobre cómo mostrar una ventana (una ventana emergente o no) de una acción, consulte el tema  [Formas de mostrar una vista](https://docs.devexpress.com/eXpressAppFramework/112803/ui-construction/views/ways-to-show-a-view/ways-to-show-a-view).
+
+Las siguientes plantillas integradas se utilizan para mostrar ventanas emergentes:
+
+
+The  **ButtonsContainer**  Action Container displays all Action types as a button. However, the button’s  **Click**  event is handled in different ways for different Action types:
+
+-   [SimpleAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction)
+    
+    The Action’s  [SimpleAction.Execute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction.Execute)  event is raised.
+    
+-   [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)
+    
+    A pop-up Window which is specified in the Action’s  [PopupWindowShowAction.CustomizePopupWindowParams](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizePopupWindowParams)  event handler is invoked.
+    
+-   [SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction)
+    
+    A drop down pop-up menu with items specified by the Action’s  [ChoiceActionBase.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ChoiceActionBase.Items)  property is invoked.
+    
+-   [ParametrizedAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction)
+    
+    An exception is raised because the Action Container does not support this Action type.
+    
+
+Los contenedores de acciones obtienen acciones para mostrar desde la aplicación del modelo de aplicación | ActionDesign | ActionToContainerMapping | Nodo ActionContainer. Por ejemplo, un ActionContainer "PopupActions" obtiene acciones del ... | ActionToContainerMapping | Nodo PopupActions. Por lo tanto, agregue la acción requerida al contenedor de acciones apropiado para mostrarla en una ventana emergente. Para ello, utilice una de las siguientes técnicas:
+
+-   **En código**
+    
+    Especifique la propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  de la acción. Esta propiedad se tiene en cuenta cuando la información de la acción se carga en el nodo  **ActionDesign**  del modelo de aplicación.
+    
+    >PROPINA
+    >
+    >Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e466/xaf-add-custom-buttons-actions-to-lookup-and-popup-windows](https://supportcenter.devexpress.com/ticket/details/e466/xaf-add-custom-buttons-actions-to-lookup-and-popup-windows) .
+    
+    Además, puede personalizar dinámicamente la asignación de acción a contenedor mediante el evento  [ActionControlsSiteController.CustomizeContainerActions.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ActionControlsSiteController.CustomizeContainerActions)
+    
+-   **Manualmente en el Editor de**  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)
+    
+    Arrastre y suelte la acción en el ActionDesign requerido | ActionToContainerMapping | Nodo ActionContainer (vea  [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location)).
+    
+
+Si necesita agregar un contenedor de acciones adicional a una plantilla que se utiliza para mostrar ventanas emergentes, personalice esta plantilla. Para obtener información detallada, consulte los temas  [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  y  [Cómo: Crear una plantilla personalizada de cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template).
