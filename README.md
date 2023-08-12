@@ -2347,3 +2347,2625 @@ Para probar los cambios en tiempo de ejecución, restablezca las diferencias del
 A medida que las diferencias se trasladaron a un módulo independiente de la plataforma, puede ver que las personalizaciones también afectan a la aplicación ASP.NET formularios Web Forms.
 
 ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dc293c10-4b7f-4b47-9cb5-a201a53edd4d)
+
+
+# Información general sobre los elementos de la interfaz de usuario
+
+En este artículo se describen los elementos de la interfaz de usuario de XAF. Los diagramas siguientes muestran elementos abstractos y controles reales, representan su ubicación en la interfaz de usuario e ilustran su estructura.
+
+
+## Ubicación de los elementos
+
+En XAF, un control de interfaz de usuario y una entidad abstracta relacionada definen un elemento de interfaz de usuario. Las siguientes imágenes muestran las ubicaciones de los elementos de interfaz de usuario en aplicaciones de formularios WinForms y ASP.NET formularios Web Forms:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/bf01e7ad-f759-4fe1-89af-fc8c1f2285aa)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c67bb41e-0c70-4af1-aa45-60a645aee4c8)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/cdc948ef-256c-49d6-b57d-7d42de332e81)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d873d676-9b20-48c0-9496-907ae92b49f9)
+
+## Estructura de los elementos
+
+Los siguientes gráficos muestran la estructura de estos elementos:
+
+**Vista detallada**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5f3cfbbb-c5c1-46b9-a4f1-6d26dac43ec2)
+
+**Vista de lista y vista de lista anidada**
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/076b3a5f-1a82-4d66-969c-eb8b9bfe0f54)
+
+
+# Cómo: Incluir un control de interfaz de usuario personalizado que no está integrado de forma predeterminada (formularios Win, formulariosWebForms ASP.NET y ASP.NET  Core Blazor)
+
+
+XAF usa controles estándar y DevExpress para todos los elementos de la interfaz de usuario, como editores de listas, editores de propiedades para tipos de datos predeterminados,  [elementos de vista](https://docs.devexpress.com/eXpressAppFramework/112612/ui-construction/view-items-and-property-editors), acciones,  [contenedores](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  [de](https://docs.devexpress.com/eXpressAppFramework/113014/business-model-design-orm/data-types-supported-by-built-in-editors)  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions),  [plantillas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors), etc. Para escenarios no cubiertos por los elementos integrados de la interfaz de usuario XAF, XAF permite a los desarrolladores integrar cualquier otro control de interfaz de usuario de DevExpress, estándar (Microsoft) y de terceros en Views. En este tema se agrupan las soluciones por tareas populares de interfaz de usuario.
+
+Estas tareas a menudo se realizan en un nivel de marco inferior y requieren más conocimiento y experiencia con XAF. Este es el mismo conocimiento requerido si tuviera que codificar una aplicación sin nuestro marco. Los beneficios relacionados con XAF y el ahorro de tiempo son mínimos para aquellos que desean integrar controles personalizados. Como regla general, primero debe saber cómo resolver y, opcionalmente, implementar su tarea en una aplicación que no sea XAF. Esto hace que la integración de XAF sea mucho más fácil. Para obtener más información, consulte el artículo siguiente:  [Advanced UI Customization Tips](https://www.devexpress.com/products/net/application_framework/xaf-considerations-for-newcomers.xml#advanced-ui-customization) .
+
+Para incluir un control de interfaz de usuario personalizado que no esté integrado de forma predeterminada, implemente un  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor),  [PropertyEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.PropertyEditor)  o  [ViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem)  que ajuste el control y sirva como adaptador para la infraestructura XAF. También puede  [personalizar una plantilla](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  para colocar el control en una ubicación específica. Consulte la tabla a continuación para obtener detalles sobre las diferentes soluciones.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ac307523-6fa8-4b3c-b40f-4131c6640c0d)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c130e0ac-320a-4f0a-82e2-8f2a95b16611)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/106fc7db-9341-476f-bdbf-0e032b79eaf2)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/199a08b1-3453-4734-93c3-b2bee39cb638)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/0894a90c-837d-4c30-985e-df670f8476ab)
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a05bd839-fb12-460b-8f35-3abf62c3616c)
+
+
+>NOTA
+>
+>Controles de formularios Web Forms de ASP.NET que utilizan el Administrador de secuencias de comandos de cliente. [El método RegisterStartupScript  ](https://docs.microsoft.com/en-us/dotnet/api/system.web.ui.clientscriptmanager.registerstartupscript)  no se puede integrar con los ejemplos anteriores. Si experimenta alguna dificultad al integrar controles de formularios Web Forms ASP.NET, póngase en contacto con nuestro equipo de soporte técnico.
+
+# Controladores y acciones (comandos de menú)
+
+**eXpressApp Framework**  genera automáticamente la interfaz de usuario en función de su modelo de negocio. Esta interfaz de usuario contiene características integradas para trabajar con datos: filtrado, informes, navegación, etc. Estas características pueden ser suficientes para una aplicación empresarial simple. Sin embargo, las aplicaciones complejas pueden exigir un conjunto de funcionalidades más extenso. Para implementar características adicionales,  **eXpressApp Framework**  proporciona el concepto de Controladores y Acciones. Este concepto permite la implementación tanto de las características internas de la aplicación como de la interacción con el usuario final. Los temas de esta sección le familiarizarán con estos conceptos y le permitirán usarlos en sus aplicaciones.
+
+#Controladores y acciones integrados
+
+
+# Controladores integrados y acciones en el módulo del sistema
+
+
+En este tema se enumeran  [los controladores](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  integrados y sus  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  suministradas con los módulos base del sistema, formularios Windows Forms y ASP.NET formularios Web Forms. Tenga en cuenta que puede encontrar más información sobre controladores o acciones individuales en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  navegando a  **ActionDesign**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  **Controladores**  o  **ActionDesign**  |  **Nodo de acciones**, respectivamente.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/636296b0-5d11-4ff4-b3be-2e003bf620fe)
+
+>NOTA
+>En este tema, nos referimos a las acciones integradas mediante sus valores de propiedad ActionBase.Id. Utilice el Editor de modelos para averiguar qué título se asigna a una acción.
+
+
+## Crear, leer, actualizar y eliminar (CRUD)
+
+### CheckDeletedObjectController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas.
+
+Hace que la vista detallada actual sea de sólo lectura y muestra el mensaje "Los datos se muestran en modo de solo lectura, porque se han eliminado" si se ha eliminado el objeto de la vista.
+
+----------
+
+### DeleteObjectsViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Eliminar**.
+
+Activado para todas las vistas. Contiene la acción  **Eliminar**. Esta acción permite a los usuarios finales eliminar el objeto actual que se muestra en una vista detallada o los objetos seleccionados actualmente en una vista de lista. Tenga en cuenta que los objetos eliminados de colecciones anidadas no se eliminan de inmediato. Se eliminan cuando un usuario final guarda todo el objeto raíz.
+
+**Vea también:**  [DeleteObjectsViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController)  |  [DeleteObjectsViewController.DeleteAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController.DeleteAction)  |  [DeleteObjectsViewController.AutoCommit](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController.AutoCommit)
+
+----------
+
+### DependentEditorController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Actualiza los campos que muestran los valores de las propiedades de referencia de un objeto cuando se cambia una propiedad de referencia.
+
+----------
+
+### LinkDialogController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#dialogcontroller). Activado en la ventana emergente de la acción de  **enlace**  si admite la  [funcionalidad de búsqueda](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows). Agrega  [LinkNewObjectController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#linknewobjectcontroller)  a la ventana, invocado al presionar el botón  **Nuevo**. Ejecuta la acción  **FullTextSearch**  para recuperar el objeto recién creado en la colección de la vista de lista actual.
+
+**Véase también:**  [LinkUnlinkController.LinkAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.LinkAction)  |  [FilterController.FullTextFilterAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController.FullTextFilterAction)  |  [Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows)
+
+----------
+
+### LinkNewObjectController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#dialogcontroller). Se activa en la ventana emergente que se invoca cuando se pulsa el botón  **Nuevo**  en la ventana emergente de la acción de  **enlace**. Cuando se presiona el botón  **OK**, este controlador guarda el objeto recién creado y lo pasa al  [LinkDialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#linkdialogcontroller), para que se pueda seleccionar en la ventana emergente de la acción de  **vínculo**.
+
+**Véase también:**  [LinkUnlinkController.LinkAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.LinkAction)  |  [Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows)
+
+----------
+
+### LinkToListViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Para uso interno. Crea un objeto  **Link**  utilizado por  [DetailViewLinkController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#detailviewlinkcontroller)  para sincronizar los cambios realizados en una vista detallada invocada desde la vista de lista.
+
+----------
+
+### LinkUnlinkController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Enlazar**,  **Desvincular**.
+
+Activado para vistas de lista anidadas. La acción  **Vincular**  permite a los usuarios finales agregar un objeto existente a la colección anidada actual. Los objetos a elegir se muestran mediante una vista de lista en una ventana emergente. La acción  **Desvincular**  elimina las referencias al objeto seleccionado en la colección anidada actual. Los cambios realizados en una colección no se guardan inmediatamente; Se guardan cuando se guarda el objeto raíz. Este comportamiento se reemplaza en el  [WebLinkUnlinkController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#weblinkunlinkcontroller)  específico de formularios Web Forms ASP.NET.
+
+**Ver también:**  [LinkUnlinkController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController)  |  [LinkUnlinkController.LinkAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.LinkAction)  |  [LinkUnlinkController.UnlinkAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.UnlinkAction)  |  [LinkUnlinkController.AutoCommit](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.AutoCommit)
+
+----------
+
+### ModificationsController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Cancelar**,  **Guardar**,  **GuardarAndCerrar**,  **GuardarAndNuevo**.
+
+Activado para vistas detalladas. Crea y administra el estado activo y habilitado de las acciones  **Cancel**,  **Save****, SaveAndClose**  y  **SaveAndNew**.
+
+**Ver también:**  [ModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController)  |  [ModificationsController.CancelAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.CancelAction)  |  [ModificacionesControlador.GuardarAcción](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.SaveAction)  |  [ModificationsController.SaveAndCloseAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.SaveAndCloseAction)  |  [ModificacionesControlador.GuardarAndNuevoAcción](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.SaveAndNewAction)  |  [ModificacionesControlador.ModificacionesCheckingMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.ModificationsCheckingMode)  |  [ModificacionesControlador.ModificacionesManejoModo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.ModificationsHandlingMode)
+
+----------
+
+### NewObjectViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Nuevo**.
+
+Activado para todas las vistas. La  **nueva**  acción permite a los usuarios finales crear un nuevo objeto del tipo seleccionado de la lista de tipos predefinidos. Para especificar tipos predefinidos en el Editor de modelos, agregue nodos secundarios al nodo  **CreatableItems**. Para especificar un tipo predefinido en el código, use el atributo  **NavigationItem**  o controle los eventos  **CollectCreatableItemTypes**  y  **CollectDescendantTypes**  del controlador.
+
+**Vea también:**  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)  |  [NewObjectViewController.NewObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectAction)  |  [IModelCreatableItems](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelCreatableItems)  |  [NavigationItemAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.NavigationItemAttribute)  |  [NewObjectViewController.CollectDescendantTypes](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectDescendantTypes)  |  [Cómo: Personalizar la lista de elementos de la nueva acción](https://docs.devexpress.com/eXpressAppFramework/112915/ui-construction/controllers-and-actions/actions/how-to-customize-the-new-actions-items-list)
+
+----------
+
+### WebDeleteObjectsViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: heredadas.
+
+Un descendiente  [de DeleteObjectsViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#deleteobjectsviewcontroller). Cambia el valor predeterminado de la propiedad  [DeleteObjectsViewController.AutoCommit](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController.AutoCommit)  a  **True**, de modo que los objetos eliminados de cualquier colección se eliminen a la vez.
+
+----------
+
+### WebLinkUnlinkController
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda de  [LinkUnlinkController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#linkunlinkcontroller). Establece la propiedad  [LinkUnlinkController.AutoCommit](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LinkUnlinkController.AutoCommit)  en  **true**  cuando el  [ShowViewStrategy.CollectionsEditMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.ShowViewStrategy.CollectionsEditMode)  actual es  [ViewEditMode.View.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewEditMode)
+
+**Véase también:**  [ShowViewStrategy.CollectionsEditMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.ShowViewStrategy.CollectionsEditMode)
+
+----------
+
+### WebModificationsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones:  **SwitchToEditMode**  y heredadas.
+
+El controlador se hereda de  [ModificationsController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#modificationscontroller). Activado para vistas de objetos. La acción  **SwitchToEditMode**, implementada en este controlador, permite a los usuarios finales cambiar al modo de edición cuando se muestra una vista detallada en modo de vista. Administra el estado activo de todas sus acciones, en función del valor de la propiedad  [DetailView.ViewEditMode de](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailView.ViewEditMode)  la vista actual.
+
+**Ver también:**  [WebModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebModificationsController)  |  [WebModificationsController.EditAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebModificationsController.EditAction)
+
+----------
+
+### WebNewObjectViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones:  **QuickCreateAction**  y heredadas.
+
+El controlador se hereda de  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#newobjectviewcontroller). Invalida el método  **UpdateActionsState**  para rellenar la colección  **Items**  de  [NewObjectViewController.NewObjectAction Action.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectAction)  Sólo el tipo de objeto de la vista actual y sus descendientes se agregan a la colección.
+
+Contiene la acción  **QuickCreate**, cuya colección Items incluye sólo los elementos que representan los nodos secundarios del nodo  [IModelCreatableItems](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelCreatableItems)  del modelo de aplicación.  La colección se rellena en el método  **UpdateActionsState**.
+
+**Vea también:**  [WebNewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebNewObjectViewController)  |  [WebNewObjectViewController.QuickCreateAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebNewObjectViewController.QuickCreateAction)
+
+----------
+
+### WinModificationsController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda de  [ModificationsController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#modificationscontroller). Activado para vistas de objetos.
+
+**Vea también:**  [WinModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.WinModificationsController)
+
+----------
+
+### WinNewObjectViewController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda de  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#newobjectviewcontroller). Invalida el método  **UpdateActionsState**  para rellenar la colección  [ChoiceActionBase.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ChoiceActionBase.Items)  de la  **nueva**  acción. El tipo de objeto de la vista actual, sus descendientes y los tipos enumerados en el nodo  **CreatableItems**  del modelo de aplicación se agregan a la colección.
+
+**Vea también:**  [WinNewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.WinNewObjectViewController)  |  [NewObjectViewController.NewObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectAction)  |  [IModelCreatableItems](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelCreatableItems)
+
+----------
+
+## Búsqueda y filtrado
+
+### FilterController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **SetFilter**,  **FullTextSearch**.
+
+Activado para vistas de lista. La acción  **SetFilter**  permite a los usuarios finales seleccionar uno de los filtros predefinidos creados para la vista de lista actual. La acción  **FullTextSearch**  permite a los usuarios finales buscar objetos que coincidan con el texto introducido. Además de las acciones, este controlador filtra el origen de datos de la vista de lista actual según los criterios especificados en el modelo de aplicación.
+
+**Ver también:**  [FilterController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController)  |  [FilterController.SetFilterAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController.SetFilterAction)  |  [FilterController.FullTextFilterAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController.FullTextFilterAction)  |  [Nodo modelo de aplicación de filtros](https://docs.devexpress.com/eXpressAppFramework/112992/filtering/in-list-view/filters-application-model-node)  |  [Acción FullTextSearch](https://docs.devexpress.com/eXpressAppFramework/112997/filtering/in-list-view/full-text-search-action)  |  [Propiedad Criteria en el modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112990/filtering/in-list-view/criteria-property-in-the-application-model)
+
+----------
+
+### FindLookupDialogController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#dialogcontroller). Se activa en la ventana de búsqueda del Editor de propiedades de búsqueda si la funcionalidad de búsqueda está habilitada.
+
+Agrega  [FindLookupNewObjectDialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#findlookupnewobjectdialogcontroller)  a la ventana invocada al presionar el botón  **Nuevo**. Ejecuta la acción  **FullTextSearch**  para seleccionar el objeto recién creado en la colección de la vista de lista actual.
+
+**Vea también:**  [IModelOptions.LookupSmallCollectionItemCount](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelOptions.LookupSmallCollectionItemCount)  |  [Cómo: Agregar una acción de búsqueda a editores de propiedades de búsqueda y ventanas emergentes de vínculos](https://docs.devexpress.com/eXpressAppFramework/112925/ui-construction/controllers-and-actions/actions/how-to-add-a-search-action-to-lookup-property-editors-and-link-pop-up-windows)
+
+----------
+
+### FindLookupNewObjectDialogController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#dialogcontroller). Se activa en la ventana emergente que se invoca al pulsar el botón  **Nuevo**  en la ventana de búsqueda del Editor de propiedades de búsqueda. Cuando se presiona el botón  **Aceptar**, este controlador guarda el objeto recién creado y lo pasa al  [FindLookupDialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#findlookupdialogcontroller), para que se pueda seleccionar en la ventana de búsqueda del Editor de propiedades de búsqueda.
+
+----------
+
+## Navegación
+
+### RecordsNavigationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **PreviousObject**,  **NextObject**.
+
+Activado para todas las vistas. La acción  **PreviousObject**  está pensada para navegar al objeto anterior en el origen de la colección. Cuando se utiliza esta acción para una vista de lista, se selecciona el objeto anterior en el editor de la vista. Cuando se utiliza esta acción en una vista de detalle que muestra un objeto seleccionado actualmente en una vista de lista, el objeto anterior en el editor de la vista de lista se muestra en la vista de detalles. La acción  **NextObject**  hace lo mismo, pero navega al siguiente objeto de la colección.
+
+**Vea también:**  [RecordsNavigationController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.RecordsNavigationController)  |  [RecordsNavigationController.PreviousObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.RecordsNavigationController.PreviousObjectAction)  |  [RecordsNavigationController.NextObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.RecordsNavigationController.NextObjectAction)
+
+----------
+
+### ShowNavigationItemController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **ShowNavigationItem**.
+
+Activado en la ventana principal. La acción  **ShowNavigationItem**  permite a los usuarios finales navegar entre vistas predefinidas. En una aplicación de Windows Forms, esta acción se muestra en la barra de navegación. En una aplicación ASP.NET de formularios Web Forms, se muestra mediante fichas de navegación. Las vistas a las que puede navegar mediante esta acción se especifican en el nodo  **NavigationItems**  del modelo de aplicación.
+
+**Vea también:**  [ShowNavigationItemController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ShowNavigationItemController)  |  [ShowNavigationItemController.ShowNavigationItemAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ShowNavigationItemController.ShowNavigationItemAction)  |  [IModelNavigationItems](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelNavigationItems)  |  [Sistema de navegación](https://docs.devexpress.com/eXpressAppFramework/113198/application-shell-and-base-infrastructure/navigation-system)
+
+----------
+
+### ViewNavigationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **NavigateBack, NavigateForward**.
+
+Activado en todas las ventanas. Las acciones implementadas por este controlador permiten a los usuarios finales navegar a las vistas invocadas recientemente. Estas acciones se activan solo en la ventana principal.
+
+----------
+
+### WebRecordsNavigationController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda de  [RecordsNavigationController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#recordsnavigationcontroller). Activa las acciones  **NextObject**  y  **PreviousObject**  si la vista actual es una vista detallada.
+
+
+----------
+
+### WebShowStartupNavigationItemController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Muestra una vista cuando se muestra la ventana de inicio. Utiliza  [ShowNavigationItemController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#shownavigationitemcontroller)  para obtener un elemento de navegación de inicio y ejecutar la acción  **ShowNavigationItem**.
+
+----------
+
+### WebViewNavigationController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones:  **NavegarA**  y heredado.
+
+El controlador se hereda de  [ViewNavigationController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#viewnavigationcontroller). Desactiva las acciones heredadas  **NavigateBack**  y  **NavigateForward**. La acción  **NavigateTo**  se muestra como ruta de navegación y reemplaza la funcionalidad de acciones desactivadas.
+
+----------
+
+### WinShowStartupNavigationItemController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Muestra una vista cuando se muestra la ventana de inicio. Utiliza  [ShowNavigationItemController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#shownavigationitemcontroller)  para obtener un elemento de navegación de inicio y ejecutar la acción  **ShowNavigationItem**.
+
+----------
+
+### WinViewNavigationController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: heredadas.
+
+La versión específica de formularios Windows  [Forms de ViewNavigationController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#viewnavigationcontroller).
+
+----------
+
+## Vistas de lista
+
+### ASPxGridListEditorPreviewRowViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. El controlador se hereda del controlador  [ListEditorPreviewRowViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#listeditorpreviewrowviewcontroller). Inicializa la sección de vista previa, si la vista de lista utiliza  [ASPxGridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.ASPx.ASPxGridListEditor).
+
+----------
+
+### AutoFilterRowListViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista.
+
+Amplía la interfaz IModelClass del modelo de aplicación con la interfaz IModelClassShowAutoFilterRow y la interfaz IModelListView con la interfaz  [IModelListViewShowAutoFilterRow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelClassShowAutoFilterRow).[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelClass)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelListView)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelListViewShowAutoFilterRow)
+
+**Vea también:**  [Conceptos básicos del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  [Estructura del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  [Ampliar y personalizar el modelo de aplicación en código](https://docs.devexpress.com/eXpressAppFramework/112810/ui-construction/application-model-ui-settings-storage/customize-application-model-in-code/access-the-application-model-in-code)
+
+----------
+
+### CallbackStartupScriptController
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las páginas. Registra los scripts de inicio requeridos por los editores de listas en las devoluciones de llamada.
+
+----------
+
+### ColumnChooserControllerBase
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador base para  [GridEditorColumnChooserController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#grideditorcolumnchoosercontroller)  y  [WinLayoutManagerController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#winlayoutmanagercontroller). Agrega los botones  **Agregar**  y  **Quitar**  a  **ColumnChooser**  o  **FieldList**  de una cuadrícula. Al presionar el botón  **Agregar**, el controlador muestra un árbol que representa las propiedades actuales del objeto.
+
+----------
+
+### GridEditorColumnChooserController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente  [de ColumnChooserControllerBase](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#columnchoosercontrollerbase). Diseñado para vistas de lista que se muestran con  [GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor), que utiliza el editor  **XtraGrid**. El controlador configura el formulario de  **personalización**  del editor y admite su funcionalidad. Este formulario se puede invocar seleccionando el  **Selector de columnas**  en el menú contextual de la cuadrícula.
+
+----------
+
+### GridListEditorController
+
+Plataforma: WindowsForms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Configura  [GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor)  si muestra la vista de lista actual. Destinado para uso interno.
+
+----------
+
+### GridListEditorPreviewRowController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Un descendiente  [de ListEditorPreviewRowViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#listeditorpreviewrowviewcontroller). Inicializa la sección de vista previa, si la vista de lista utiliza  [GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor).
+
+----------
+
+### ListEditorNewObjectController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Administra la creación de nuevos objetos mediante  [editores de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  mediante el control de los eventos ListEditor.NewObjectAdding, ListEditor.NewObjectCreated y  [ListEditor.NewObjectCanceled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.NewObjectCanceled)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.NewObjectAdding)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.NewObjectCreated)
+
+**Vea también:**  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)
+
+----------
+
+### ListEditorInplaceEditController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Guarda los cambios realizados mediante los editores locales del Editor de listas en la base de datos cuando la vista actual es la raíz o la estrategia de visualización actual funciona en modo  [ViewEditMode.View.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewEditMode)  Los cambios no se confirman automáticamente en las vistas de lista anidadas. Puede heredar este control y reemplazar la propiedad  **AutoCommitChanges**  para devolver  **true**.
+
+**Ver también:**  [Editores de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  |  [ShowViewStrategy.CollectionsEditMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.ShowViewStrategy.CollectionsEditMode)
+
+----------
+
+### ListEditorPreviewRowViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Extiende el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  con la propiedad  **PreviewColumnName**  de  **Views**  |  **_<ListView>_**  nodo. Sirve como clase base para los controladores que activan filas de vista previa en editores de listas específicos de la plataforma. Hay tres descendientes específicos de la plataforma: , GridListEditorPreviewRowController y  [ASPxGridListEditorPreviewRowViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#aspxgridlisteditorpreviewrowviewcontroller).  [](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#gridlisteditorpreviewrowcontroller) `DxGridListEditorPreviewRowController`
+
+**Vea también:**  [IModelListViewPreviewColumn.PreviewColumnName](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelListViewPreviewColumn.PreviewColumnName)  |  [IModelListView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelListView)
+
+----------
+
+### ListViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones:  **Editar**.
+
+Activado para la vista de lista. La acción de edición proporcionada por este controlador invoca una vista detallada para el objeto que está seleccionado actualmente en una vista  **de**  lista. Esta vista detallada se muestra en modo de edición.
+
+----------
+
+### ListViewFocusedElementToClipboardController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **CopyCellValue**.
+
+Activado para vistas de lista. La acción  **CopyCellValue**, implementada por este controlador, permite copiar el contenido de la celda del Editor de listas enfocada en el portapapeles. El Editor de listas debe admitir la interfaz  [IFocusedElementCaptionProvider](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.IFocusedElementCaptionProvider).
+
+----------
+
+### ListViewProcessCurrentObjectController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **ListViewShowObject**.
+
+Activado para vistas de lista. La acción  **ListViewShowObject**  se ejecuta al hacer doble clic en un objeto en una vista de lista en una aplicación de Windows Forms y al hacer clic en un objeto en una vista de lista en una aplicación de formularios Web Forms de ASP.NET. El objeto se muestra en una ventana independiente. Si necesita ejecutar una acción personalizada en lugar de la acción  **ListViewShowObject**, desactive este controlador y suscríbase al evento  [ListView.ProcessSelectedItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.ProcessSelectedItem)  en un control personalizado.
+
+**Vea también:**  [ListViewProcessCurrentObjectController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController)  |  [ListViewProcessCurrentObjectController.ProcessCurrentObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.ProcessCurrentObjectAction)  |  [Cómo: Reemplazar la acción predeterminada de una vista de lista](https://docs.devexpress.com/eXpressAppFramework/112820/ui-construction/controllers-and-actions/actions/how-to-replace-a-list-views-default-action)
+
+----------
+
+### NewItemRowDataSourcePropertyController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Para uso interno. Permite a los usuarios finales utilizar los editores de búsqueda de la fila Nuevo elemento de  [GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor).
+
+----------
+
+### NewItemRowListViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Amplía el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  con la propiedad  **DefaultListViewNewItemRowPosition**  en  **BOModel**  |  **_<Class>_**  y la propiedad  **NewItemRowPosition**  en  **Views**  |  **_<ListView>_**  nodo. Configura la nueva fila de elementos, si el Editor de listas implementa la interfaz  [ISupportNewItemRowPosition](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ISupportNewItemRowPosition).
+
+**Vea también:**  [IModelClassNewItemRow.DefaultListViewNewItemRowPosition](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelClassNewItemRow.DefaultListViewNewItemRowPosition)  |  [IModelListViewNewItemRow.NewItemRowPosition](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelListViewNewItemRow.NewItemRowPosition)
+
+----------
+
+### ToolbarVisibilityController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **ToggleToolbarVisibility**.
+
+Activado para vistas de lista anidadas. La acción  **ToggleToolbarVisibility**  permite a los usuarios finales ocultar la barra de herramientas que acompaña a una vista de lista anidada. Para acceder a esta acción, haga clic con el botón derecho en una vista de lista anidada y seleccione  **Alternar barra de herramientas**  en el menú contextual invocado.
+
+----------
+
+### UpdateListEditorSelectedObjectsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de lista. Actualiza la selección de un editor de listas cuando cambia la colección enlazada.
+
+----------
+
+### WebListEditorRefreshController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de lista. Actualiza un editor de listas cuando los datos mostrados por él se filtran o cambian.
+
+**Vea también:**  [ListEditor.Refresh](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Refresh)  |  [Filtrado](https://docs.devexpress.com/eXpressAppFramework/112998/filtering)
+
+----------
+
+### WebListEditorSettingsStoreViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Agrega la propiedad SaveListViewStateInCookies al nodo  **Opciones**  del modelo de aplicación y la propiedad  **SaveStateInCookies**  a  **Views**  |  **Nodo Vista de lista**.  **SaveListViewStateInCookies**  es una configuración global para todas las vistas de lista.  **SaveStateInCookies**  es útil para establecer un valor individual para una vista de lista determinada. Cuando la configuración actual de la vista de lista debe guardarse en cookies, el controlador guarda las diferencias que se encuentran entre el estado de la vista de lista definido en el modelo de aplicación y el estado actual en la sesión actual. A continuación,  [SessionDictionaryDifferenceStoreWindowController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#sessiondictionarydifferencestorewindowcontroller)  guardará las diferencias de la sesión en cookies.
+
+**Vea también:**  [IModelOptionsStateStore.SaveListViewStateInCookies](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.IModelOptionsStateStore.SaveListViewStateInCookies)  |  [IModelListViewStateStore.SaveStateInCookies](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.IModelListViewStateStore.SaveStateInCookies)
+
+----------
+
+## Seguridad
+
+### LogoffController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Cerrar sesión**.
+
+Activado para todas las vistas. La acción de cierre de sesión permite a los usuarios finales iniciar sesión en la aplicación con otra cuenta  **de**  usuario. Esta acción está disponible cuando se usa la estrategia de autenticación estándar y se desactiva cuando se usa la estrategia de autenticación de Active Directory.
+
+**Ver también:**  [LogoffController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LogoffController)  |  [LogoffController.LogoffAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.LogoffController.LogoffAction)  |  [Sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system)
+
+----------
+
+### LogonController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: heredadas.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#dialogcontroller). Activado en la ventana de inicio de sesión. Reemplaza la acción  **DialogOk**  del  **DialogController**  por la acción  **de inicio de sesión**. El controlador de eventos  **Execute**  de la acción lo proporciona la clase  **base DialogController**.
+
+**Ver también:**  [Sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system)
+
+----------
+
+### WebLogonController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda del controlador de diálogo  [LogonController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#logoncontroller). Desactiva la acción  **Cancelar**.
+
+----------
+
+## Dashboards
+
+### DashboardCreationWizardController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **CreateDashboard**.
+
+Activado en la ventana principal. Proporciona la acción  **CreateDashboard**, que permite a los usuarios finales crear paneles.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCreation](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCreation)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+### DashboardCustomizationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **OrganizeDashboard**.
+
+Activado en vistas de detalles anidadas de  **DashboardOrganizer**. Proporciona la acción  **OrganizeDashboard**, que permite a los usuarios finales organizar paneles.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+### DashboardDeactivateItemsActionsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **OrganizeDashboard**.
+
+Activado en las vistas del panel. Desactiva las acciones  **SaveAndClose**  y  **SaveAndNew**  en las vistas mostradas en un panel.
+
+**Vea también:**  [ModificationsController.SaveAndCloseAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.SaveAndCloseAction)  |  [ModificacionesControlador.GuardarAndNuevoAcción](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController.SaveAndNewAction)  |[DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+### DashboardOrganizerHideToolbarController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas  **DashboardOrganizationItem**  anidadas. Deshabilita la barra de herramientas Acciones en el organizador del panel.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+### DashboardOrganizerItemsCollectionsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **DeleteItem**,  **HideItemsFromDashboard**,  **ShowItemsOnDashboard**.
+
+Activado en vistas  **DashboardOrganizationItem**  anidadas. Proporciona acciones que permiten a los usuarios finales mostrar, ocultar y eliminar elementos de vista de panel en una vista de panel.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)  |  [DashboardViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.DashboardViewItem)
+
+----------
+
+### DashboardWinLayoutManagerController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en las vistas del panel. Permite a los usuarios finales agregar nuevas vistas y quitar vistas existentes de un panel con el cuadro de diálogo Personalización.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)  |  [DashboardViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.DashboardViewItem)
+
+----------
+
+### DeleteDashboardsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **DeleteDashboard**.
+
+Activado en la ventana principal. Proporciona la acción  **EliminarDashboard**  que se encuentra en la categoría  **Herramientas**. Esta acción invoca un cuadro de diálogo emergente con una lista de todas las vistas de panel definidas en las diferencias de modelo del usuario. En esta ventana emergente, puede seleccionar uno o más paneles y hacer clic en  **Eliminar**  para eliminarlos. La propiedad  **DeleteDashboardsController.CanDeleteParentGroup**  especifica si el grupo primario del panel se elimina al quitar el último panel de este grupo. La acción  **DeleteDashboard**  está activa cuando hay paneles que se pueden eliminar y la propiedad  **EnableCreation**  de  **Options**  |  **El nodo Paneles**  se establece en  **true**  en el modelo de aplicación.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+### ViewDashboardOrganizationItemController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado en  **las vistas ViewDashboardOrganizationItem**. Actualiza el organizador de dasboard cuando cambia un tipo de elemento de vista de dasboard.
+
+**Vea también:**  [IModelOptionsDashboard.EnableCustomization](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelOptionsDashboard.EnableCustomization)  |  [DashboardView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DashboardView)
+
+----------
+
+## Depuración y pruebas
+
+### ActionsInfoController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un controlador de diagnóstico que implementa la interfaz  **IDiagnosticController**. Este Controlador recopila información sobre todos los Controladores del  [Marco (Ventana](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)) actual, las Acciones de los Controladores, la  [Plantilla](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  actual y sus  [Contenedores de Acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers), y la  [Vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  actual y su(s) Editor(es).  **DiagnosticInfoController**  agrega el elemento de acción de opción única expuesto por este controlador a la acción  **DiagnosticInfo**. Cuando un usuario final selecciona este elemento, la información recopilada se muestra en una ventana invocada.
+
+----------
+
+### DiagnosticInfoProviderBase
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las ventanas y marcos.  **DiagnosticInfoProviderBase**  es la clase base para los controladores  [ActionsInfoController, ViewInfoController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#actionsinfocontroller)  y  [ShowRulesController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#showrulescontroller).  [](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#viewinfocontroller)Estos controladores proporcionan elementos para la acción de  **información de diagnóstico**  de  [DiagnosticInfoController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#diagnosticinfocontroller). La clase  **DiagnosticInfoProviderBase**  expone miembros diseñados para crear los elementos de la acción de información  **de diagnóstico**  y recopilar la información mostrada al seleccionar estos elementos.
+
+**Ver también:**  [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)  |  [ActionBase.DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.DiagnosticInfo)
+
+----------
+
+### DiagnosticInfoController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Información de diagnóstico**.
+
+Activado en todas las ventanas y marcos. Busca todos los controladores que implementan la interfaz  **IDiagnosticController**. Estos Controladores recopilan información sobre los objetos requeridos (Controladores, Acciones, Plantilla actual, reglas de validación, etc.). La acción de información de diagnóstico de  **DiagnosticInfoController**, que representa una acción de opción única, contiene los elementos de acción de opción única expuestos por los controladores de  **diagnóstico**  que se encuentran. Cuando se selecciona el elemento Acción de información  **de diagnóstico**, se muestra una ventana con la información recopilada por el controlador correspondiente. Esta información ayuda a averiguar por qué el Controlador o la Acción están inactivos o invisibles.
+
+**Ver también:**  [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)  |  [ActionBase.DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.DiagnosticInfo)
+
+----------
+
+### LookupControlFinderController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas mostradas por  **LookupPropertyEditor**. Detecta controles en ventanas emergentes y los proporciona a  [EasyTest](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test).
+
+**Ver también:**  [pruebas funcionales](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test)
+
+----------
+
+### TestScriptsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Se activa en todas las ventanas cuando  [EasyTest](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test)  está habilitado. Permite probar una aplicación XAF de formularios Web Forms ASP.NET con  **EasyTest**.
+
+**Ver también:**  [pruebas funcionales](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test)
+
+----------
+
+### ViewInfoController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un controlador de diagnóstico que implementa la interfaz  **IDiagnosticController**. Este Controlador recopila información sobre la Vista actual y su(s) editor(es).  [DiagnosticInfoController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#diagnosticinfocontroller)  agrega el elemento de acción de opción única expuesto por este controlador a la acción  **DiagnosticInfo**. Cuando un usuario final selecciona este elemento, la información recopilada se muestra en una ventana invocada.
+
+**Vea también:**  [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)
+
+----------
+
+### WindowControlFinderController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **Control EasyTest**.
+
+Activado en todas las ventanas. Detecta controles en la ventana actual y los proporciona a  [EasyTest](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test). Declara la acción de diagnóstico  **EasyTest Control**, que enumera todos estos controles.
+
+**Ver también:**  [pruebas funcionales](https://docs.devexpress.com/eXpressAppFramework/113211/debugging-testing-and-error-handling/functional-tests-easy-test)
+
+----------
+
+## Misceláneo
+
+### AboutInfoController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **AboutInfo**.
+
+Activado en la ventana principal. Contiene la acción  **Acerca de la información**. En las aplicaciones de Windows Forms, esta acción presenta información general sobre la aplicación actual recopilada del modelo de aplicación por este controlador.
+
+**Vea también:**  [Personalización de aplicaciones](https://docs.devexpress.com/eXpressAppFramework/113445/application-shell-and-base-infrastructure/application-personalization)
+
+----------
+
+### AboutInfoFormController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en las vistas de detalle de los objetos  **AboutInfo**. Configura la ventana Acerca de:
+
+-   Deshabilita la capacidad de personalizar diseños.
+-   Corrige el ancho de la ventana según el ancho de la imagen del logotipo.
+-   Quita el  [elemento Vista](https://docs.devexpress.com/eXpressAppFramework/112612/ui-construction/view-items-and-property-editors)  de imagen estática si no se especifica la imagen.
+-   Permite que la característica  [Énfasis de etiqueta](https://docs.devexpress.com/eXpressAppFramework/113130/ui-construction/view-items-and-property-editors/apply-html-formatting-to-windows-forms-xaf-ui-elements)  divida el texto Acerca de en varias cadenas.
+
+----------
+
+### ActionsCriteriaViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Deshabilita y habilita Actions en función de sus valores de propiedad ActionBase.TargetObjectsCriteria y  [ActionBase.TargetObjectsCriteriaMode.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectsCriteria)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectsCriteriaMode)
+
+----------
+
+### AsyncLoadingCancelationController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Cancela la  [carga asincrónica](https://docs.devexpress.com/eXpressAppFramework/401747/ui-construction/views/asynchronous-data-loading/asynchronous-data-loading)  de datos en una vista cuando un usuario la cierra. Este controlador le permite mostrar un mensaje de confirmación al cerrar una vista en la interfaz de usuario.
+
+**Vea también**:  [Cómo: Personalizar el comportamiento asincrónico de carga de datos y la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/401750/ui-construction/views/asynchronous-data-loading/how-to-customize-asynchronous-data-loading-behavior-and-ui)
+
+----------
+
+### AsyncLoadingIndicationController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Muestra el  [formulario de superposición](https://docs.devexpress.com/eXpressAppFramework/112680/application-shell-and-base-infrastructure/splash-forms)  y deshabilita las acciones integradas mientras hay una operación asincrónica en curso.
+
+**Vea también**:  [Cómo: Personalizar el comportamiento asincrónico de carga de datos y la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/401750/ui-construction/views/asynchronous-data-loading/how-to-customize-asynchronous-data-loading-behavior-and-ui)
+
+----------
+
+### ChooseSkinController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **ChooseSkin**.
+
+Se activa en la ventana principal si la propiedad  [UseLightStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseLightStyle)  es  **false**. De lo contrario,  [ConfigureSkinController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#configureskincontroller)  se activa en su lugar.
+
+Contiene la acción  **ChooseSkin**. Esta acción permite a los usuarios finales aplicar una máscara predefinida a la aplicación. La máscara seleccionada se almacena en la propiedad  [Skin](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelApplicationOptionsSkin.Skin)  del nodo  **Opciones**  del modelo de aplicación.
+
+**Vea también:**  [Conceptos básicos del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  [Estructura del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)
+
+----------
+
+### ConfigureSkinController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **ConfigureSkin**.
+
+Se activa en la ventana principal si la propiedad  [UseLightStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseLightStyle)  es  **true**. De lo contrario,  [ChooseSkinController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#chooseskincontroller)  se activa en su lugar.
+
+Contiene la acción  **ConfigureSkin**. Esta acción permite a los usuarios finales aplicar una máscara predefinida a la aplicación. Los usuarios finales también pueden seleccionar una paleta si una máscara admite paletas. La máscara seleccionada se almacena en la propiedad  [Skin](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelApplicationOptionsSkin.Skin)  del nodo  **Opciones**  del modelo de aplicación. La paleta seleccionada se almacena en la propiedad  [Palette](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelApplicationOptionsPalette.Palette)  del nodo  **Opciones**  del modelo de aplicación.
+
+**Vea también:**  [Conceptos básicos del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  [Estructura del modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)
+
+----------
+
+### ChooseThemeController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones:  **ChooseTheme**.
+
+Contiene la acción  **ChooseTheme**. Esta acción permite a los usuarios finales seleccionar uno de los temas utilizados en la aplicación. El tema seleccionado actualmente se almacena en las cookies del navegador del usuario.
+
+**Ver también:**  [ChooseThemeController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.ChooseThemeController)  |  [ASP.NET Apariencia de la aplicación de formularios Web Forms](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance)
+
+----------
+
+### CloseMdiChildWindowController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win23.1.dll._  Acciones: ninguna.
+
+Se activa en Windows secundario cuando se utiliza  [MdiShowViewStrategy](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy). Prohíbe cerrar una ventana secundaria mientras su vista está cambiando y cierra la ventana cuando su vista está cerrada.
+
+----------
+
+### CloseWindowController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win23.1.dll._  Acciones:  **Cerrar**.
+
+Activado en Windows infantil. La acción  **Cerrar**  cierra la ventana actual. Está activo cuando una ventana actual contiene una vista.
+
+----------
+
+### DetailViewEditorActionController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Recopila las acciones de los elementos de la vista detallada actual que implementan la interfaz  **IActionSource**  y garantiza que las acciones se activarán y se pueden ejecutar. La propiedad  **IActionSource.Actions**  expone las acciones.
+
+----------
+
+### DetailViewLinkController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Cuando se invoca una vista de detalle desde una vista de lista en una ventana independiente, este controlador actualiza la vista de lista si algo cambia en la vista de detalles. Por ejemplo, cuando el objeto de una vista de detalle se reemplaza por otro (por ejemplo, mediante la acción  **NextObject**), el objeto enfocado en la vista de lista cambia. Cuando se modifica o elimina un objeto en una vista de detalle, también se actualizan los objetos de la vista de lista. Cuando se abre un objeto en una vista de detalles desde una vista de lista anidada, todos los objetos nuevos creados en esta vista de detalles se vinculan automáticamente al objeto maestro, que posee la colección enlazada a la vista de lista anidada.  **DetailViewLinkController**  se suscribe al evento  [IObjectSpace.Committed.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.Committed)  En este controlador de eventos, se busca un objeto que coincida con  [DetailView.CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailView.CurrentObject)  en la vista de lista desde la que se abrió la vista de detalles actual. El objeto encontrado se vuelve a cargar si se modifica  **DetailView.CurrentObject.**
+
+----------
+
+### DialogController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **DialogOK,**  **DialogCancel.**
+
+Activado en ventanas emergentes invocadas por  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction). Contiene las acciones  **DialogOK**  y  **DialogCancel.**  Puede agregar este controlador a una ventana emergente al crearlo utilizando el objeto  [ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters)  de una acción.
+
+**Ver también:**  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController)  |  [DialogController.AcceptAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController.AcceptAction)  |  [DialogController.CancelAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController.CancelAction)  |  [Controlador de diálogo](https://docs.devexpress.com/eXpressAppFramework/112805/ui-construction/controllers-and-actions/dialog-controller)
+
+----------
+
+### DockPanelsVisibilityController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las ventanas. Crea un  [SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction)  en la categoría  **Paneles**  para cada panel acoplable ubicado en la ventana actual si la  [plantilla](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  de la ventana actual implementa la interfaz  **IDockManagerHolder**. Las acciones creadas le permiten cambiar la visibilidad del panel dock a  **Visible**,  **Ocultar automáticamente**  u  **Oculto**.
+
+**Vea también:**  [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)
+
+----------
+### EditModelController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **EditModel**.
+
+Activado en todas las ventanas. Contiene la acción  **EditarModelo**. Esta acción permite a los usuarios finales invocar el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  en tiempo de ejecución. Cuando se utiliza el  [sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system), esta acción se desactiva si el usuario actual no tiene permiso para editar el modelo de aplicación.
+
+----------
+
+### ExitController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **Salir**.
+
+Contiene la acción  **de salida**, que se utiliza para cerrar la aplicación.
+
+----------
+
+### ExportAnalysisController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Exportación**.
+
+Se activa en las vistas detalladas cuando la colección  [CompositeView.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.Items)  incluye editores que admiten la interfaz  [IExportableAnalysisEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IExportableAnalysisEditor). El controlador base abstracto para los controladores WinExportAnalysisController y  **WebExportAnalysisController**.  Contiene la acción  **ExportAnalysis**  que exporta datos de los editores de propiedades de análisis (vea  [Módulo de gráfico dinámico](https://docs.devexpress.com/eXpressAppFramework/113024/analytics/pivot-chart-module)).
+
+**Ver también:**  [ExportController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ExportController)  |  [ExportController.ExportAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ExportController.ExportAction)  |  [Cómo: Personalizar el comportamiento de la acción de exportación](https://docs.devexpress.com/eXpressAppFramework/113287/shape-export-print-data/printing-exporting-in-listview/how-to-customize-the-export-action-behavior)
+
+----------
+
+### ExportController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Exportación**.
+
+Activado en todas las vistas. El controlador base abstracto para los controladores  [WinExportController y WebExportController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#winexportcontroller).[](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#webexportcontroller)  Contiene la acción de exportación que exporta datos desde la vista  **de**  lista. La acción está activa en las vistas de lista cuando el editor  [ListView.Editor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.Editor)  admite la interfaz  [IExportable](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IExportable).
+
+**Ver también:**  [ExportController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ExportController)  |  [ExportController.ExportAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ExportController.ExportAction)  |  [Cómo: Personalizar el comportamiento de la acción de exportación](https://docs.devexpress.com/eXpressAppFramework/113287/shape-export-print-data/printing-exporting-in-listview/how-to-customize-the-export-action-behavior)
+
+----------
+
+### FillActionContainersController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Cuando se crea una plantilla, también se crean todos sus contenedores de acciones. A continuación, el controlador  **FillActionContainers**  utiliza el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  para determinar las acciones que se van a mostrar en los contenedores de acciones. En particular, el  **ActionDesign**  |  **El nodo ActionToContainerMapping**  proporciona esta información. A continuación, este controlador llama al método  **Register**  del contenedor de acciones para cada acción para crear el control correspondiente. Los contenedores de acciones crean controles específicos para cada tipo de acción.
+
+**Vea también:**  [IModelActionToContainerMapping](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelActionToContainerMapping)  |  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  |  [Contenedores de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)
+
+----------
+
+### FocusDefaultDetailViewItemController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Amplía los nodos  **DetailView**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  con la propiedad  **DefaultFocusedItem**, que especifica el editor de propiedades inicialmente enfocado cuando se muestra la vista detallada raíz. Tenga en cuenta que la vista de detalle, que se muestra junto con la vista de lista (vea Mostrar una vista de  [detalles con una vista de lista](https://docs.devexpress.com/eXpressAppFramework/404203/getting-started/in-depth-tutorial-blazor/customize-data-display-and-view-layout/display-a-detail-view-with-a-list-view)) no es una raíz, por lo que la propiedad  **DefaultFocusedItem**  no tiene sentido en este caso. Los siguientes controladores específicos de la plataforma se derivan de FocusDefaultDetailViewItemController: WinFocusDefaultDetailViewItemController y  **WebFocusDefaultDetailViewItemController**.[](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#winfocusdefaultdetailviewitemcontroller)[](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#webfocusdefaultdetailviewitemcontroller)
+
+**Vea también:**  [IModelDetailViewDefaultFocusedItem.DefaultFocusedItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelDetailViewDefaultFocusedItem.DefaultFocusedItem)  |  [IModelDetailView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelDetailView)  |  [View.IsRoot](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.IsRoot)
+
+----------
+
+### FocusController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Un controlador de ventana que administra el foco en la página actual.
+
+**Ver también:**  [FocusController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.FocusController)
+
+----------
+
+### HideActionsViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Desactiva las acciones que se enumeran en el nodo secundario  **HiddenActions**  del nodo  **View**  de la vista actual.
+
+**Ver también:**  [IModelHiddenActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelHiddenActions)  |  [IModelView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView)
+
+----------
+
+### HtmlFormattingController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Agrega la propiedad  **EnableHtmlFormatting**  al nodo  **Options**. Cuando esta propiedad se establece en  **true**, se representa el formato HTML de los títulos del Editor de propiedades, los títulos de columna de la vista de lista y el texto del elemento de vista estática. Cuando esta propiedad se establece en  **false**, no se admite el formato HTML.
+
+**Vea también:**  [IModelOptionsEnableHtmlFormatting.EnableHtmlFormatting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsEnableHtmlFormatting.EnableHtmlFormatting)  |  [IModelOptions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelOptions)  |  [Cómo: Aplicar formato HTML a elementos de interfaz de usuario XAF de formularios Windows Forms](https://docs.devexpress.com/eXpressAppFramework/113130/ui-construction/view-items-and-property-editors/apply-html-formatting-to-windows-forms-xaf-ui-elements)
+
+----------
+
+### LockController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Bloquea la modificación de un objeto, si se está modificando actualmente en otra vista.
+
+**Ver también:**  [Control de concurrencia optimista](https://docs.devexpress.com/eXpressAppFramework/113596/business-model-design-orm/business-model-design-with-xpo/optimistic-concurrency-control)
+
+----------
+
+### MdiTabImageController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Se activa para  [Windows](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  secundario cuando se usa  [MdiShowViewStrategy](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy)  en modo  [MdiMode.Tabbed.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Templates.MdiMode)  Establece las imágenes de tabulación de acuerdo con las vistas mostradas.
+
+**Ver también:**  [UIType.TabbedMDI](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.UIType)
+
+----------
+
+### ObjectMethodActionsViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: Acciones, añadidas con el atributo  **Acción**.
+
+Activado para todas las vistas. Itera a través de todas las clases de negocio presentes en el nodo  **BOModel**  del modelo de aplicación, recopila métodos decorados con el atributo  **Action**  y los convierte en acciones simples. Cada acción se activa si el tipo de objeto de la vista actual corresponde a la clase a partir de la cual se generó.
+
+**Véase también:**  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  |  [SimpleAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction)  |  [Agregar una acción simple mediante un atributo](https://docs.devexpress.com/eXpressAppFramework/402156/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action-using-an-attribute)  |  [Cómo: Crear una acción mediante el atributo Action](https://docs.devexpress.com/eXpressAppFramework/112619/ui-construction/controllers-and-actions/actions/how-to-create-an-action-using-the-action-attribute)
+
+----------
+
+### OpenObjectController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **OpenObject**.
+
+Activado para todas las vistas. La acción se ejecuta después de:
+
+-   Enfocar un editor de propiedades de referencia y hacer clic en el botón Acción de la barra de herramientas.
+-   Mantenga presionada la tecla MAYÚS+CTRL y haga clic en un editor de propiedades de referencia.
+-   Enfocar un editor y presionar Mayús+Ctrl+Entrar.
+
+En las vistas detalladas, este controlador funciona con editores de propiedades heredados de la clase  [WinPropertyEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.WinPropertyEditor); si el editor actualmente enfocado está enlazado a una propiedad de referencia, la acción  **OpenObject**  invoca la vista de detalle del objeto al que se hace referencia. En las vistas de lista, este controlador funciona cuando el  [ListView.Editor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.Editor)  actual es  [GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor); la acción  **OpenObject**  invoca la vista detallada del objeto desde la celda enfocada.
+
+>NOTA
+>
+>-   La acción  **OpenObject**  está  inactiva cuando la vista de lista está en los modos [DataView](https://docs.devexpress.com/eXpressAppFramework/113683/ui-construction/views/list-view-data-access-modes), [ServerView, InstantFeedback, and InstantFeedbackView](https://docs.devexpress.com/eXpressAppFramework/118450/ui-construction/views/list-view-data-access-modes/server-server-view-instant-feedback-and-instant-feedback-view-modes)(https://docs.devexpress.com/eXpressAppFramework/118450/ui-construction/views/list-view-data-access-modes/server-server-view-instant-feedback-and-instant-feedback-view-modes).[](https://docs.devexpress.com/eXpressAppFramework/113683/ui-construction/views/list-view-data-access-modes)
+>-   La acción  **OpenObject** no funciona con una propiedad de referencia en [TreeListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TreeListEditors.Win.TreeListEditor).
+-   El [IModelMemberViewItem.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelMemberViewItem.View) se omite al invocar la vista Detalle desde la vista de lista mediante la combinación Ctrl+Mayús+Clic.
+
+Para especificar la vista invocada en la ejecución de la acción OpenObject, use el evento  **OpenObjectController.CustomOpenObject**, como se muestra en  [Cómo especificar qué DetailView muestra la acción Abrir registro relacionado ejecutar o la combinación de teclas ctrl Mayús, haga clic en  Vale Centro](https://supportcenter.devexpress.com/ticket/details/t437813/how-to-specify-what-detailview-is-shown-by-the-open-related-record-action-execute-or)  de soporte.
+
+----------
+
+### ParameterlessLogonFailedInfoViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Destinado para uso interno. Personaliza un mensaje de error que se muestra cuando se produce un error en un procedimiento de inicio de sesión sin parámetros.
+
+----------
+
+### PreserveValidationErrorMessageAfterPostbackController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de raíz. Evita que los mensajes de error de validación que se muestran en la pantalla se pierdan cuando se produce una devolución de datos.
+
+**Ver también:**  [Módulo de validación](https://docs.devexpress.com/eXpressAppFramework/113684/validation-module)
+
+----------
+
+### PrintingController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones:  **PageSetup**,  **Print**  y  **PrintPreview**.
+
+Activado para vistas detalladas cuyo control  [implementa la interfaz IPrintable](https://docs.devexpress.com/WindowsForms/DevExpress.XtraPrinting.IPrintable)  y vistas de lista cuyo editor de  [listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  implementa la interfaz  [IExportable](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IExportable). Proporciona acciones que permiten a los usuarios finales imprimir la vista actual.
+
+**Vea también:**  [PrintingController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.PrintingController)
+
+----------
+
+### ProcessActionContainerHolderController
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Representa una clase base de la que se derivan los controladores que personalizan los controles del contenedor de acciones.
+
+----------
+
+### RedirectOnCallbackController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las páginas. Diseñado para uso interno. Cuando se cambia una vista en un  [marco](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames), este controlador realiza la redirección, si es necesario.
+
+----------
+
+### RedirectOnViewChangedController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Diseñado para uso interno. Cuando se cambia una vista en un  [fotograma](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames), se pueden reemplazar algunos controles. El controlador  **RedirectOnViewChangedController**  impide la carga de datos de estado de vista y formulario en el control incorrecto.
+
+----------
+
+### RefreshController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **Actualizar**.
+
+Activado para todas las vistas. Contiene la acción  **Actualizar**, que se activa sólo para las vistas raíz. Al ejecutar esta acción, se llama al método  [BaseObjectSpace.Refresh.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace.Refresh)
+
+**Consulte también:**  [RefreshController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.RefreshController)  |  [RefreshController.RefreshAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.RefreshController.RefreshAction)
+
+----------
+
+### RegisterThemeAssemblyController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las páginas. Registra archivos CSS relacionados con temas almacenados como recursos en  **DevExpress.Web.ASPxThemes.23.1.dll**  en la página actual. Si necesita usar archivos CSS personalizados, puede deshabilitar este  [Controller](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  estableciendo su propiedad  **EnableXafThemeAssembly**  en  **false**.
+
+**Vea también:**  [ASP.NET apariencia de la aplicación de formularios Web Forms](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance)
+
+----------
+
+### ResetViewSettingsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones:  **ResetViewSettings**.
+
+Activado para todas las vistas. Contiene la acción  **ResetViewSettings**, que vuelve a abrir la vista actual y restablece todas las personalizaciones de usuario del modelo de la vista. Si utiliza el modo de presentación  **ListViewAndDetailView**, la acción  **ResetViewSettings**  se aplica a las vistas de lista y de detalle. Esta acción está deshabilitada (atenuada) si hay cambios no guardados.
+
+----------
+
+### SessionDictionaryDifferenceStoreWindowController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+El Controlador guarda las diferencias del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  realizadas por un usuario final de la sesión actual en el almacenamiento subyacente (por ejemplo, en cookies) cuando se carga una página antes de la representación.
+
+**Vea también:**  [IModelListViewStateStore.SaveStateInCookies](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.IModelListViewStateStore.SaveStateInCookies)  |  [IModelOptionsStateStore.SaveListViewStateInCookies](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.IModelOptionsStateStore.SaveListViewStateInCookies)
+
+----------
+
+### VersionsCompatibilityController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las vistas. Cuando se trabaja con una aplicación, se puede actualizar su versión y base de datos. Esto puede dañar la base de datos. Este controlador comprueba la compatibilidad de las versiones de la aplicación y la base de datos periódicamente durante la ejecución de la aplicación. Si se encuentra una discrepancia de versión, se invoca una ventana de advertencia.
+
+----------
+
+### WaitCursorController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Cambia el cursor al modo de reloj de arena mientras se ejecuta una acción.
+
+----------
+
+### WebExportController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: heredadas.
+
+Un descendiente específico de formularios Web  [Forms de ASP.NET ExportController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#exportcontroller). Crea una secuencia de memoria para los datos exportados.
+
+**Vea también:**  [WebExportController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.WebExportController)
+
+----------
+
+### WebFocusDefaultDetailViewItemController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+El descendiente específico de la plataforma de  [FocusDefaultDetailViewItemController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#focusdefaultdetailviewitemcontroller).
+
+----------
+
+### WebFocusPopupWindowController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en ventanas emergentes. Este controlador centra la acción parametrizada  **FullTextSearch**  cuando la ventana emergente invocada contiene una vista de lista.
+
+**Ver también:**  [FilterController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController)  |  [FilterController.FullTextFilterAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.FilterController.FullTextFilterAction)
+
+----------
+
+### WebIdAssignationController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Para uso interno. Activado para vistas detalladas. Establece identificadores para todos los elementos de vista.
+
+----------
+
+### WebObjectMethodActionsViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: heredadas.
+
+El controlador se hereda de  [ObjectMethodActionsViewController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#objectmethodactionsviewcontroller). Confirma los cambios realizados por una acción creada mediante  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  cuando una vista detallada está en modo de vista.
+
+----------
+
+### WebWindowController
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las ventanas. Garantiza el procesamiento correcto de la transformación del objeto actual en una vista detallada. Para uso interno.
+
+----------
+
+### WindowTemplateController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Actualiza los mensajes de título y estado de la ventana actual. Expone eventos y métodos que permiten personalizar y actualizar los mensajes de subtítulos y estado. Tiene un descendiente específico de WinForms:  [WinWindowTemplateController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#winwindowtemplatecontroller).
+
+**Vea también:**  [WindowTemplateController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController)  |  [Cómo: Personalizar un título de ventana](https://docs.devexpress.com/eXpressAppFramework/113252/application-shell-and-base-infrastructure/application-personalization/customize-a-window-caption)  |  [Cómo: Personalizar mensajes de estado de ventana (WinForms)](https://docs.devexpress.com/eXpressAppFramework/113253/ui-construction/templates/in-winforms/how-to-customize-window-status-messages-winforms)
+
+----------
+
+### WinExportController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+El descendiente específico de formularios Windows Forms de  [ExportController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#exportcontroller). Crea una secuencia de archivos para los datos exportados.
+
+**Vea también:**  [WinExportController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.WinExportController)
+
+----------
+
+### WinFocusDefaultDetailViewItemController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+El descendiente específico de la plataforma de  [FocusDefaultDetailViewItemController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#focusdefaultdetailviewitemcontroller).
+
+----------
+
+### WinFocusListEditorControlController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las ventanas. Cuando la vista que se muestra actualmente cambia a una vista de lista, centra el control del editor de listas.
+
+**Ver también:**  [Editores de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)
+
+----------
+
+### WinLayoutManagerController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Configura el formulario de  **personalización**  del editor y admite su funcionalidad. Este formulario se puede invocar seleccionando  **Personalizar diseño**  en el menú contextual del formulario de detalles.
+
+**Vea también:**  [Ver personalización del diseño de elementos](https://docs.devexpress.com/eXpressAppFramework/112817/ui-construction/views/layout/view-items-layout-customization)
+
+----------
+
+### WinWindowTemplateController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente específico de WinForms de  [WindowTemplateController](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module#windowtemplatecontroller). Controla los eventos de  [DocumentManager](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Docking2010.DocumentManager)  para actualizar el título de la ventana actual.
+
+----------
+
+### XtraGridInLookupController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Destinado para uso interno. Configura el control  **XtraGrid**  utilizado en la ventana de búsqueda del Editor de propiedades de búsqueda en las vistas Detalle y Lista.
+
+
+# Controladores integrados y acciones en módulos adicionales
+
+Los  [controladores](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  integrados y sus  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  suministradas con los  [módulos adicionales](https://docs.devexpress.com/eXpressAppFramework/118046/application-shell-and-base-infrastructure/application-solution-components/modules#modules-shipped-with-xaf)  de  **eXpressApp Framework**  se enumeran en este tema. Tenga en cuenta que puede encontrar más información sobre un controlador o acción en particular en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor): navegue hasta  **ActionDesign**  |[](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  **Controladores**  o  **ActionDesign**  |  **Nodo Acciones**. Para determinar si una acción se muestra o no en una ventana determinada, asegúrese de que el contenedor de acciones que muestra la acción está contenido en esta plantilla. Para determinar el contenedor de acciones de la acción, utilice  **ActionDesign**  del modelo de aplicación |  **Nodo ActionToContainerMapping**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8493287d-50f4-4079-8332-9353d01e5719)
+
+
+## Módulo de seguimiento de auditoría
+
+### AuditInformationReadonlyViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.AuditTrail.Xpo.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que muestran objetos  **IBaseAuditDataItemPersistent**. Hace que estas vistas sean de solo lectura. Se utiliza para prohibir a los usuarios finales editar la información de auditoría.
+
+----------
+
+### AuditInformationListViewRefreshController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.AuditTrail.Xpo.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista anidadas que muestran objetos  **IBaseAuditDataItemPersistent**. Haga que las nuevas entradas de auditoría sean inmediatamente accesibles, después de guardar los cambios correspondientes en un objeto.
+
+----------
+
+### AuditTrailListViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.AuditTrail.Xpo.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Utilizado internamente. Cuando se carga una colección con un criterio, el controlador cambia el tipo de auditoría a ObjectChanged (si el tipo ObjectLoaded se estableció anteriormente).
+
+----------
+
+### AuditTrailViewController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.AuditTrail.Xpo.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de detalle de raíz. Activa el sistema de auditoría de cambios para la sesión XPO en la que se invoca una vista.
+
+----------
+
+## Módulo de clonación de objetos
+
+### CloneObjectViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.CloneObject.Xpo.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista y detalle. Contiene la acción  **de clonación**. Esta acción permite a un usuario final clonar un objeto seleccionado actualmente en una vista de lista o en el objeto actual de una vista de detalle. Invoca una vista detallada con un nuevo objeto. Los valores de propiedad de este objeto se copian del objeto que se ha clonado.
+
+**Vea también:**  [CloneObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CloneObject.CloneObjectViewController)
+
+----------
+
+## Módulo de apariencia condicional
+
+### ActionAppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista y detalle. Recopila las acciones, mencionadas en las reglas de apariencia del objeto actual, y actualiza su apariencia.
+
+----------
+
+### AppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista y detalle. Recopila las reglas de apariencia actuales declaradas para la clase de negocio (vea  [IModelConditionalAppearance](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ConditionalAppearance.IModelConditionalAppearance)  y  [AppearanceAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ConditionalAppearance.AppearanceAttribute)). Expone el método  **RefreshItemAppearance**  utilizado por otros controladores de módulo para actualizar la apariencia.
+
+**Ver también:**  [AppearanceController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ConditionalAppearance.AppearanceController)
+
+----------
+
+### DetailViewItemAppearanceController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Actualiza la apariencia de los elementos de la vista de detalles.
+
+----------
+
+### DetailViewLayoutItemAppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Actualiza la apariencia de los elementos de diseño.
+
+----------
+
+### ListViewItemAppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Actualiza la apariencia actual de  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor), si el editor admite la interfaz  **ISupportAppearanceCustomization**.
+
+----------
+
+### RefreshAppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista y detalle. Actualiza la apariencia cuando se producen los eventos  [View.SelectionChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.SelectionChanged), View.CurrentObjectChanged, BaseObjectSpace.ObjectChanged y  [BaseObjectSpace.Committed](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace.Committed)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObjectChanged)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace.ObjectChanged)
+
+----------
+
+### RefreshItemsAppearanceControllerBase<T>
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ConditionalAppearance.v23.1.dll._  Acciones: ninguna.
+
+La clase base abstracta de DetailViewItemAppearanceController y  [DetailViewLayoutItemAppearanceController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#detailviewitemappearancecontroller).[](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#detailviewlayoutitemappearancecontroller)
+
+----------
+
+## Módulo de paneles
+
+### DashboardNavigationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Dashboards.v23.1.dll._
+
+Asigna un  [acceso directo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewShortcut)  a la vista de detalle del panel para cada elemento de navegación compatible con  [la interfaz IModelDashboardNavigationItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Dashboards.IModelDashboardNavigationItem).
+
+----------
+
+### HideDetailViewActionsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Dashboards.v23.1.dll._
+
+Activado para la vista detallada "DashboardViewer_DetailView". Desactiva NewObjectViewController,  [ModificationsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ModificationsController)  y  [DeleteObjectsViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController)  para prohibir la creación, edición y eliminación manual de instancias de panel.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)
+
+----------
+
+### NewDashboardController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Dashboards.v23.1.dll._
+
+La clase base de WinNewDashboardController y  [WebNewDashboardController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winnewdashboardcontroller).[](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#webnewdashboardcontroller)  Implementa la funcionalidad común necesaria para crear nuevos paneles.
+
+----------
+
+### WebDashboardActionsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._  Acciones:  **ExportDashboardAction, DashboardParametersAction**.
+
+Activado para la vista detallada  [de IDashboardData](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.IDashboardData)  con el identificador "DashboardViewer_DetailView". La acción  **ExportDashboardAction**  permite a los usuarios finales exportar los paneles a varios formatos. La acción  **DashboardParametersAction**  permite a los usuarios finales invocar el cuadro de diálogo  [Parámetros del panel](https://docs.devexpress.com/Dashboard/117549/web-dashboard/create-dashboards-on-the-web/data-analysis/dashboard-parameters/specify-dashboard-parameter-values).
+
+----------
+
+### WebDashboardDesignerPopupController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._
+
+Activado para la vista detallada "DashboardViewer_DetailView". Contiene ASP.NET código específico de formularios Web Forms que realiza la instalación del control  [ASPxDashboard](https://docs.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard?v=23.1).
+
+----------
+
+### WebDashboardDialogController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._  Acciones:  **Aceptar**.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController)  activado para el cuadro de diálogo Diseñador de paneles. Introduce la acción de  **aceptación**  personalizada y desactiva la acción  **de cancelación**.
+
+----------
+
+### WebDashboardWindowController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._
+
+Registra el script de cliente que realiza la configuración del control del panel del lado cliente.
+
+----------
+
+### WebEditDashboardController
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._  Acciones:  **ShowDesignerAction**.
+
+Activado en las vistas Lista y Detalle de los objetos  [IDashboardData](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.IDashboardData). Hace que la vista actual sea de solo lectura para prohibir la creación, edición y eliminación manual de instancias de panel.  **La acción ShowDesignerAction**  permite a los usuarios finales modificar paneles en el  [Diseñador de paneles](https://docs.devexpress.com/Dashboard/116518/basic-concepts-and-terminology/dashboard-designer).
+
+----------
+
+### WebNewDashboardController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Web.v23.1.dll._
+
+Hereda el controlador  [NewDashboardController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#newdashboardcontroller). Contiene ASP.NET código específico de formularios Web Forms, lo que proporciona a los usuarios finales la capacidad de crear nuevos paneles.
+
+----------
+
+### WinEditDashboardController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Win.v23.1.dll._  Acciones:  **ShowDesignerAction**.
+
+Activado en las vistas Lista y Detalle de los objetos  [IDashboardData](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.IDashboardData).  **La acción ShowDesignerAction**  permite a los usuarios finales modificar paneles en el Diseñador de paneles. Utiliza  [WinShowDashboardDesignerController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winshowdashboarddesignercontroller)  para mostrar el  [Diseñador de paneles de WinForms](https://docs.devexpress.com/Dashboard/117006/winforms-dashboard/winforms-designer).
+
+----------
+
+### WinExportDashboardController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Win.v23.1.dll._  Acciones:  **ExportAction**.
+
+Activado para la vista detallada "DashboardViewer_DetailView".  **La acción ExportAction**  permite a los usuarios finales exportar los paneles a varios formatos.
+
+----------
+
+### WinNewDashboardController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Win.v23.1.dll._
+
+Hereda  [NewDashboardController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#newdashboardcontroller). Contiene código específico de formularios Windows Forms, lo que proporciona a los usuarios finales la capacidad de crear nuevos paneles. Utiliza  [WinShowDashboardDesignerController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winshowdashboarddesignercontroller)  para mostrar el  [Diseñador de paneles de WinForms](https://docs.devexpress.com/Dashboard/117006/winforms-dashboard/winforms-designer).
+
+----------
+
+### WinPrintDashboardController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Win.v23.1.dll._  Acciones:  **PrintAction**.
+
+Activado para la vista detallada "DashboardViewer_DetailView". La acción  **PrintAction**  permite a los usuarios finales imprimir el panel actual.
+
+----------
+
+### WinShowDashboardDesignerController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Dashboards.Win.v23.1.dll._
+
+Contiene la instancia de  [DashboardDesignerManager](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Dashboards.Win.DashboardDesignerManager). Expone los métodos  **ShowDesigner**  y  **GetDashboardData**  que los controladores del módulo Dashboards utilizan para mostrar el  [Diseñador de paneles de WinForms](https://docs.devexpress.com/Dashboard/117006/winforms-dashboard/winforms-designer)  y, a continuación, obtener el objeto  [IDashboardData](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.IDashboardData)  modificado.
+
+----------
+
+## Módulo de archivos adjuntos
+
+### FileAttachmentControllerBase
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.FileAttachment.Win.v23.1.dll._  Acciones:  **Abrir**,  **GuardarTo**.
+
+La clase base que implementa la funcionalidad común de FileAttachmentController y  [FileAttachmentListViewController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#fileattachmentcontroller.win).[](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#fileattachmentlistviewcontroller)
+
+----------
+
+### FileAttachmentController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.FileAttachment.Win.v23.1.dll._  Acciones:  **Abrir**,  **GuardarTo**.
+
+Se activa cuando el tipo de objeto de la vista actual utiliza el atributo  **FileAttachment**.  **Open**  Action permite a los usuarios finales abrir un archivo mediante una aplicación asociada. La acción  **Guardar**  permite a los usuarios finales guardar un archivo en un disco local.
+
+**Véase también:**[FileAttachmentController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentController)
+
+----------
+
+### FileAttachmentController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.FileAttachment.Web.v23.1.dll._  Acciones:  **Descargar**.
+
+Se activa cuando el tipo de objeto de la vista actual utiliza el atributo  **FileAttachment**. Contiene la acción de  **descarga**  que permite a los usuarios finales cargar el contenido de un archivo mediante un explorador.
+
+**Véase también:**[FileAttachmentController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentController)
+
+----------
+
+### FileAttachmentListViewController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.FileAttachment.Win.v23.1.dll._  Acciones:  **AddFromFile**.
+
+Activado para vistas de lista, cuyo tipo de objeto utiliza el atributo  **FileAttachment**. Contiene la acción  **AddFromFile**  que permite a los usuarios finales agregar datos adjuntos de archivo a vistas de lista mediante un cuadro de diálogo estándar  **Abrir archivo**. Este controlador también permite agregar archivos adjuntos a una vista de lista mediante una operación de arrastrar y soltar.
+
+**Vea también:**[FileAttachmentListViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentListViewController)
+
+----------
+
+## Módulo KPI
+
+### AutoRefreshKpiController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda de  [RefreshKpiController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#refreshkpicontroller). Actualiza los objetos  **IKpiInstance**  después de volver a crear la colección Vista de lista del origen de colección.
+
+----------
+
+### DrilldownController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista anidadas que muestran objetos  **IKpiInstance**. El controlador suscribe el evento  [ActionBase.Running](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Executing)  de la acción  [ListViewProcessCurrentObjectController.ProcessCurrentObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.ProcessCurrentObjectAction)  y muestra la vista de lista detallada cuando un usuario final hace clic en un objeto  **IKpiInstance**. Si la vista de lista actual es una búsqueda, no se controla el evento  **Executioning**. La vista de lista con un identificador, especificado por la propiedad  **IKpiDefinition.DrillDownListViewId**, se utiliza como desglose de forma predeterminada. Puede controlar el evento  **DrilldownViewInitialized**  del controlador y especificar una vista de lista personalizada a través del parámetro  **ModelView**  del controlador.
+
+----------
+
+### ForceRefreshKpiController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones:  **RefreshKpi**.
+
+El controlador se hereda de  [RefreshKpiController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#refreshkpicontroller). La acción  **RefreshKPI**  permite a los usuarios finales actualizar manualmente los objetos  **IKpiInstance**  mostrados.
+
+----------
+
+### KpiDashboardOrganizationItemController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas que muestran objetos  **KpiDashboardOrganizationItem**. Para uso interno.
+
+----------
+
+### KpiDefinitionPreviewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas que muestran objetos  **IKpiDefinition**. Proporciona una vista previa (desglose) del objeto IKpiDefinition actual, que se actualiza cuando se cambia la propiedad  **IKpiDefinition.TargetObjectType.**  La vista de lista anidada con un identificador, especificada por la propiedad  **IKpiDefinition.DrillDownListViewId**, se utiliza para mostrar una vista previa.
+
+----------
+
+### KpiInstanceDeactivateNewDeleteViewController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista y detalle que muestran objetos  **IKpiInstance**. Desactiva los controladores  [NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)  y  [DeleteObjectsViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController)  para prohibir la creación y eliminación manual de instancias de KPI.
+
+----------
+
+### RefreshKpiController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones: ninguna.
+
+La clase base de AutoRefreshKpiController y  [ForceRefreshKpiController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#autorefreshkpicontroller).[](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#forcerefreshkpicontroller)  Activado para las vistas de lista y detalle que muestran objetos  **IKpiInstance**. Implementa la funcionalidad común necesaria para actualizar las instancias de KPI.
+
+----------
+
+### ShowKpiAsChartController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Kpi.v23.1.dll._  Acciones:  **ShowChart**.
+
+Activado para vistas de lista que muestran objetos  **IKpiInstance**. La acción  **MostrarGráfico**  invoca la ventana emergente con una vista  **de detalles KpiInstance_Chart_DetailView**. Esta vista proporciona la representación gráfica del objeto  **IKpiInstance**  seleccionado.
+
+----------
+
+## Módulo de Office
+
+### MailMergeController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que muestran objetos  **IRichTextMailMergeData**. Implementa la funcionalidad común de  [combinación de correspondencia](https://docs.devexpress.com/eXpressAppFramework/400006/document-management/office-module/mail-merge). Permite personalizar la configuración de Combinar correspondencia.
+
+----------
+
+### MenuManagerController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que contienen  **RichTextPropertyEditor**. Crea un Administrador de menús para  **RichTextPropertyEditor**, en función de la configuración de la aplicación (vea  [Usar documentos de texto enriquecido en Business Objects](https://docs.devexpress.com/eXpressAppFramework/400004/document-management/office-module/use-rich-text-documents-in-business-objects)). Permite personalizar el menú de la cinta y las barras.
+
+----------
+
+### OfficeActionsController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones:  **OpenAction**,  **SaveAsAction**
+
+Activado para vistas que contienen  **RichTextPropertyEditor o**  **SpreadsheetPropertyEditor**. Personaliza las acciones de impresión para el menú principal y el botón de la aplicación.  **OpenAction**  permite a los usuarios abrir un documento en diferentes formatos.  **SaveAsAction**  permite a los usuarios guardar documentos en el sistema de archivos en diferentes formatos.
+
+----------
+
+### RichTextGridController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista. Aplica la configuración interna a  **RichEditControl**  antes de que  **GridView**  lo muestre en una celda. Permite personalizar el control.
+
+----------
+
+### RichTextServiceController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Permite personalizar  **RichEditControl**  y  **RichTextRibbonForm**.
+
+----------
+
+### ShowDocumentInPopupController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que contienen  **RichTextPropertyEditor**. Agrega un elemento de menú contextual. Este elemento abre el contenido del editor de texto enriquecido actual en una ventana emergente. Permite personalizar  **RichTextRibbonForm**.
+
+----------
+
+### ShowInDocumentController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones:  **ShowInDocument**
+
+Activado para vistas. La acción  **ShowInDocument**  se activa para las vistas cuyo tipo de objeto se utiliza en objetos de plantilla de combinación de correspondencia.
+
+----------
+
+### SpreadsheetMenuManagerController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que contienen  **SpreadsheetPropertyEditor**. Crea un administrador de menús para  **SpreadsheetPropertyEditor**, en función de la configuración de la aplicación (consulte  [Usar documentos de hoja de cálculo en Business Objects](https://docs.devexpress.com/eXpressAppFramework/400931/document-management/office-module/use-spreadsheet-documents-in-business-objects). Permite personalizar el menú de la cinta y las barras.
+
+----------
+
+### SpreadsheetServiceController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Permite personalizar  **SpreadsheetControl**  y su  **RibbonControl**.
+
+----------
+
+### SpreadsheetShowDocumentInPopupController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Office.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que contienen  **SpreadsheetPropertyEditor**. Agrega un elemento de menú contextual. Este elemento abre el contenido del editor de hojas de cálculo actual en una ventana emergente. Permite personalizar  **SpreadsheetRibbonForm**.
+
+----------
+
+### WebRichTextShowInDocumentController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Office.Web.v23.1.dll._  Acciones:  **ShowInDocument**
+
+La acción  **ShowInDocument**  se activa para las vistas cuyo tipo de objeto se utiliza en objetos de plantilla de combinación de correspondencia.
+
+----------
+
+### WebRichTextMailMergeController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Office.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas que muestran objetos  **IRichTextMailMergeData**. Implementa la funcionalidad común de  [combinación de correspondencia](https://docs.devexpress.com/eXpressAppFramework/400006/document-management/office-module/mail-merge). Permite personalizar la configuración de Combinar correspondencia.
+
+----------
+
+## Módulo de gráfico dinámico
+
+### AnalysisColumnChooserController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.PivotChart.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  **ColumnChooserControllerBase**  del  [módulo del sistema](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module). Controla el formulario  **Lista de campos**.
+
+----------
+
+### AnalysisDataBindController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.PivotChart.v23.1.dll._  Acciones: BindAnalysisData,  **UnbindAnalysisData**.
+
+El controlador se hereda del controlador  [AnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisviewcontrollerbase). La acción  **BindAnalysisData**  recupera los objetos que va a analizar la cuadrícula dinámica.  **UnbindAnalysisData**  borra el origen de datos de la cuadrícula dinámica. Use estas acciones para actualizar el origen de datos de la cuadrícula dinámica después de cambiar la propiedad de un objeto Analysis (por ejemplo, la propiedad  **Criteria**  u  **ObjectType**).
+
+----------
+
+### AnalysisPrintPreviewController
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.PivotChart.Win.v23.1.dll._  Acciones:  **PrintChart**,  **PrintPreviewPivotGrid**.
+
+Hereda el controlador  [WinAnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winanalysisviewcontrollerbase). Las acciones de este controlador se pueden utilizar para imprimir el contenido del editor de propiedades  **AnalysisEditorWin**.
+
+----------
+
+### AnalysisReadOnlyController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.PivotChart.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas cuyo tipo de objeto implementa la interfaz  **IAnalysisInfo**. Hace que el control del Editor de análisis sea de sólo lectura, cuando la vista actual es de sólo lectura.
+
+----------
+
+### AnalysisViewControllerBase
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.PivotChart.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas cuyo tipo de objeto implementa la interfaz  **IAnalysisInfo**. Si hay un Editor de propiedades de análisis en la vista de detalles actual, actualiza el estado de Acciones.  [AnalysisDataBindController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisdatabindcontroller),  [WinAnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winanalysisviewcontrollerbase)  y  [PrintChartAnalysisController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#printchartanalysiscontroller)  heredan este control.
+
+----------
+
+### CustomizeNavigationItemsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.PivotChart.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Agrega los grupos de navegación Análisis contextual. Estos grupos exponen elementos de navegación que proporcionan a los usuarios finales acceso instantáneo a objetos de análisis relacionados con un determinado elemento de navegación cuando la navegación TreeList está habilitada.
+
+----------
+
+### PivotChartDesignViewController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.PivotChart.Win.v23.1.dll._  Acciones:  **ChartWizard**.
+
+El controlador se hereda del controlador  [AnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisviewcontrollerbase). Contiene la acción  **ChartWizard**, que permite a un usuario final ejecutar el Diseñador de gráficos. Esta acción no se activa cuando la vista de detalles actual no contiene un editor de propiedades de análisis. También se deshabilita cuando el control de gráfico del Editor de propiedades de análisis es invisible.
+
+----------
+
+### PrintChartAnalysisController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.PivotChart.Web.v23.1.dll._  Acciones:  **PrintChart**.
+
+El controlador se hereda del controlador  [AnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisviewcontrollerbase). Contiene la acción  **PrintChart**, que permite a los usuarios finales imprimir el gráfico contenido en el Editor de propiedades de análisis de la vista de detalles actual. Esta acción se habilita cuando se incluye un Editor de propiedades de análisis en la vista de detalles actual.
+
+----------
+
+### WinAnalysisViewControllerBase
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.PivotChart.Win.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente de  [AnalysisViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisviewcontrollerbase)  específico de la plataforma. Actualiza el estado Actions cuando cambia la visibilidad del gráfico en el editor de propiedades  **AnalysisEditorWin**. Heredado por  [AnalysisPrintPreviewController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#analysisprintpreviewcontroller)  y  [PivotChartDesignViewController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#pivotchartdesignviewcontroller).
+
+----------
+
+## Módulo de cuadrícula dinámica
+
+### ShowChartController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.PivotGrid.Web.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de lista visualizadas por el editor de listas  **ASPxPivotGridListEditor**.  **ShowChartAction**  alterna la visibilidad de un gráfico que se muestra debajo del valor dinámico.
+
+----------
+
+## Módulo Reports V2
+
+### CopyPredefinedReportsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones:  **CopyPredefinedReport**.
+
+Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Proporciona la acción  **CopyPredefinedReport**  que se usa para copiar un informe de sólo lectura predefinido seleccionado en un informe editable.
+
+----------
+
+### CustomizeNavigationItemsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Agrega los grupos de navegación contextuales Informes. Estos grupos exponen elementos de navegación que proporcionan a los usuarios finales acceso instantáneo a los informes relacionados con un determinado elemento de navegación cuando la navegación TreeList está habilitada.
+
+----------
+
+### DeleteReportController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Deshabilita la acción  **Eliminar**  en  [DeleteObjectsViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController)  cuando los objetos seleccionados contienen un informe predefinido.
+
+----------
+
+### NewReportWizardController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones: ninguna.
+
+Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Proporciona a los usuarios finales la capacidad de crear nuevos informes mediante un asistente para informes.
+
+----------
+
+### PreviewReportDialogController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones:  **Aceptar**,  **Cancelar**.
+
+Un descendiente de  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController)  activado para el cuadro de diálogo de parámetros de informe. Presenta acciones personalizadas  **de Aceptar**  y  **Cancelar**.
+
+**Vea también:**[PreviewReportDialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.PreviewReportDialogController)
+
+----------
+
+### PrintSelectionBaseController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones:  **ShowInReport**.
+
+Activado en todas las vistas. Proporciona el  **ShowInReport**  utilizado para ejecutar  [informes en contexto](https://docs.devexpress.com/eXpressAppFramework/113602/shape-export-print-data/reports/in-place-reports).
+
+**Vea también:**[PrintSelectionBaseController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.PrintSelectionBaseController)  |  [PrintSelectionBaseController.ShowInReportAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.PrintSelectionBaseController.ShowInReportAction)
+
+----------
+
+### ReportsControllerCore
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones:  **ExecuteReport**.
+
+Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Proporciona la acción  **ExecuteReport**  utilizada para ejecutar un informe seleccionado.
+
+**Vea también:**[ReportServiceController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.ReportServiceController)  |  [ReportsControllerCore.ExecuteReportAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.ReportsControllerCore.ExecuteReportAction)
+
+----------
+
+### ReportServiceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones: ninguna.
+
+Contiene el código común utilizado para mostrar la ventana Vista previa del informe. Expone el método  [ReportServiceController.ShowPreview](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.ReportServiceController.ShowPreview.overloads)  que invoca la ventana Informe de vista previa.
+
+**Vea también:**[ReportServiceController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.ReportServiceController)
+
+----------
+
+### WebReportsController
+
+Plataforma: ASP.NET Ensamblado de formularios Web Forms:  _DevExpress.ExpressApp.ReportsV2.v23.1.dll._  Acciones:  **PrintReportTo_Mht**,  **PrintReportTo_Rtf**,  **PrintReportTo_Pdf**,  **PrintReportTo_Xls**,  **ShowReportInPreviewWindow**.
+
+Hereda el controlador  [ReportsControllerCore](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#reportscontrollercore). Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Proporciona la acción  **ShowReportInPreviewWindow**  y un conjunto de acciones utilizadas para exportar informes a varios formatos. Tenga en cuenta que estas acciones específicas del formato están inactivas a menos que establezca la propiedad  [ReportsAspNetModuleV2.ShowFormatSpecificExportActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Web.ReportsAspNetModuleV2.ShowFormatSpecificExportActions)  en  **true**.
+
+**Véase también:**[WebReportsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Web.WebReportsController)
+
+----------
+
+### WebReportServiceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.Web.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda de  [ReportServiceController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#reportservicecontroller). Contiene un código específico de la plataforma para mostrar la ventana Informe de vista previa en una aplicación ASP.NET de formularios Web Forms.
+
+**Vea también:**  [WebReportServiceController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Web.WebReportServiceController)
+
+----------
+
+### WinReportsController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.Win.v23.1.dll._  Acciones: ninguna.
+
+Hereda el controlador  [ReportsControllerCore](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#reportscontrollercore). Activado en vistas de lista que muestran objetos  [IReportDataV2](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.IReportDataV2). Inicializa la acción  [ReportsControllerCore.ExecuteReportAction.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.ReportsControllerCore.ExecuteReportAction)
+
+**Vea también:**  [WinReportsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Win.WinReportsController)
+
+----------
+
+### WinReportServiceController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.ReportsV2.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda de  [ReportServiceController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#reportservicecontroller). Contiene el código específico de formularios Windows Forms, que proporciona a los usuarios finales la capacidad de crear, diseñar y ver informes.
+
+**Vea también:**  [WinReportServiceController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Win.WinReportServiceController)
+
+----------
+
+## Módulo Programador
+
+### SchedulerActionsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Web.v23.1.dll._  Acciones:  **EditSeries**,  **OpenSeries**  y  **RestoreOccurrence**.
+
+Activado para vistas de lista que muestran los objetos  **IRecurrentEvent**. La acción  **EditSeries**  permite a los usuarios finales modificar toda la serie generada a partir de un  [evento recurrente](https://docs.devexpress.com/eXpressAppFramework/113128/event-planning-and-notifications/scheduler/recurring-events). Utilice la acción  **Editar**  para modificar una instancia de serie determinada. La acción de  **OpenSeries**  permite a los usuarios finales ver el evento recurrente seleccionado actualmente como una serie. Por ejemplo, la colección de recursos cambiada en la vista invocada se cambia para todos los eventos de la serie. La acción  **de edición**  ejecutada para la serie mostrada le permite editar toda la serie. Utilice la acción  **Abrir**  para ver y, a continuación, editar un evento determinado de una serie. La acción  **RestoreOccurrence**  permite a los usuarios finales cambiar el patrón de un evento periódico si se cambió y ya no satisface el patrón de la serie periódica en la que se creó el evento.
+
+----------
+
+### SchedulerChangedOccurrencesController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Scheduler.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas que representan objetos  **IEvent**.
+
+Diseñado para crear excepciones a  [los eventos recurrentes](https://docs.devexpress.com/eXpressAppFramework/113128/event-planning-and-notifications/scheduler/recurring-events)  cuando se cambian.
+
+----------
+
+### SchedulerDetailViewActionsController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Web.v23.1.dll._  Acciones:  **EditSeriesDetailView**.
+
+Activado para vistas detalladas que muestran objetos  **IRecurrentEvent**. La acción  **EditSeriesDetailView**  permite a los usuarios finales modificar toda la serie de la ocurrencia de  [eventos recurrentes](https://docs.devexpress.com/eXpressAppFramework/113128/event-planning-and-notifications/scheduler/recurring-events)  que se está viendo actualmente.
+
+----------
+
+### SchedulerModificationsController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas que representan un objeto  **IEvent**. Para uso interno. Cuando se invoca una vista detallada desde la vista de lista mostrada por SchedulerListEditor, se actualiza el editor del programador cuando se cambia o confirma un objeto en la vista de detalles.
+
+----------
+
+### SchedulerListViewControllerBase
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Scheduler.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista que representan objetos  **IEvent**. Este controlador es una base para los  **SchedulerListViewControllers**  específicos de la plataforma.
+
+----------
+
+### SchedulerListViewController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  [SchedulerListViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#schedulerlistviewcontrollerbase). Contiene código específico de formularios Windows Forms que configura el control Programador para que funcione en una aplicación XAF.
+
+----------
+
+### SchedulerListViewController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Web.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  [SchedulerListViewControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#schedulerlistviewcontrollerbase). Contiene ASP.NET código específico de formularios Web Forms que configura el control ASPxScheduler para que funcione en una aplicación XAF.
+
+----------
+
+### SchedulerRecurrenceInfoControllerBase
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Scheduler.v23.1.dll._  Acciones: ninguna.
+
+Activado en Vistas detalladas que representan los objetos que implementan la interfaz  **IRecurrentEvent**. Representa una clase base para formularios Windows Forms y ASP.NET controladores  **SchedulerRecurrenceInfo**. Administra el Editor de propiedades que representa la propiedad  **Periodicidad**.
+
+----------
+
+### SchedulerRecurrenceInfoController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  [SchedulerRecurrenceInfoControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#schedulerrecurrenceinfocontrollerbase). Contiene código específico de formularios Windows Forms para administrar el Editor de propiedades, que representa la propiedad  **Periodicidad**.
+
+----------
+
+### SchedulerRecurrenceInfoController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Web.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  [SchedulerRecurrenceInfoControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#schedulerrecurrenceinfocontrollerbase). Contiene ASP.NET código específico de formularios Web Forms para administrar el Editor de propiedades, que representa la propiedad  **Recurrence**.
+
+----------
+
+### SchedulerResourceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Scheduler.v23.1.dll._  Acciones: ninguna.
+
+Activado en Vistas detalladas que representan los objetos que implementan la interfaz  **IRecurrentEvent**.
+
+Haga que la colección de recursos sea de solo lectura cuando la vista detallada actual visualice una ocurrencia. Una colección de recursos solo se puede editar para toda la serie.
+
+----------
+
+### SchedulerResourceDeletingController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Scheduler.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas que muestran objetos  **IResource**. Muestra la advertencia "Actualice la vista de detalles del evento para cargar los cambios" cuando se elimina el objeto actual. El mensaje se  [puede localizar](https://docs.devexpress.com/eXpressAppFramework/112595/localization/localization-basics)  en  **Localización**  |  **Mensajes**  |  **Nodo SchedulerResourceDeletingWarning**.
+
+----------
+
+## Grabador de scripts
+
+### ScriptRecorderControllerBase
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ScriptRecorder.v23.1.dll._  Acciones:  **PauseRecording**,  **ResumeRecord**, SaveScript,  **ShowScript**,  **SaveScriptForDialogWindow**.
+
+La clase base independiente de la plataforma para los controladores WinScriptRecorderController y  [WebScriptRecorderController](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#winscriptrecordercontroller).[](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#webscriptrecordercontroller)
+
+----------
+
+### WebScriptRecorderController
+
+Plataforma: ASP.NET formularios web.  _Ensamblado: DevExpress.ExpressApp.ScriptRecorder.Web.v23.1.dll._  Acciones: heredadas.
+
+El descendiente  [de ScriptRecorderControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#scriptrecordercontrollerbase), que implementa una funcionalidad de guardado específica de la plataforma. El script que se va a guardar se escribe en la secuencia de salida HTTP cuando se ejecuta la acción SaveScript o  **SaveScriptForDialogWindow**.  El script se puede guardar utilizando las capacidades del navegador.
+
+----------
+
+### WinScriptRecorderController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.ScriptRecorder.Win.v23.1.dll._  Acciones: heredadas.
+
+El descendiente de  [ScriptRecorderControllerBase](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#scriptrecordercontrollerbase), que implementa la funcionalidad de guardado específica de la plataforma. Cuando se ejecuta la acción SaveScript o  **SaveScriptForDialogWindow**, la secuencia de comandos se guarda mediante el cuadro de diálogo estándar  **Guardar archivo**.
+
+----------
+
+## Sistema de seguridad
+
+### ChangePasswordController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones:  **ChangePasswordByUser**.
+
+Activado para la vista  **de detalles Mis detalles**. La acción  **ChangePasswordByUser**  permite a los usuarios finales cambiar su contraseña. La clase ChangePasswordController llama al método  [IAuthenticationStandardUser.SetPassword](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.Security.IAuthenticationStandardUser.SetPassword(System.String))  para cambiar la contraseña y modificar el objeto seleccionado. La acción  **ChangePasswordByUser**  está disponible cuando un usuario selecciona un objeto que representa la entrada  [SecuritySystem.CurrentUser](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SecuritySystem.CurrentUser)  y su propiedad  [ActionBase.Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled)  se actualiza dinámicamente cuando se cambia el objeto seleccionado.
+
+**Ver también:**  [Contraseñas en el sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/112649/data-security-and-safety/security-system/authentication/passwords-in-the-security-system)  |  [SecurityModule.TryUpdateLogonParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityModule.TryUpdateLogonParameters(System.String-System.Object))  |  [PermissionPolicyUser.SetPassword](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyUser.SetPassword(System.String))  |  [PermissionPolicyUser.SetPassword](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.EF.PermissionPolicy.PermissionPolicyUser.SetPassword(System.String))
+
+----------
+
+### HasRightsToModifyMemberController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Hace que los editores de propiedades sean de sólo lectura o editables, en función de los derechos del usuario actual para editar el objeto actual. Cuando un Editor de propiedades representa una propiedad de un objeto establecido en una propiedad de referencia, este Controller lo establece como de sólo lectura o editable, dependiendo de los derechos para editar el objeto al que se hace referencia.
+
+**Vea también:**  [HasRightsToModifyMemberController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.HasRightsToModifyMemberController)
+
+----------
+
+### LastAdminController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Diseñado para la estrategia Simple Security. Produce una excepción cuando se elimina el último usuario "Administrador" porque debe haber al menos un usuario con derechos administrativos.
+
+----------
+
+### MyDetailsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones:  **MyDetails**.
+
+Activado en la ventana principal. Agrega el elemento  **Mis detalles**  al control de navegación. Cuando un usuario final hace clic en este elemento, se muestra una vista detallada con los detalles del usuario actual. Además, la acción  **MyDetails**  se muestra mediante el  [contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  "Seguridad", que se agrega a la plantilla  _Default.aspx_  en la versión de la aplicación ASP.NET formularios Web Forms. Esta acción muestra una vista detallada con los detalles del usuario actual.
+
+**Vea también:**  [MyDetailsController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.MyDetailsController)
+
+----------
+
+### PermissionsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas cuyo tipo de objeto implementa la interfaz  **IPersistentPermission**. Gestiona la creación de nuevos permisos. Reemplaza los tipos predefinidos de la  **nueva**  acción por los tipos encontrados heredados de la clase  **PermissionBase**. La vista Detalle invocada al utilizar la  **nueva**  acción muestra un nuevo objeto  **PermissionBase**, cuya propiedad  **Permission**  hace referencia al permiso seleccionado en la colección  **Items**  de la  **nueva**  acción.
+
+----------
+
+### RefreshSecurityController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones: ninguna.
+
+Activado para las vistas de lista raíz y de detalle que muestran objetos de usuario. Actualiza el conjunto de permisos cuando se cambia el objeto de usuario actual.
+
+----------
+
+### ResetPasswordController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Security.v23.1.dll._  Acciones:  **ResetPasswordAction**.
+
+Activado para vistas raíz. Diseñado para un sistema de seguridad que utiliza la estrategia de autenticación que implementa la interfaz IAuthenticationStandard y el tipo  **de usuario**  que implementa la interfaz  [IAuthenticationStandardUser](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.Security.IAuthenticationStandardUser).  Contiene la acción  **ResetPasswordAction**. Esta acción permite a los usuarios finales que poseen acceso de "escritura" al tipo de usuario establecer una nueva contraseña para los usuarios. Internamente, la acción llama al método IAuthenticationStandardUser.SetPassword y modifica la propiedad  [IAuthenticationStandardUser.ChangePasswordOnFirstLogon.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.Security.IAuthenticationStandardUser.ChangePasswordOnFirstLogon)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.Security.IAuthenticationStandardUser.SetPassword(System.String))Cuando se cambia el objeto de usuario seleccionado, el controlador ResetPasswordController comprueba que el usuario actual tiene permiso para modificar las propiedades  **StoredPassword**  y  **ChangePasswordOnFirstLogon**  del objeto seleccionado y actualiza la propiedad  [ActionBase.Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled)  de la acción  **ResetPassword**.  Los nombres de estas propiedades no se obtienen dinámicamente. En su lugar, estas cadenas se especifican mediante las propiedades  **PasswordFieldName**  y  **ChangePasswordOnFirstLogonFieldName**, que se declaran estáticas.
+
+**Ver también:**  [Contraseñas en el sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/112649/data-security-and-safety/security-system/authentication/passwords-in-the-security-system)
+
+----------
+
+## Módulo de State Machine
+
+### DisableStatePropertyController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.StateMachine.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas detalladas. Prohíbe la edición de la propiedad state estableciendo la propiedad  **AllowEdit**  del editor de propiedades en  **false**.
+
+**Vea también:**  [PropertyEditor.AllowEdit](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.PropertyEditor.AllowEdit)
+
+----------
+
+### StateMachineAppearanceController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.StateMachine.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista y vistas de detalle. Recopila reglas de apariencia condicional declaradas en máquinas de estado asociadas con objetos mostrados actualmente y agrega estas reglas a la lista de reglas de apariencia condicional actualmente activas.
+
+**Ver también:**  [Módulo de máquina de estado](https://docs.devexpress.com/eXpressAppFramework/113336/business-process-management/state-machine-module)  |  [Descripción general del módulo de apariencia condicional](https://docs.devexpress.com/eXpressAppFramework/113286/conditional-appearance)
+
+----------
+
+### StateMachineController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.StateMachine.v23.1.dll._  Acciones:  **ChangeState**.
+
+Activado para vistas de lista y vistas de detalle. Muestra la  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  **ChangeState**  para los objetos que tienen equipos de estado asociados. La acción permite a los usuarios finales cambiar los estados de los objetos a través de una interfaz de usuario.
+
+**Ver también:**  [Módulo de máquina de estado](https://docs.devexpress.com/eXpressAppFramework/113336/business-process-management/state-machine-module)
+
+----------
+
+### StateMachineControllerBase<T>
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.StateMachine.v23.1.dll._  Acciones: ninguna.
+
+Una clase base abstracta genérica de la que se derivan los controladores del módulo Equipo de estado. Contiene funcionalidad básica, como recuperar máquinas de estado asociadas al objeto que muestra la  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  actual.
+
+**Vea también:**  [View.CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObject)
+
+----------
+
+## Módulo de editores de listas de árboles
+
+### CategoryController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.TreeListEditors.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Funciona con clases empresariales que implementan la interfaz  [ICategorizedItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.General.ICategorizedItem). Este controlador establece automáticamente una categoría para los objetos recién creados.
+
+----------
+
+### TreeListEditorColumnChooserController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.TreeListEditors.Win.v23.1.dll._  Acciones: ninguna.
+
+El controlador se hereda del controlador  **ColumnChooserControllerBase**  del  [módulo del sistema](https://docs.devexpress.com/eXpressAppFramework/113141/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-the-system-module). Configura el formulario de personalización del Editor de lista de árboles y admite su funcionalidad. Este formulario se puede invocar seleccionando un selector de columnas en el menú contextual de la cuadrícula.
+
+----------
+
+### TreeListEditorRootValueController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.TreeListEditors.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista anidadas. Permite que la colección secundaria de un objeto  [ITreeNode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.General.ITreeNode)  se muestre mediante el control TreeList en la vista Detalle del objeto.
+
+----------
+
+### TreeNodeController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.TreeListEditors.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas raíz. Funciona con clases de negocio que implementan la interfaz  [ITreeNode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.General.ITreeNode). Este controlador vincula un objeto recién creado a su padre.
+
+----------
+
+## Módulo de validación
+
+### ActionValidationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Extiende el nodo IModelAction del modelo de aplicación con la propiedad  [IModelActionValidationContexts.ValidationContexts.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Validation.IModelActionValidationContexts.ValidationContexts)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelAction)Se suscribe al evento  **Ejecución**  de todas las acciones disponibles en el  [marco](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame)  actual. En el controlador de eventos, comprueba las reglas de validación asociadas al contexto establecido para la propiedad  **ValidationContexts de**  la acción. Si se infringe al menos una regla, cancela la ejecución de la acción y genera una excepción de validación.
+
+----------
+
+### CheckContextsAvailableController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las ventanas. Desactiva la acción  [ShowAllContextsController's de ShowAllContexts](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#showallcontextscontroller), si no se especifican reglas de validación para el tipo de objeto  **de**  la vista actual.
+
+----------
+
+### CustomizeErrorMessageColumnController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Validation.Win.v23.1.dll._  Acciones: ninguna.
+
+Este controlador utiliza las propiedades  [GridListEditor.GridView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor.GridView)  y  **XafGridView.ErrorMessages**  para mostrar el icono Error/Advertencia/Información en la columna  **Descripción**  de la vista de lista  **RuleSetValidationResultItem_ByTarget_ListView**  (vea  [Declarar reglas de validación](https://docs.devexpress.com/eXpressAppFramework/113251/validation/declare-validation-rules)). Este controlador no está diseñado para funcionar con otros editores de listas. Desactívelo si necesita utilizar otra clase de Editor de listas para mostrar objetos en la vista de lista 'RuleSetValidationResultItem_ByTarget_ListView'.
+
+----------
+
+### ContextValidationResultController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Validation.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista que muestran objetos  **ContextValidationResult**. Personaliza la configuración de  [ListView.Editor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.Editor), de modo que el alto de cada fila se ajuste automáticamente para mostrar el contenido de sus celdas.
+
+----------
+
+### PersistenceValidationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Se suscribe a los eventos BaseObjectSpace.ObjectDeleting y  [BaseObjectSpace.Committing.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace.Committing)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace.ObjectDeleting)En los controladores de eventos, comprueba las reglas de validación asociadas con los contextos de validación DefaultContexts.Save y  [DefaultContexts.Delete.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Validation.DefaultContexts)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Validation.DefaultContexts)Si se infringe al menos una regla, cancela la ejecución de la operación Guardar/Eliminar y genera una excepción de validación.
+
+**Vea también:**  [PersistenceValidationController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Validation.PersistenceValidationController)
+
+----------
+
+### PreventValidationDetailsAccessController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Activado para vistas de lista que muestran los objetos  **DisplayableValidationResultItem**. Impide invocar la vista detallada  **DisplayableValidationResultItem**  mediante la acción ListViewShowObject (vea  [ListViewProcessCurrentObjectController.ProcessCurrentObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.ProcessCurrentObjectAction)) cuando la propiedad  **ValidationModule.AllowValidationAccess**  se establece en  **false**.
+
+----------
+
+### ResultsHighlightController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Activado para todas las vistas. Cuando se rompen las reglas de validación, este controlador agrega mensajes a la colección  [View.ErrorMessages.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.ErrorMessages)  Esto da como resultado la visualización de imágenes de error (![Error](https://docs.devexpress.com/eXpressAppFramework/images/error115925.png)) cerca de los editores de propiedades con datos no válidos.
+
+----------
+
+### SuppressToolBar
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Validation.Win.v23.1.dll._  Acciones: ninguna.
+
+Se activa para las vistas de lista anidadas de las vistas de detalle que se muestran cuando se rompe una regla de validación o se ejecuta la acción  **ShowAllContexts**. Oculta la barra de herramientas de la vista de lista mediante los métodos de  **ToolbarVisibilityController**.
+
+----------
+
+### ShowAllContextsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones:  **ShowAllContexts**.
+
+Activado para todas las vistas. La acción  **ShowAllContexts**  comprueba todas las reglas diseñadas para el tipo de objeto de la vista actual. En una vista de lista, los objetos seleccionados actualmente están sujetos a comprobación; en una vista detallada, se comprueba el objeto actual. El resultado de la comprobación de las reglas se muestra en una ventana invocada, donde todas las reglas marcadas se agrupan por contexto.
+
+----------
+
+### ShowAllContextsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Validation.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las ventanas. Representa el descendiente  **de DiagnosticInfoProviderBase**. Proporciona la información sobre las reglas que están disponibles actualmente en el modelo de aplicación para  **DiagnosticInfoController**.  **DiagnosticInfoController**  agrega el elemento de acción de opción única Información  **de reglas**  **Acción DiagnosticInfo**. Cuando un usuario final selecciona este elemento, la información recopilada se muestra en una ventana invocada.
+
+**Vea también:**  [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)
+
+----------
+
+### ValidationResultsShowingController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Validation.Win.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Cuando se produce una excepción de validación, muestra un error de validación especial Vista detallada en la ventana de error de excepción.
+
+----------
+
+## Ver módulo de variantes
+
+### ChangeVariantController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ViewVariantsModule.v23.1.dll._  Acciones:  **ChangeVariant**.
+
+Activado para todas las vistas. La acción  **ChangeVariant**  permite a los usuarios finales cambiar entre variantes de vista predefinidas de un tipo de objeto de negocio determinado. Sus elementos son especificados por el nodo  [IModelVariants](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewVariantsModule.IModelVariants)  del modelo de aplicación.
+
+**Vea también:**  [ChangeVariantController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewVariantsModule.ChangeVariantController)
+
+----------
+
+### CustomizeNavigationItemsController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.ViewVariantsModule.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal. Agrega los grupos de navegación contextuales Variantes de vista. Estos grupos exponen elementos de navegación, proporcionando a los usuarios finales acceso instantáneo a Ver variantes relacionadas con un determinado elemento de navegación cuando la navegación TreeList está habilitada. Amplía el modelo de aplicación con la interfaz  [IModelNavigationItemsVariantSettings](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewVariantsModule.IModelNavigationItemsVariantSettings).
+
+----------
+
+## Módulo de flujo de trabajo
+
+### ActivationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones:  **Activar**,  **Desactivar**.
+
+Activado en todas las vistas que muestran objetos  **ISupportIsActive**. Agrega las acciones  **Activate**  y  **Deactivate**  que establecen la propiedad  **ISupportIsActive.IsActive**  en  **true**  y  **false**, respectivamente.
+
+----------
+
+### DebugWorkflowController
+
+Plataforma: Windows Forms.  _Ensamblado: DevExpress.ExpressApp.Workflow.Win.v23.1.dll._  Acciones:  **DebugWorkflow**,  **ToggleBreakpoint**,  **StopDebug**.
+
+Activado en las vistas de detalle  **de IWorkflowDefinition**. Agrega  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  de depuración de flujo de trabajo en vistas detalladas de definición de flujo de trabajo en aplicaciones de Windows Forms. Estas acciones se activan después de inicializar la actividad de un flujo de trabajo abriendo la pestaña Diseñador. Las acciones se pueden usar para probar flujos de trabajo y diagnosticar excepciones.
+
+**Consulte también:**  [Módulo de flujo de trabajo](https://docs.devexpress.com/eXpressAppFramework/113343/business-process-management/workflow-module)
+
+----------
+
+### DisableRunningWorkflowInstanceInfoCreateByUserController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones: ninguna.
+
+Activado en todas las ventanas. Se suscribe a los eventos  [NewObjectViewController.CollectCreatableItemTypes y NewObjectViewController.CollectDescendantTypes](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectCreatableItemTypes)  de  [NewObjectViewController.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.CollectDescendantTypes)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)Quita todos los objetos  **IRunningWorkflowInstanceInfo**  de la lista de tipos creables.
+
+----------
+
+### RunningInstanceController
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones: CancelWorkflowInstance,  **TerminateWorkflowInstance**, SuspendWorkflowInstance,  **ResumeWorkflowInstance**.
+
+Activado en vistas de lista y vistas de detalle que muestran objetos  **IRunningWorkflowInstanceInfo**. Agregar acciones que pueden usar los administradores de aplicaciones para administrar instancias de flujo de trabajo en ejecución.
+
+**Consulte también:**  [Módulo de flujo de trabajo](https://docs.devexpress.com/eXpressAppFramework/113343/business-process-management/workflow-module)
+
+----------
+
+### RunningWorkflowInstanceInfoControllerBase<T>
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones: ninguna.
+
+Una clase base abstracta que contiene funcionalidad básica para Controllers que proporciona información sobre la ejecución de instancias de flujo de trabajo. Se activa en las vistas de objeto especificadas por el parámetro de tipo genérico, que muestra objetos  **IDCRunningWorkflowInstanceInfo**. Prohíbe a los usuarios finales editar objetos.
+
+----------
+
+### RunningWorkflowInstanceInfoViewer
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones:  **ShowWorkflowInstances**.
+
+Activado en vistas de lista y vistas de detalle. Agrega la acción  **ShowWorkflowInstances**  que muestra todas las instancias de flujo de trabajo en ejecución para el objeto actual.
+
+----------
+
+### StartWorkflowController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones: ninguna.
+
+Activado en la ventana principal (consulte  [Window.IsMain](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window.IsMain)). Realiza un seguimiento de la creación de  [espacios de objetos](https://docs.devexpress.com/eXpressAppFramework/113707/data-manipulation-and-business-logic/object-space)  controlando el evento  [XafApplication.ObjectSpaceCreated.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.ObjectSpaceCreated)  Crea una solicitud de ejecución de instancia de flujo de trabajo cuando corresponde.
+
+----------
+
+### TrackingVisualizationController
+
+Plataforma: independiente de la plataforma.  _Ensamblado: DevExpress.ExpressApp.Workflow.v23.1.dll._  Acciones: ninguna.
+
+Un descendiente  [de RunningWorkflowInstanceInfoControllerBase<T>](https://docs.devexpress.com/eXpressAppFramework/113142/ui-construction/controllers-and-actions/built-in-controllers-and-actions/built-in-controllers-and-actions-in-extra-modules#runningworkflowinstanceinfocontrollerbaset). Activado en la ejecución de vistas detalladas de información de instancia de flujo de trabajo. Resalta una actividad seleccionada en la vista de lista anidada Registros de seguimiento en el  [WorkflowVisualizationPropertyEditor](https://docs.devexpress.com/eXpressAppFramework/113576/business-model-design-orm/data-types-supported-by-built-in-editors/miscellaneous-property-types)  asociado.
+
+
+
+# Personalizar los parámetros de visualización de Mostrarpara acciones simples integradas
+
+Para personalizar  [ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters), controle el evento  [Executed](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Executed). Si un controlador propietario de acciones tiene un evento que le permite personalizar  [ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters), use este evento en lugar del evento. `Executed`
+
+En el ejemplo siguiente se muestra cómo mostrar un control DetailView en una ventana modal (emergente) para las acciones  **Nuevo**  y  **Editar**  en la aplicación XAF de Windows Forms.
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+
+namespace MainDemo.Module.Controllers {
+    public class ChangeWindowTypeToModalController : ViewController<ListView> {
+        private void NewObjectAction_Executed(object sender, DevExpress.ExpressApp.Actions.ActionBaseEventArgs e) {
+            e.ShowViewParameters.TargetWindow = TargetWindow.NewModalWindow;
+        }
+        private void ListViewProcessCurrentObjectController_CustomizeShowViewParameters(object sender, CustomizeShowViewParametersEventArgs e) {
+            e.ShowViewParameters.TargetWindow = TargetWindow.NewModalWindow;
+        }
+        protected override void OnActivated() {
+            base.OnActivated();
+            NewObjectViewController newObjectViewController = Frame.GetController<NewObjectViewController>();
+            if (newObjectViewController != null) {
+                newObjectViewController.NewObjectAction.Executed += NewObjectAction_Executed;
+            }
+            ListViewProcessCurrentObjectController listViewProcessCurrentObjectController = Frame.GetController<ListViewProcessCurrentObjectController>();
+            if(listViewProcessCurrentObjectController != null) {
+                listViewProcessCurrentObjectController.CustomizeShowViewParameters += ListViewProcessCurrentObjectController_CustomizeShowViewParameters;
+            }
+        }
+        protected override void OnDeactivated() {
+            NewObjectViewController newObjectViewController = Frame.GetController<NewObjectViewController>();
+            if(newObjectViewController != null) {
+                newObjectViewController.NewObjectAction.Executed -= NewObjectAction_Executed;
+            }
+            ListViewProcessCurrentObjectController listViewProcessCurrentObjectController = Frame.GetController<ListViewProcessCurrentObjectController>();
+            if(listViewProcessCurrentObjectController != null) {
+                listViewProcessCurrentObjectController.CustomizeShowViewParameters -= ListViewProcessCurrentObjectController_CustomizeShowViewParameters;
+            }
+            base.OnDeactivated();
+        }
+    }
+} 
+
+```
+
+
+# Controladores (UI Logic & Interaction)
+
+
+El proceso de creación de aplicaciones  **de eXpressApp Framework**  se puede dividir en varios pasos. El primer paso: implementación del modelo de negocio, el segundo, personalización predeterminada de la interfaz de usuario, y el tercero es el desarrollo de características personalizadas (para cambiar el flujo de la aplicación e implementar la interacción personalizada del usuario final). Para el último paso, deberá usar Controllers.  **eXpressApp Framework**  proporciona una serie de controladores integrados que se utilizan al generar la interfaz de usuario predeterminada. Por ejemplo, las funciones de validación, navegación y búsqueda ya están incluidas en la interfaz de usuario predeterminada. Para implementar una característica personalizada, deberá crear un Controller, una clase derivada de la clase Controller,  [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)  o  [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller).[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)  En este tema se explica cómo hacerlo correctamente.
+
+NOTA
+
+En las aplicaciones .**NET 6**, el diseñador  **de Controller** no está disponible debido a los cambios en la arquitectura del diseñador de Visual Studio. Puede realizar tareas relacionadas en el código:
+
+-   [Agregar un controlador en el código](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers#add-a-controller-in-code) | [Agregar una acción a un controlador](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#add-an-action-to-a-controller)
+-   [Agregar acciones y controladores con unas pocas pulsaciones de teclas mediante plantillas de CodeRush](https://docs.devexpress.com/CodeRushForRoslyn/403133/coding-assistance/code-templates/xaf-templates?v=22.2)
+
+## Descripción general de los controladores
+
+Los controladores tienen dos propósitos principales:
+
+-   **Realice acciones específicas cuando se crea o destruye una ventana (marco).**
+    
+    Cuando se crea una  [ventana (Frame),](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  se activan todos los Controllers destinados a ella, lo que significa que se generan sus eventos especiales (consulte  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)). Puede controlar estos eventos para implementar características relacionadas con la ventana actual (marco) o su  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views). Cuando se elimina una ventana (marco), sus controladores se desactivan, lo que significa que se genera su evento especial (consulte  [Controlador.Desactivado](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Deactivated)). Esto le permite realizar acciones específicas al cerrar una ventana o deshacerse de un marco.
+    
+-   **Amplíe la interfaz de usuario**.
+    
+    En la mayoría de los casos, las características exigen la interacción del usuario final. Para este propósito, los Controladores pueden servir como contenedores para  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Las acciones son objetos que representan elementos abstractos de la interfaz de usuario y se pueden mostrar en una interfaz de usuario mediante controles reales: un botón, cuadro combinado, submenú, etc. Para responder a las manipulaciones de un usuario final con un control de acción, controle los eventos de la acción correspondiente.
+    
+
+Al igual que con la mayoría de las entidades XAF, la información sobre los controladores que se encuentra en los  [módulos](https://docs.devexpress.com/eXpressAppFramework/118046/application-shell-and-base-infrastructure/application-solution-components/modules)  de la aplicación se carga en el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works). Puede acceder a la configuración del controlador en el nodo  [IModelControllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelControllers). Consulte la descripción de este nodo para obtener información sobre posibles personalizaciones.
+
+## Controlador de ventana, controlador de vista y clases decontrolador
+
+Físicamente, los controladores son descendientes de la clase  [Controller](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller). Tenga en cuenta que no necesitará crear descendientes directos de esta clase para proporcionar controladores para la aplicación. En su lugar, tratará con dos descendientes predefinidos: ViewController (incluidas sus versiones genéricas: ViewController<ViewType> y ObjectViewController[<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)) y  [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController).  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)Estas clases proporcionan los eventos  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  y  [Controller.Deactivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Deactivated)  que permiten realizar acciones específicas cuando se crea o destruye la ventana (marco) correspondiente. Para tener acceso a Window (Frame) o su View en estos controladores de eventos, la clase ViewController ofrece las propiedades Controller.Frame y  **ViewController.View**[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Frame)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.View)La clase WindowController expone la ventana correspondiente mediante la propiedad  [WindowController.Window.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController.Window)
+
+Aunque estas dos clases tienen mucho en común, debes usarlas en diferentes escenarios. Más sobre esto ahora.
+
+### Ver controladores
+
+Los controladores de vista están diseñados para implementar características (funciones de filtro o búsqueda, etc.) para vistas. Básicamente, debe usar un controlador de vista cada vez que necesite implementar una función compatible con datos.
+
+Las acciones contenidas en un controlador de vista acompañan a las vistas para las que el controlador está activado. Por ejemplo, si se activa un Controller para una vista de lista anidada (vista de lista de una propiedad de colección), sus acciones se adjuntarán a esta vista, no a toda la ventana.
+
+![NestedFrameTemplate](https://docs.devexpress.com/eXpressAppFramework/images/nestedframetemplate115362.png)
+
+Los controladores de vista se activan tanto para Windows como para marcos cuando una vista se establece en una ventana o marco. Sin embargo, puede especificar el tipo o ID de la vista que necesita incluir en la ventana o marco. Para ello, utilice las siguientes propiedades de  **ViewController**:
+
+-   [ViewController.TargetViewType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewType)
+    
+    Especifica el tipo de vista: Vista de lista, Vista de detalle o cualquier vista. De forma predeterminada, el valor de esta propiedad es  **Any**.
+    
+-   [ViewController.TargetViewNesting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewNesting)
+    
+    Especifica si se permite activar el controlador actual para la vista raíz, la vista anidada o cualquier vista. De forma predeterminada, el valor de esta propiedad es  **Any**.
+    
+-   [ViewController.TargetObjectType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetObjectType)
+    
+    Especifica el tipo de objeto persistente mostrado por la vista.
+    
+-   [ViewController.TargetViewId](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewId)
+    
+    Especifica el identificador de vista. Este ID se especifica en el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works).
+    
+
+### Controladores de ventana
+
+Los controladores de ventana se activan cuando se crea una ventana o un marco, y están destinados a implementar características para Windows, es decir, características que no están relacionadas con vistas específicas. Por lo tanto, estas características no están relacionadas con los datos en la mayoría de los casos. Un ejemplo puede ser un controlador que cambia la apariencia de un control de navegación en la ventana principal (consulte el tema  [Cómo: Acceder al control de navegación](https://docs.devexpress.com/eXpressAppFramework/112617/application-shell-and-base-infrastructure/navigation/how-to-access-navigation-control)  para ver el ejemplo). Las acciones contenidas en los controladores de ventana siempre se muestran en una ventana, independientemente de la vista que se muestre actualmente.
+
+Los controladores de ventana solo están activados para Windows. Además, puede especificar el tipo de ventana para el que se activará el controlador. Para ello, utilice la propiedad  [WindowController.TargetWindowType del Controller.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController.TargetWindowType)  Su valor se puede establecer en Cualquiera, Principal o Hijo. Tenga en cuenta que las aplicaciones XAF tienen una sola ventana principal, que se muestra primero. El resto son ventanas para niños.
+
+## Implementar controladores personalizados
+
+Si un Controller, junto con sus Acciones, es independiente de la interfaz de usuario, debe implementarse en un  [proyecto de Módulo](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure). Al mismo tiempo, puede haber una tarea específica de la interfaz de usuario. En este caso, se debe desarrollar un controlador en un módulo específico de la interfaz de usuario. Si la solución no contiene este proyecto, impleméntelo en un  [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure).
+
+Los controladores de XAF admiten  [la inserción de dependencias](https://docs.devexpress.com/eXpressAppFramework/404364/application-shell-and-base-infrastructure/dependency-injection-in-xaf-applications)  en aplicaciones .NET 6+ ASP.NET Core Blazor y Windows Forms.
+
+### Agregar un controlador en tiempo de diseño
+
+Puede usar las plantillas de Controller listas para usar para crear un Controller personalizado.
+
+1.  En  **el Explorador de soluciones**, seleccione un proyecto al que desee agregar un Controller. Haga clic con el botón secundario en la carpeta  _Controllers_  ubicada dentro del proyecto para invocar el menú contextual y seleccione  **Agregar elemento DevExpress**  |  **Nuevo artículo...**  para invocar la  **Galería de plantillas de DevExpress**. Se mostrará el siguiente cuadro de diálogo.
+    
+    ![Tutorial_EF_Lesson1_1](https://docs.devexpress.com/eXpressAppFramework/images/add-devexpress-item-view-controller.png)
+    
+2.  Seleccione Controlador de  **ventana o Controlador de**  **vista**, especifique su nombre y presione el botón  **Agregar elemento**  para agregar un nuevo controlador al proyecto.
+3.  **Para los proyectos de .NET Framework.**  Utilice el  **Diseñador**  del controlador para agregar acciones desde el  **Cuadro de herramientas**  y personalizar las propiedades del controlador mediante la ventana  **Propiedades**. Para invocar el Diseñador, puede hacer clic con el botón secundario en el archivo del controlador en el  **Explorador de soluciones**  y seleccionar el elemento de menú contextual del  **Diseñador**  de  **vistas**.
+
+Tenga en cuenta que el diseñador de Visual Studio no se puede utilizar con controladores genéricos. Consulte la descripción de ViewController<ViewType> u  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)  para obtener información sobre cómo hacer que el diseñador esté disponible.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1)  No olvide reconstruir la solución después de realizar cambios en el Diseñador. De lo contrario, no los verá en el Editor de modelos.
+
+>NOTA
+>
+>La carpeta Controllers se agrega a los proyectos de módulo o aplicación para su comodidad, para mantener todos sus  _Controllers_ juntos. Mientras tanto, el uso de esta carpeta no es un requisito. La estructura de su proyecto depende totalmente de usted.
+
+**Para los proyectos de .NET Framework.**  Un Controller creado con una plantilla se declara como una clase parcial y contiene un archivo de código subyacente que contendrá las personalizaciones realizadas con el  **Diseñador**.
+
+### Agregar un controlador en el código
+
+1.  Agregue una nueva clase a un proyecto de módulo (MySolution.Module o  _MySolution_._***. Módulo_). Si la solución no contiene proyectos de módulo específicos de la plataforma, puede agregar una clase al proyecto de  [aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure). Herede esta clase de una de las siguientes clases:
+    
+    -   [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)
+    -   [ViewController<ViewType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1)
+    -   [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)
+    -   [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)
+2.  En el constructor del Controller, especifique la Vista o Ventana de destino y cree Acciones.
+    
+3.  Implemente lógica personalizada en los controladores de eventos de Controller.
+
+#### Controlador de vista
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.Persistent.BaseImpl;
+// ...
+public class MyViewController : ViewController {
+    public MyViewController() : base() {
+        TargetObjectType = typeof(Person);
+        TargetViewType = ViewType.ListView;
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        // Perform various tasks depending on the target View.
+        View.CustomizeViewItemControl(this, MyMethod);
+    }
+
+    private void MyMethod(ViewItem viewItem) {
+         // Access and customize the target View control.
+    }
+    protected override void OnDeactivated() {
+        // Unsubscribe from previously subscribed events and release other references and resources.
+        base.OnDeactivated();
+    }
+}
+
+```
+
+#### Controlador de ventana
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+// This Controller changes a caption in a main application window
+public class CustomizeWindowController : WindowController {
+    public CustomizeWindowController() {
+        TargetWindowType = WindowType.Main;
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        WindowTemplateController controller = Frame.GetController<WindowTemplateController>();
+        controller.CustomizeWindowCaption += Controller_CustomizeWindowCaption;
+    }
+    private void Controller_CustomizeWindowCaption(object sender, CustomizeWindowCaptionEventArgs e) {
+        e.WindowCaption.Text = "My Custom Caption";
+    }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        WindowTemplateController controller = Frame.GetController<WindowTemplateController>();
+        controller.CustomizeWindowCaption -= Controller_CustomizeWindowCaption;
+    }
+}
+
+```
+
+>NOTA
+>
+>[CodeRush  ](https://www.devexpress.com/products/coderush/)le permite agregar acciones y controladores con unas pocas pulsaciones de teclas. Para obtener información sobre las plantillas de código para XAF, consulte el siguiente tema de ayuda: [Plantillas XAF](https://docs.devexpress.com/CodeRushForRoslyn/403133/coding-assistance/code-templates/xaf-templates?v=22.2).
+
+
+# Acciones (comandos de menú)
+## Definición de acción
+
+Las acciones son elementos abstractos de  [la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/112607/ui-construction/ui-element-overview)  que permiten a los usuarios finales interactuar con aplicaciones XAF.
+
+En la interfaz de usuario, XAF puede mostrar acciones como los siguientes controles:
+
+- Un botón de barra de herramientas
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/86faf858-3c4a-46a2-8280-54ab48d0eca1)
+
+- Un elemento de menú contextual
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/eb57041e-445c-49f8-8455-4c4ea55bb732)
+
+-  Un editor 
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/47da527b-bb1c-4b6d-b26a-9d966abb2faa)
+
+- Un botón simple 
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ba6a235d-41c0-46be-8428-651f00fbd3f6)
+
+- Otros controles
+
+Puede acceder y modificar el control asociado a una acción en el controlador de eventos  [ActionBase.CustomizeControl.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.CustomizeControl)
+
+## Tipos de acción
+
+Las acciones XAF pueden ser de diferentes tipos:
+
+-   [SimpleAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleAction)
+-   [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)
+-   [Acción parametrizada](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction)
+-   [SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction)
+-   [ActionUrl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionUrl)
+
+También puede  [crear tipos de acción personalizados y controles personalizados](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#create-custom-action-types-and-custom-controls).
+
+Las acciones se encuentran en  [contenedores de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers). Para tener acceso a todas las acciones de un contenedor de acciones, utilice la propiedad  [IActionContainer.Actions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IActionContainer.Actions)  del contenedor.
+
+Las acciones pertenecen a  [los Controladores](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers). Utilice la propiedad Controller.Actions para tener acceso a la colección Action de un  [Controller.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Actions)
+
+## Ubicaciones de acción
+
+XAF coloca Acciones en las ubicaciones que se enumeran a continuación.
+
+-   [Menú: Barra de herramientas principal](https://docs.devexpress.com/eXpressAppFramework/400496/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/menu-main-toolbar)
+-   [Menú: Barra de herramientas anidada](https://docs.devexpress.com/eXpressAppFramework/400497/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/menu-nested-toolbar)
+-   [Navegación](https://docs.devexpress.com/eXpressAppFramework/400499/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/navigation)
+-   [Ventana emergente](https://docs.devexpress.com/eXpressAppFramework/400500/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/popup-window)
+-   [Vista de lista de búsqueda](https://docs.devexpress.com/eXpressAppFramework/400501/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/lookup-list-view)
+-   [Vista detallada](https://docs.devexpress.com/eXpressAppFramework/400502/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/detail-view-layout-action)
+-   [Otros menús](https://docs.devexpress.com/eXpressAppFramework/400498/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas/other-menus)
+
+## Implementación y personalización de acciones
+
+Puede personalizar las acciones de la aplicación de dos maneras:
+
+-   [Realizar tareas comunes con acciones XAF](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions)
+-   [Acciones de acceso en diferentes áreas de la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/400494/ui-construction/controllers-and-actions/actions/access-actions-in-different-ui-areas)
+
+También puede  [crear tipos de acción personalizados y controles personalizados](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#create-custom-action-types-and-custom-controls).
+
+
+# Realizar tareas comunes con acciones XAF
+
+
+En este artículo se describen las tareas más comunes con  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  XAF.
+
+-   [Usar la configuración de acciones](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#use-action-settings)
+-   [Agregar una acción a un controlador](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#add-an-action-to-a-controller)
+-   [Agregar una acción aplicando el atributo Action a un método de clase empresarial](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#add-an-action-by-applying-the-action-attribute-to-a-business-class-method)
+-   [Personalizar una acción en el modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#customize-an-action-in-the-application-model)
+-   [Personalizar una acción en el código](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#customize-an-action-in-code)
+-   [Crear tipos de acción personalizados y controles personalizados](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#create-custom-action-types-and-custom-controls)
+-   [Solucionar problemas de acciones](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#troubleshoot-actions)
+
+## Agregar una acción a un controlador
+
+>NOTA
+>
+>En las aplicaciones .**NET Core**, es imposible agregar una acción a un controlador en el diseñador  **del controlador** debido a los cambios en la arquitectura del diseñador de Visual Studio. Puede agregar una acción en el código como se describe a continuación.
+
+Si necesita una acción que se aplique a varios objetos de negocio y tome los datos proporcionados por el usuario, agregue esta  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  a un  [Controller](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers).
+
+-   [Agregar una acción parametrizada](https://docs.devexpress.com/eXpressAppFramework/402155/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-parametrized-action)
+-   [Agregar una acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-that-displays-a-pop-up-window)
+-   [Agregar una acción con selección de opción](https://docs.devexpress.com/eXpressAppFramework/402159/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-with-option-selection)
+
+También puede agregar una acción a un controlador en código.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
+// ...
+public class CustomViewController : ViewController {
+    public CustomViewController() {
+        SimpleAction customAction = new SimpleAction(this, "CustomAction", PredefinedCategory.View);
+        // or
+        customAction.Category = PredefinedCategory.View.ToString();
+        // or 
+        customAction.Category = "View";
+        // or 
+        customAction.Category = "MyCustomCategory";
+    }
+}
+
+```
+
+Después de agregar una acción a un controlador, puede usar el diseñador para personalizar la acción.
+
+>NOTA
+>
+>[CodeRush  ](https://www.devexpress.com/products/coderush/)le permite agregar acciones y controladores con unas pocas pulsaciones de teclas. Para obtener información sobre las plantillas de código para XAF, consulte el siguiente tema de ayuda: [Plantillas XAF](https://docs.devexpress.com/CodeRushForRoslyn/403133/coding-assistance/code-templates/xaf-templates?v=22.2).
+
+## Agregar una acción aplicando el atributo Action a un método de clase empresarial
+
+Si necesita una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  que se aplique a un objeto de negocio y utilice los parámetros del objeto de negocio, aplique el atributo Action al método de la clase de negocio como se muestra a continuación:
+
+-   [Introducción: Agregar una acción sencilla mediante un atributo (.NET 6+)](https://docs.devexpress.com/eXpressAppFramework/402156/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action-using-an-attribute)
+-   [Cómo: Crear una acción mediante el atributo Action](https://docs.devexpress.com/eXpressAppFramework/112619/ui-construction/controllers-and-actions/actions/how-to-create-an-action-using-the-action-attribute)
+
+Utilice el atributo Action sólo para escenarios sencillos similares a los descritos en los artículos. Para una mayor flexibilidad, puede  [agregar una acción a un controlador](https://docs.devexpress.com/eXpressAppFramework/400495/ui-construction/controllers-and-actions/actions/perform-common-tasks-with-xaf-actions#add-an-action-to-a-controller).
+
+## Usar la configuración de acciones
+
+La clase base para todos los tipos de acción es la clase  [ActionBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase). Esta clase expone eventos, propiedades y métodos que admiten el comportamiento de  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  común.
+
+**Eventos**
+
+-   Los eventos ActionBase.Execution y  [ActionBase.Executed](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Executed)  se producen cuando un usuario final realiza una acción especificada: hace clic en un botón, selecciona un elemento en un cuadro combinado, etc[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Executing)
+
+**Propiedades**
+
+-   [ActionBase.Controller](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Controller)  proporciona acceso al controlador principal.
+-   [ActionBase.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  determina el estado activo/inactivo y la visibilidad de la acción.
+-   [ActionBase.Enabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Enabled)  determina el estado activado/mostrado de una acción. Una acción deshabilitada está visible en la interfaz de usuario, pero está atenuada.
+-   ActionBase.TargetViewType, ActionBase.TargetViewNesting, ActionBase.TargetViewId, ActionBase.TargetObjectType, ActionBase.TargetObjectsCriteria, ActionBase.TargetObjectsCriteriaMode y  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectsCriteria)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewType)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewId)[ActionBase.SelectionDependencyType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.SelectionDependencyType)  especifican las condiciones para la activación  [de](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectsCriteriaMode)  la acción[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetViewNesting)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.TargetObjectType)
+-   [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  especifica la categoría de una acción. La categoría determina la ubicación de la acción en un contenedor de acciones.
+-   [ActionBase.ConfirmationMessage](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.ConfirmationMessage)  especifica el mensaje de confirmación que se muestra cuando un usuario final ejecuta una acción.
+-   [ActionBase.Caption](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Caption)  especifica el título de la acción.
+
+>PROPINA
+>
+>Acceda a la página de miembros de la clase  [ActionBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase) para obtener una lista completa de la API disponible.
+
+## Personalizar una acción en el modelo de aplicación
+
+La información sobre  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  está disponible en el nodo  **ActionDesign**  del modelo de aplicación.
+
+-   [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location)
+-   [Cómo: Modificar propiedades de acción en el Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/402146/ui-construction/controllers-and-actions/actions/how-to-specify-action-settings)
+-   [Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout)
+
+## Personalizar una acción en código
+
+Puede acceder a  [las acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  y personalizarlas en código.
+
+-   [Personalizar controladores y acciones](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions)
+-   [Cómo: Personalizar ASP.NET elementos de diseño de formularios Web Forms mediante clases CSS personalizadas](https://docs.devexpress.com/eXpressAppFramework/114832/application-shell-and-base-infrastructure/themes/how-to-customize-layout-elements-using-custom-css-classes/how-to-customize-asp-net-layout-elements-using-custom-css-classes)
+-   [Cómo: Personalizar controles de acción](https://docs.devexpress.com/eXpressAppFramework/113183/ui-construction/controllers-and-actions/actions/how-to-customize-action-controls)
+-   [Ocultar o deshabilitar una acción (botón, elemento de menú) en el código](https://docs.devexpress.com/eXpressAppFramework/112728/ui-construction/controllers-and-actions/actions/how-to-deactivate-hide-an-action-in-code)
+-   [Cómo: Reordenar la colección de acciones de un contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112815/ui-construction/controllers-and-actions/actions/how-to-reorder-an-action-containers-actions-collection)
+
+## Crear tipos de acción personalizados y controles personalizados
+
+En XAF, puede crear tipos de  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  personalizados y controles personalizados. Vea los ejemplos a continuación:
+
+-   [Crear un tipo de acción personalizado con un control personalizado (BarCheckItem) asociado](https://github.com/DevExpress-Examples/XAF_how-to-create-a-custom-action-type-with-a-custom-control-barcheckitem-associated-with-it-e1977)
+-   [Crear una acción personalizada con un control personalizado en una aplicación  XAF ASP.NET Web Forms](https://github.com/DevExpress-Examples/XAF_how-to-create-a-custom-action-with-a-custom-control-in-xaf-aspnet-application-e4357)
+
+## Solucionar problemas de acciones
+
+Consulte los artículos siguientes para obtener información sobre cómo diagnosticar y solucionar los problemas más frecuentes.
+
+-   [Determinar por qué una acción, controlador o editor está inactivo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive)
+-   [Definir el alcance de los controladores y las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions)
+-   [Determinar el controlador y el identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier)
+-   [ActionBase.DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.DiagnosticInfo)
