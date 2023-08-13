@@ -6921,3 +6921,364 @@ Especifica los siguientes detalles de la acción:
 - Estado activo (ver ActionBase.Active)
 - Estado habilitado (ver ActionBase.Enabled)
 - Información adicional especificada por la propiedad ActionBase.DiagnosticInfo de la acción (ver más abajo)
+
+**Controllers | Controller | Actions | Action | ActiveList**
+Le permite comparar el estado de los elementos de la colección `ActionBase.Active` con un estado esperado.
+
+**Controllers | Controller | Actions | Action | ActiveList | Item**
+Especifica la clave y el valor de un elemento de `ActionBase.Activelist`.
+
+**Controllers | Controller | Actions | Action | EnabledList**
+Le permite comparar el estado de los elementos de la colección `ActionBase.Enabled` con el estado esperado.
+
+**Controllers | Controller | Actions | Action | EnabledList | Item**
+Especifica la clave y el valor de un elemento de la lista `ActionBase.Enabled`.
+
+**Controllers | Controller | Actions | Action | Items (for Actions of the `SingleChoiceAction` type)**
+Enumera los elementos contenidos en la colección `ChoiceActionItem.Items`.
+
+**Controllers | Controller | Actions | Action | Items | Item (for Actions of the `SingleChoiceAction` type)**
+Describe un elemento: su título, estados Activo y Habilitado. Si el elemento tiene una colección de elementos anidados, también se enumeran y describen.
+
+**Controllers | Controller | Actions | Action | Items | Item | ActiveList (for Actions of the `SingleChoiceAction` type)**
+Le permite comparar el estado de los elementos de la colección `ChoiceActionItem.Active` con el estado esperado.
+
+**Controllers | Controller | Actions | Action | Items | Item | ActiveList | Item (for Actions of the `SingleChoiceAction` type)**
+Especifica la clave y el valor de un elemento de la lista `ChoiceActionItem.Active`.
+
+**Controllers | Controller | Actions | Action | Items | Item | EnabledList (for Actions of the `SingleChoiceAction` type)**
+Le permite comparar el estado de los elementos de la colección `ChoiceActionItem.Enabled` con el estado esperado.
+
+**Controllers | Controller | Actions | Action | Items | Item | EnabledList | Item (for Actions of the `SingleChoiceAction` type)**
+Especifica la clave y el valor de un elemento de la lista `ChoiceActionItem.Enabled.
+
+La información presentada en la ventana invocada cuando se selecciona el elemento Ver información incluye lo siguiente:
+
+**DetailView**
+Describe la vista actual. Escribe valores de las siguientes propiedades.
+- View.Id
+- View.IsRoot
+- View.AllowNew
+- View.AllowEdit
+- View.AllowDelete
+- DetailView.ViewEditMode
+
+**DetailView | AllowNewList**
+Le permite comparar el estado de los elementos de la colección `View.AllowNew` con el estado esperado.
+
+**DetailView | AllowNewList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowNew`.
+
+**DetailView | AllowEditList**
+Le permite comparar el estado de los elementos de la colección `View.AllowEdit` con el estado esperado.
+
+**DetailView | AllowEditList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowEdit`.
+
+**DetailView | AllowDeleteList**
+Le permite comparar el estado de los elementos de la colección `View.AllowDelete` con el estado esperado.
+
+**DetailView | AllowDeleteList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowDelete`.
+
+**DetailView | PropertyEditors**
+Enumera los editores de propiedades contenidos en la vista actual.
+
+**DetailView | PropertyEditors | PropertyEditor**
+Describe un editor de propiedades:
+- Type
+- PropertyEditor.Caption
+- DetailView.ViewEditMode
+- PropertyEditor.PropertyName
+- PropertyEditor.AllowEdit
+
+**DetailView | PropertyEditors | PropertyEditor | AllowEditList**
+Le permite comparar el estado de los elementos de la colección `PropertyEditor.AllowEdit` con el estado esperado.
+
+**DetailView | PropertyEditors | PropertyEditor | AllowEditList | Item**
+Especifica la clave y el valor de un elemento de la lista `PropertyEditor.AllowEdit`.
+
+**ListView**
+Describe la vista de lista actual. Escribe valores de las siguientes propiedades:
+- View.Id
+- View.IsRoot
+- View.AllowNew
+- View.AllowEdit
+- View.AllowDelete
+
+**ListView | AllowNewList**
+Le permite comparar el estado de los elementos de la colección `View.AllowNew` con el estado esperado.
+
+**ListView | AllowNewList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowNew`.
+
+**ListView | AllowEditList**
+Le permite comparar el estado de los elementos de la colección `View.AllowEdit` con el estado esperado.
+
+**ListView | AllowEditList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowEdit`.
+
+**ListView | AllowDeleteList**
+Le permite comparar el estado de los elementos de la colección `View.AllowDelete` con un estado esperado.
+
+**ListView | AllowDeleteList | Item**
+Especifica la clave y el valor de un elemento de la lista `View.AllowDelete`.
+
+**ListView | ListEditor**
+Describes the current `List View’s Editor`. Writes values of the following properties.
+- Type
+- ListEditor.Name
+- ListEditor.AllowEdit
+
+La información presentada en la ventana invocada cuando se selecciona el elemento Información de reglas incluye lo siguiente.
+
+**Rules**
+Enumera todas las reglas de validación registradas en el modelo de aplicación.
+
+
+## Información de diagnóstico personalizada sobre acciones
+
+Puede proporcionar información de diagnóstico personalizada en una acción. Para ello, utilice la propiedad  [ActionBase.DiagnosticInfo.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.DiagnosticInfo)  Su valor se asignará al elemento  **AdditionalInfo**  dentro de los Controllers | Controlador | Acciones | Sección de acción. En el código siguiente, se especifica la propiedad  **DiagnosticInfo**  para  **SetPriorityAction**  desde  **SetPriorityController**, que se implementa en MainDemo (vea  [Agregar una acción con selección de opciones](https://docs.devexpress.com/eXpressAppFramework/402159/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-with-option-selection)):
+
+
+```csharp
+public partial class SetPriorityController : ViewController {
+   //...
+   private void SetPriorityController_AfterConstruction(object sender, EventArgs e) {
+      SetPriorityAction.DiagnosticInfo += "\r\n" + "Hello!";
+   }
+   // ...
+}
+
+```
+
+El siguiente fragmento de información de diagnóstico muestra el estado de  **SetPriorityController**  y su  **SetPriorityAction**  cuando se muestra un contacto en la ventana principal.
+
+
+```xml
+<Controller Name="SetPriorityController" 
+            FullName="MainDemo.Module.SetPriorityController" Active="True">
+  <ActiveList>
+    <Item Key="View is assigned" Value="True" />
+    <Item Key="Activating is allowed" Value="True" />
+    <Item Key="!ViewChanging.Cancel" Value="True" />
+  </ActiveList>
+  <Actions>
+    <Action ID="SetPriorityAction" TypeName="SingleChoiceAction" 
+         Category="RecordEdit" Active="False" Enabled="True" AdditionalInfo="Hello!">
+      <ActiveList>
+        <Item Key="EmptyItems" Value="True" />
+        <Item Key="Controller active" Value="True" />
+        <Item Key="ObjectType" Value="False" />
+        <Item Key="HideActionsViewController" Value="True" />
+      </ActiveList>
+      <EnabledList>
+        <Item Key="EmptyItems" Value="True" />
+        <Item Key="ByContext_RequireMultipleObjects" Value="True" />
+      </EnabledList>
+    </Action>
+  </Actions>
+</Controller>
+
+```
+
+**SetPriorityAction**  se activa en la ventana principal cuando se muestra una tarea y la información de diagnóstico anterior confirma que esta acción está actualmente desactivada.
+
+
+# Definir el alcance de los controladores y las acciones
+
+
+En este tema se describe cómo establecer condiciones para activar los controladores y sus acciones.
+
+## Especificar el ámbito de los controladores
+
+### Activar o desactivar un mando
+
+Si ha implementado un Controller que ejecuta código en el controlador de eventos  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  o en los métodos  [OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  y  **OnViewControlsCreated**, es posible que tenga que definir las condiciones cuando se ejecute este código.  Por ejemplo, es posible que deba definir que un controlador que personalice un editor de cuadrícula debe estar activo solo para vistas de lista. Para ello, cambie el valor de la propiedad  [Controller.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Active)  directamente o mediante una de las propiedades de Controller enumeradas más adelante en este tema.
+
+La propiedad  **Controller.Active**  también afecta a la visibilidad de todas las acciones declaradas en este controlador (si un controlador está inactivo, todas sus acciones también están inactivas). Para ocultar una sola acción, puede utilizar las propiedades de la clase  [ActionBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase)  (consulte  [Cambiar el ámbito de las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions#actions)).
+
+Los siguientes miembros le ayudarán a especificar las condiciones necesarias para la activación del Controller:
+
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/25865db7-2962-4b7e-8bbc-9d1da22b0d0b)
+
+
+### Activar un controlador para vistas y objetos particulares
+
+Puede heredar el controlador de ViewController<ViewType> u  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)  y utilizar los parámetros genéricos para controlar para qué vistas y tipos se debe activar un controlador de vistas.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1)  En el ejemplo siguiente se muestra cómo activar un Controller solo para la vista detallada de la clase Person.
+
+
+
+```csharp
+public class ViewController1 : ObjectViewController<DetailView, Person> {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Person person = this.ViewCurrentObject;
+        DetailView detailView = this.View;
+        // ....
+    }
+}
+
+```
+
+Tenga en cuenta que los tipos de propiedades ObjectViewController'2.ViewCurrentObject y  [ObjectViewController'2.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2.ViewCurrentObject)  se cambian en función de los tipos pasados como parámetros genéricos[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2.View)  Esto puede resultar útil cuando desee evitar convertir la vista del controlador de View a  [ListView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView)  o  [DetailView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailView). Tenga en cuenta que Visual Studio Designer no funciona para controladores heredados de tipos genéricos.
+
+## Cambiar el alcance de las acciones
+
+Al implementar una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions), es posible que desee que se muestre en un formulario determinado. Por ejemplo, se debe mostrar una acción  **CancelAppointment**  solo para las vistas que representan objetos  **de cita**. Hay dos enfoques para desactivar una Acción: desactivar su Controlador y desactivar la Acción en sí.
+
+### Desactivar el controlador de una acción
+
+En la mayoría de los casos, puede desactivar (desactivar) un  [Controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  en el que se declara una Acción para ocultar esta Acción. Si desactiva un Controlador, todas sus Acciones serán invisibles. Consulte la sección  [Especificar el ámbito de los controladores](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions#controllers)  para obtener información sobre cómo hacerlo.
+
+### Desactivar una acción en sí misma
+
+También es posible definir las  [vistas](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  y  [ventanas](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  de destino para cada acción individualmente. Para ello, utilice las siguientes propiedades:
+
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6b08de7d-4bb8-4ea2-a742-e8e2053d3882)
+
+
+Estas propiedades controlan si una acción está visible en determinadas vistas y ventanas. Consulte el tema  [ActionBase.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  para conocer otras formas de controlar el estado de visibilidad (por ejemplo, ocultar una acción en función del valor de propiedad de un objeto de negocio).
+
+## Activar un controlador o una acción para varios objetos de negocio o vistas
+
+Para que un único  **ViewController**  o  **Action**  esté disponible en vistas de diferentes tipos de objetos de negocio simultáneamente, considere una de las siguientes soluciones:
+
+-   Establezca la propiedad  [ViewController.TargetObjectType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetObjectType)  en el código en una interfaz o su tipo de clase base, que todos estos tipos de negocio implementan o heredan, respectivamente.
+-   Especifique varios identificadores de View (separados con punto y coma) mediante la propiedad  [ViewController.TargetViewId.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.TargetViewId)`;`
+-   Administre manualmente las propiedades  [Controller.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Active)  o  [ActionBase.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  en función de las condiciones necesarias.
+
+
+# Determinar el controlador y el identificador de una acción
+
+
+Si desea personalizar una Acción proporcionada por XAF (o un módulo de terceros), debe saber qué  [Controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  proporciona esta  [Acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Cuando se conoce el Controller, puede  [invalidarlo](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions)  o tener acceso a él mediante el método  [Frame.GetController<ControllerType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)  y controlar los eventos necesarios. En ciertos casos, también puede requerir el identificador de una Acción (por ejemplo, para crear una regla de  [Apariencia condicional](https://docs.devexpress.com/eXpressAppFramework/113286/conditional-appearance)). En este tema se describe cómo determinar el controlador que hospeda una acción determinada y cómo obtener el identificador de acción.
+
+## Determinar un controlador y un identificador en tiempo de ejecución
+
+Al ejecutar una acción en la aplicación, la información de la acción se muestra en la  [ventana  Resultados](https://docs.microsoft.com/visualstudio/ide/reference/output-window?view=vs-2015&redirectedfrom=MSDN)  de Visual Studio (y también se anexa al  [archivo de registro](https://docs.devexpress.com/eXpressAppFramework/112575/debugging-testing-and-error-handling/log-files)).
+
+```
+04.09.14 11:57:49.966   Execute action
+04.09.14 11:57:49.968       Type: DevExpress.ExpressApp.Actions.SingleChoiceAction
+04.09.14 11:57:49.970       ID: ChooseSkin
+04.09.14 11:57:49.972       Category: Appearance
+04.09.14 11:57:49.974       Controller.Name: DevExpress.ExpressApp.Win.SystemModule.ChooseSkinController
+04.09.14 11:57:49.975       Context.Name: Contact
+04.09.14 11:57:49.976       Context.IsRoot: True
+04.09.14 11:57:49.978       Context.SelectedObjects.Count: 0
+04.09.14 11:57:49.980       Context.CurrentObject: <not specified>
+04.09.14 11:57:49.983       SelectedItem: Visual Studio 2013 Blue
+04.09.14 11:57:50.377   Action 'ChooseSkin' done
+
+```
+
+Aquí, el valor  **Controller.Name**  es el nombre del controlador de la acción ejecutada y el valor ID  **es el identificador**  de la acción.
+
+## Determinar un controlador en tiempo de diseño
+
+Si conoce el identificador de la acción, puede determinar el controlador de la acción en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  mediante la propiedad  [IModelAction.Controller](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelAction.Controller)  de  **ActionDesign**  |  **Acciones**  |  **_<Acción>_**  nodo. En el Editor de modelos, los identificadores de acción (consulte  [ActionBase.Id](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Id)) se usan como leyendas de nodo  **de acción**, en lugar de leyendas visibles en la interfaz de usuario. Por lo tanto, para localizar fácilmente una acción es el Editor de modelos, debe conocer su identificador.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dbcc4f5e-b2ba-4555-bff7-ded18458613a)
+
+Si el identificador es desconocido, utilice la propiedad  [IModelAction.Caption](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelAction.Caption)  que especifica el título de acción visible para los usuarios para comprobar si esta es la acción que está buscando.
+
+## Acciones agregadas a través del atributo action
+
+Las acciones definidas mediante  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute)  se generan en tiempo de ejecución mediante  **ObjectMethodActionsViewController**. Los identificadores de estas acciones se forman utilizando el siguiente patrón:
+
+`<business_class_short_name>.<action_method_name>`
+
+Si el método Action toma un parámetro, también se anexa el nombre del tipo de parámetro del método.
+
+`<business_class_short_name>.<action_method_name>.<parameter_type_short_name>`
+
+Por ejemplo, para acceder a una acción declarada en la clase de negocio  **Task**  mediante el método  **MarkCompleted**, utilice el código siguiente:
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Actions;
+// ...
+public class MyViewController : ViewController {
+    protected override void OnActivated() {
+        base.OnActivated();
+        ObjectMethodActionsViewController controller = Frame.GetController<ObjectMethodActionsViewController>();
+        if (controller != null) {
+            SimpleAction markCompletedAction = controller.Actions["Task.MarkCompleted"] as SimpleAction;
+            // ...
+        }
+        // ...
+    }
+}
+
+```
+
+Para evitar posibles excepciones de referencia nula al obtener acceso a un Controller existente desde el código, asegúrese siempre de que el resultado del método  [Frame.GetController<ControllerType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)  no sea  _null_  cuando la propiedad  [XafApplication.OptimizedControllersCreation](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.OptimizedControllersCreation)  sea  **true**.
+
+Para tener acceso a una acción declarada en la clase de negocio  **Task**  mediante el método Postpone tomando el parámetro  **de tipo PostponeParametersObject**, utilice el código siguiente:
+
+
+
+```csharp
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Actions;
+// ...
+ObjectMethodActionsViewController controller = Frame.GetController<ObjectMethodActionsViewController>();
+if (controller != null) {
+    PopupWindowShowAction postponeAction = controller.Actions["Task.Postpone.PostponeParametersObject"] as PopupWindowShowAction;
+    // ...
+}
+
+```
+
+## Temas de Ayuda que enumeran los controladores integrados y sus acciones
+
+Puede buscar en la sección  [Controladores y acciones integrados](https://docs.devexpress.com/eXpressAppFramework/113016/ui-construction/controllers-and-actions/built-in-controllers-and-actions)  de esta documentación para encontrar la acción requerida y su controlador.
+
+>NOTA
+>
+>También puede buscar una acción por su identificador o título en orígenes XAF que se instalan en %_PROGRAMFILES%\DevExpress 23.1\Componentes\Orígenes\_ de forma predeterminada.
+
+
+# Ventanas y marcos
+
+Las ventanas generadas automáticamente por  **eXpressApp Framework**  se definen mediante dos objetos: un control llamado  [Template](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  y una entidad abstracta llamada Window. Del mismo modo, las ventanas de búsqueda y las vistas de lista incrustadas se representan mediante un par de plantilla y marco. Una ventana o marco, a diferencia de una plantilla, no contiene información sobre qué controles deben ubicarse en ella. Windows y Frames solo incluyen la información sobre sus funciones en las aplicaciones  **eXpressApp Framework**. En este tema se proporciona información detallada sobre estas entidades de interfaz de usuario abstractas. Para obtener información sobre Plantillas, consulte el tema  [Plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates).
+
+## Información general sobre ventanas y marcos
+
+Un Frame se define mediante la clase  [Frame](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame); a Window, por la clase  [Window](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window). La clase  **Frame**  es la clase base de  **Window**. La diferencia entre estas clases es que un Window es un elemento de interfaz de usuario independiente, mientras que un Frame tiene un elemento primario. Por ejemplo, un formulario principal y formularios de detalle se definen mediante la clase  **Window**. La ventana desplegable de un editor de búsqueda y el  [Editor de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  incrustado se definen mediante la clase  **Frame**.
+
+XAF no utiliza la clase  **Window**  directamente. De hecho, las aplicaciones de formularios Windows Forms y ASP.NET formularios Web Forms crean las instancias de clase  [WinWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinWindow)  y  [WebWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow)  respectivamente. Estos son descendientes de la clase  **Window**. Puede usar el tipo Window en el código independiente de la interfaz de usuario y convertirlo a los tipos  **WinWindow**  y  **WebWindow**  en el código específico de la interfaz de usuario.
+
+Las funciones básicas de Windows and Frames son:
+
+-   Ambos sirven como un sitio para una  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views).
+    
+    Las aplicaciones empresariales están destinadas principalmente a ver y editar datos. Es por eso que la aplicación predeterminada  **eXpressApp Framework**  contiene solo Windows con vistas. Una ventana en sí misma en  **eXpressApp Framework**  no es útil para usted. Al crear aplicaciones, se hace referencia principalmente a una ventana para acceder a su vista. Para ello, utilice la propiedad Frame.View de Window o  [Frame.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.View)  Al implementar una característica personalizada, es posible que deba establecer otra vista en una ventana determinada. Para ello, utilice una de las sobrecargas del método  [Frame.SetView.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.SetView.overloads)
+    
+-   Ambos le permiten realizar acciones personalizadas cuando se crean o destruyen.
+    
+    Cuando se crean Windows y Frames, localizan todos los Controllers apropiados y los registran en su colección  [Frame.Controllers.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Controllers)  [](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)Los controladores, a su vez, proporcionan eventos que le permiten ejecutar acciones específicas al crear o eliminar la ventana o el marco del propietario. Los controladores no se comparten entre diferentes ventanas/marcos. Las instancias de controlador se crean para cada ventana y marco individualmente.
+    
+
+Las ventanas (marcos) se muestran en una interfaz de usuario a través de  [plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates). Una plantilla muestra tanto las acciones de los controladores de la ventana como una vista. Puede acceder a la plantilla a través de la propiedad  [Window.Template](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window.Template)  ([Frame.Template](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Template)) de la ventana y personalizar esta plantilla. Para obtener información sobre la personalización de plantillas, consulte el tema  [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization).
+
+## Acceder a ventanas y marcos
+
+Cuando se crea una ventana o un marco, encuentra todos los  [controladores](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  relacionados con él. Para acceder a ellos, puede utilizar la propiedad  [Frame.Controllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Controllers)  de Windows o Frame deseada. Sin embargo, en la mayoría de los casos tendrá que realizar la operación opuesta. Dado que escribirá código dentro de las clases  [de Controller](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller), deberá acceder a la ventana o marco actual que posee un controlador en particular. Para obtener información sobre cómo hacerlo, consulte la lista siguiente.
+
+-   [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)
+    
+    Los controladores de ventana son objetos que permiten ejecutar código personalizado cuando se crean y destruyen Windows. Es decir, puede invalidar su método protegido  **OnWindowChanging**  y controlar los eventos Controller.Activated y  [Controller.Deactivated.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Deactivated)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)En estos controladores de eventos, puede tener acceso a la ventana correspondiente mediante la propiedad  [WindowController.Window](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController.Window)  del controlador.
+    
+-   [ViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)
+    
+    Los controladores de vista son objetos que permiten ejecutar código personalizado cuando se crean y destruyen tramas. Es decir, puede controlar sus eventos  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  y  [Controller.Deactivated.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Deactivated)  En estos controladores de eventos, puede tener acceso al objeto Frame correspondiente mediante la propiedad  [Controller.Frame del Controller.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Frame)  Por supuesto, puede convertir el Frame a la clase Window, si el Frame procesado actualmente es un  [Window](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window).
+    
+-   [Controlador](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller)
+    
+    Si una característica no se puede implementar a través de un controlador de ventana o un controlador de vista, puede crear un controlador personalizado declarando un descendiente de clase  [de controlador](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller). Cada vez que se crea un Frame, XAF llama al método  **OnFrameAssigned**  de cada controlador. Reemplace este método para acceder al marco o ventana que se está creando.
+
