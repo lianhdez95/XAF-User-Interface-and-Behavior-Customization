@@ -7282,3 +7282,2036 @@ Cuando se crea una ventana o un marco, encuentra todos los  [controladores](http
     
     Si una característica no se puede implementar a través de un controlador de ventana o un controlador de vista, puede crear un controlador personalizado declarando un descendiente de clase  [de controlador](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller). Cada vez que se crea un Frame, XAF llama al método  **OnFrameAssigned**  de cada controlador. Reemplace este método para acceder al marco o ventana que se está creando.
 
+
+# Plantillas
+
+Las plantillas definen el aspecto  [de Windows y Frames](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames). Por ejemplo, las plantillas integradas contienen contenedores de  [acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  y un sitio  [de View](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views). Cuando compila una aplicación, las plantillas listas para usar le ayudan a concentrarse en el modelo de negocio y la lógica, en lugar de tener que crear una interfaz de usuario desde cero. Si es necesario, puede personalizar las plantillas predeterminadas o reemplazarlas por las suyas propias.
+
+En estos temas se describen los tipos de plantilla integrados.
+
+-   [Plantillas de aplicación de WinForms](https://docs.devexpress.com/eXpressAppFramework/403446/ui-construction/templates/winforms-application-templates)
+-   [ASP.NET plantillas de aplicación de formularios Web Forms](https://docs.devexpress.com/eXpressAppFramework/403447/ui-construction/templates/webforms-application-templates)
+-   [Plantillas de aplicación Blazor](https://docs.devexpress.com/eXpressAppFramework/403450/ui-construction/templates/blazor-application-templates)
+
+Consulte el tema siguiente para obtener información sobre cómo personalizar las plantillas predeterminadas:
+
+-   [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)
+
+## Cómo funciona
+
+A Template es un control que implementa la interfaz  [IFrameTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IFrameTemplate)  o  [IWindowTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IWindowTemplate). Estas interfaces proporcionan métodos que especifican la colección Action Containers de una plantilla y asignan una vista que se mostrará.
+
+La interfaz  **IWindowTemplate**  se hereda de la interfaz  **IFrameTemplate**. La diferencia es que la interfaz  **IWindowTemplate**  proporciona adicionalmente un almacén para mensajes de estado, un título de plantilla y una bandera que indica si debe ser considerable. Esto significa que una plantilla que implementa la interfaz  **IWindowTemplate**  se comporta como un formulario estándar.
+
+Los controles que se usan para mostrar las vistas de lista y detalle admiten la personalización del usuario final. Por ejemplo, en las aplicaciones de WinForms, los usuarios pueden personalizar el diseño de barras de herramientas, columnas en controles de cuadrícula, controles en formularios detallados, etc. Todas las plantillas integradas de formularios Windows Forms están diseñadas para guardar estas personalizaciones del usuario final en el  [modelo](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  de aplicación, por lo que los cambios realizados persistirán entre las ejecuciones de la aplicación.
+
+
+# Personalización de plantillas
+
+
+El  **marco eXpressApp**  proporciona  [plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  integradas que son adecuadas para la mayoría de las aplicaciones empresariales. De forma predeterminada, estas plantillas se utilizan para generar una interfaz de usuario. A veces, es posible que necesite cambiar o reemplazar algo en una plantilla, y hay varias maneras de hacerlo. Debido a los diferentes mecanismos de creación de plantillas en WinForms y ASP.NET aplicaciones de formularios Web Forms, ASP.NET aplicaciones de formularios Web Forms proporcionan capacidades limitadas de personalización de plantillas en comparación con las aplicaciones de WinForms. En este tema se detallan todos los aspectos de la personalización de plantillas para ambas plataformas.
+
+## Plantillas de formularios de Win
+
+Se crea una plantilla mediante el método  [XafApplication.CreateTemplate.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateTemplate(System.String))  Este método es invocado por un objeto  [Window](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window)  o  [Frame](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame). El tipo de plantilla se determina mediante la propiedad  **Context**  del objeto autor de la llamada, inicializada en el constructor. En la tabla siguiente se enumeran los contextos disponibles y los tipos de plantilla correspondientes.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/075c16eb-3487-4e3b-8ba8-ac3993777b9e)
+
+
+La plantilla creada se asigna a la propiedad  [Window.Template](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window.Template)  de la ventana y, a continuación, la vista de la ventana (consulte Frame.View) se asigna a la plantilla mediante su método  [Frame.SetView.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.SetView.overloads)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.View)
+
+Para implementar una plantilla personalizada, utilice  [proyectos de módulo](https://docs.devexpress.com/eXpressAppFramework/118046/application-shell-and-base-infrastructure/application-solution-components/modules). Si necesita utilizar una plantilla que no está implementada en un proyecto de módulo, primero debe inicializar el  [subsistema types info](https://docs.devexpress.com/eXpressAppFramework/113224/business-model-design-orm/types-info-subsystem/access-business-object-metadata)  con información sobre la plantilla. Para ello, agregue una llamada al método  **XafTypesInfo.Instance.FindTypeInfo**  al método Program.Main en el archivo  _Program.cs_  del proyecto de aplicación WinForms y pase el tipo Template personalizado como parámetro method**.**
+
+Puede crear una plantilla personalizada heredando de un control e implementando la interfaz  [IFrameTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IFrameTemplate)  o  [IWindowTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IWindowTemplate). Para proporcionar ejemplos de implementación de plantillas, la instalación de  **eXpressApp Framework**  proporciona plantillas de código para cada tipo de plantilla. Para crear una plantilla para la aplicación mediante una plantilla de código, invoque la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery)  y elija la plantilla de código necesaria en la categoría  **Plantillas de WinForms de XAF**. Especifique un nombre para la nueva plantilla y pulse  **Agregar**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ad5adc02-cb35-43fc-86bb-1dabdb390ba0)
+
+Puede personalizar la plantilla agregada en tiempo de diseño o en código. Para ver un ejemplo de plantillas basadas en cinta de opciones, consulte el tema  [Cómo: Crear una plantilla personalizada de cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template). Para otras plantillas, consulte el tema  [Cómo: Crear una plantilla estándar de WinForms personalizada](https://docs.devexpress.com/eXpressAppFramework/113706/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-standard-template). Tenga en cuenta que todas las plantillas integradas suministradas con XAF son totalmente personalizables con el diseñador de Visual Studio y puede agregar fácilmente contenedores de  [acciones personalizados](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers).
+
+>NOTA
+>
+>Si utiliza .NET 6+, asegúrese de que **DevExpress.ExpressApp.Win.  El paquete Design** NuGet se agrega al **nombre de lasolución.Proyecto Ganar**. Este paquete contiene la funcionalidad necesaria en tiempo de diseño basada en las características de vista previa de .NET.
+
+Para usar la plantilla en lugar de la predeterminada, controle el evento  [XafApplication.CreateCustomTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)  y devuelva una instancia de la plantilla cuando sea necesario. El código siguiente muestra esto.
+
+
+
+```csharp
+static class Program {
+    //...
+    public static void Main() {
+        //...
+        MySolutionWindowsFormsApplication application = new MySolutionWindowsFormsApplication();
+        application.CreateCustomTemplate += application_CreateCustomTemplate;
+        // ...
+    }
+    static void application_CreateCustomTemplate(object sender, CreateCustomTemplateEventArgs e) {
+        if (e.Context == TemplateContext.ApplicationWindow)
+            e.Template = new MySolution.Module.Win.MyMainForm();
+    }
+}
+
+```
+
+También puede personalizar una plantilla cada vez que se crea en un contexto determinado. Para ello, controle el evento  [XafApplication.CustomizeTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CustomizeTemplate)  de manera similar al evento  **CreateCustomTemplate**  (consulte más arriba).
+
+Para personalizar una plantilla cuando se crea para una ventana determinada (marco), controle el evento  [Frame.TemplateChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.TemplateChanged)  Este evento se genera después de asignar una plantilla a una ventana (marco).
+
+## Plantillas de formularios Web Forms ASP.NET
+
+Todas ASP.NET plantillas de formularios Web Forms son páginas. Estas páginas (plantillas) se crean cuando la aplicación cliente lo requiere. A continuación, se genera el evento  **Load**  de la página. En el controlador de eventos, se crea una ventana y se crea una vista y se asigna a esta ventana. Después de esto, la plantilla se asigna a la ventana y la vista se asigna a la plantilla.
+
+Se proporcionan diferentes conjuntos de plantillas para las aplicaciones que utilizan estilos nuevos y clásicos (vea  [ASP.NET Apariencia de la aplicación de formularios Web Forms](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance)).
+
+Las plantillas integradas se agregan al proyecto de aplicación de formularios Web Forms ASP.NET de una aplicación XAF. El contenido de plantilla predeterminado se lleva a cabo en  [controles  de usuario](https://docs.microsoft.com/en-us/dotnet/api/system.web.ui.usercontrol)  ubicados en el ensamblado  _DevExpress.ExpressApp.Web_, por lo que el contenido se actualiza automáticamente al actualizar a una nueva versión de XAF. Puede agregar contenido de página XAF al proyecto de aplicación y realizar las modificaciones necesarias con él (vea  [Cómo: Personalizar una plantilla de formularios Web Forms de ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113460/ui-construction/templates/in-webforms/how-to-customize-an-asp-net-template)). Para usar el contenido modificado en lugar del predeterminado, abra el archivo Global.asax.cs (_Global.asax.vb_) y especifique la ruta de acceso al control de usuario personalizado, como se muestra a continuación_._
+
+
+```csharp
+protected void Session_Start(Object sender, EventArgs e) {
+    // ...
+    WebApplication.Instance.Settings.DefaultVerticalTemplateContentPath =
+        "MyDefaultVerticalTemplateContent.ascx";
+    WebApplication.Instance.Setup();
+    WebApplication.Instance.Start();
+}
+
+```
+
+En este código, se cambia una ruta de acceso al contenido de la plantilla  **DefaultVertical**. Hay más opciones de configuración que especifican rutas de acceso a otro contenido de plantilla mediante la propiedad  [WebApplication.Settings.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebApplication.Settings)
+
+Dado que ASP.NET plantillas de formularios Web Forms representan páginas normales de formularios Web Forms, no es necesario controlar el evento  [XafApplication.CreateCustomTemplate o XafApplication.CustomizeTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CustomizeTemplate)
+
+Para personalizar los scripts de JavaScript usados por las plantillas, controle el evento  [WebWindow.CustomRegisterTemplateDependentScripts.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow.CustomRegisterTemplateDependentScripts)
+
+## Plantilla de ventana emergente de la ventana emergenteMostraracción
+
+[PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)  muestra una ventana emergente con una vista especificada. En una aplicación WinForms, se utiliza la plantilla  **PopupForm**  o  **LookupForm**, dependiendo de si se incluye una vista de detalle o de lista. En una aplicación ASP.NET formularios Web Forms, la página Dialog.aspx se utiliza como plantilla. Para personalizar la plantilla de la ventana emergente, controle el evento  [PopupWindowShowAction.CustomizeTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizeTemplate)  de la acción, que se produce después de asignar la plantilla a una ventana.
+
+
+# Plantillas de aplicación de formularios de Windows
+
+
+**eXpressApp Framework**  utiliza plantillas integradas para la construcción automática de la interfaz de usuario. Las plantillas para aplicaciones de WinForms se enumeran a continuación.
+
+## Plantillas
+
+### LightStyleMainForm
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/154f1495-99bd-41c3-b13c-f7e7a7737042)
+
+**Clase:**  `LightStyleMainForm`
+
+**Espacio de nombres:**  .`DevExpress.ExpressApp.Win.Templates`
+
+Muestra la ventana principal sin bordes excesivos. Para usar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Standard**  y  [WinApplication.UseLightStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseLightStyle)  en  **true**.
+
+### LightStyleMainRibbonForm
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f6af16cf-2631-4405-997f-ff37d50d6eee)
+
+**Clase:**  `LightStyleMainRibbonForm`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Muestra la ventana principal con el estilo de formulario de  [la cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon)  sin bordes excesivos. Para usar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Ribbon**  y  [WinApplication.UseLightStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseLightStyle)  en  **true**.
+
+### OutlookStyleMainRibbonForm
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b0c99472-0be8-4aba-9694-a424013c97a8)
+
+**Clase:**  `OutlookStyleMainRibbonForm`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates.Ribbon`
+
+Se utiliza para mostrar la ventana principal con el estilo de formulario de Outlook. Para usar esta plantilla, aplique la configuración como se describe en el artículo  [IModelRootGroupsStyle.RootGroupsStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelRootGroupsStyle.RootGroupsStyle)  y establezca la propiedad  **RootGroupStyle**  en  **OutlookSimple**  o  **OutlookAnimated**.
+
+### DetailFormV2
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/415adfbe-a7ac-4a57-bf4c-639795a8f0cf)
+
+**Clase:**  `DetailFormV2`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Muestra una vista detallada en una ventana nueva. Para utilizar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Standard**.
+
+### DetailRibbonFormV2
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c065db89-f6b6-48f7-9b83-98d8f95555c3)
+
+**Clase:**  `DetailRibbonFormV2`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates.Bars`
+
+Muestra una vista detallada en una ventana nueva con el estilo de formulario de  [la cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon). Para usar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Ribbon**.
+
+### PopupForm
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/77d947fe-cb01-43f9-a45e-1d6815f3a1e2)
+
+**Clase:**  `PopupForm`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Se utiliza para mostrar ventanas emergentes con una vista detallada. Por ejemplo, la plantilla PopupForm muestra un formulario de inicio de sesión.
+
+### NestedFrameTemplateV2
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dfb9fc73-e74a-4144-a937-8610a897f600)
+
+**Clase:**  `NestedFrameTemplateV2`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Se utiliza para mostrar una ventana o marco anidado en otra ventana o marco. Por ejemplo, la plantilla NestedFrameTemplateV2 muestra una ventana del Editor de propiedades de lista o del Editor de propiedades de detalle.
+
+### LookupForm
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/74d7576d-fe6c-440c-b981-1344f7936863)
+
+**Clase:**  `LookupForm`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Se utiliza para mostrar ventanas emergentes con una vista de lista. Por ejemplo, las acciones de tipo PopupWindowShowAction utilizan la plantilla LookupForm para mostrar su ventana emergente.
+
+### LookupControlTemplate
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/eaee5c66-e6e8-4702-a973-6854626e1ac6)
+
+**Clase:**  `LookupControlTemplate`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Se utiliza para mostrar una ventana desplegable del Editor de propiedades de búsqueda.
+
+## Plantillas obsoletas
+
+### MainFormV2
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/436043b2-4ad7-4d11-a486-4f4e3063e166)
+
+**Clase:**  `MainFormV2`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates`
+
+Muestra la ventana principal. Para utilizar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Standard**.
+
+### MainRibbonFormV2
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/094b4322-3bcb-4587-babc-8122f70bafd9)
+
+**Clase:**  `MainRibbonFormV2`
+
+**Namespace:**  `DevExpress.ExpressApp.Win.Templates.Bars`
+
+Muestra la ventana principal con el estilo de formulario de  [la cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon). Para usar esta plantilla, establezca la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en  **Ribbon**.
+
+>NOTA
+>
+>Consulte el tema  [Cómo: Habilitar las barras de menú principal o la cinta de opciones en formularios de Windows para obtener información sobre cómo alternar una interfaz de usuario de cinta de opciones en la aplicación de formularios de Windows](https://docs.devexpress.com/eXpressAppFramework/404212/ui-construction/templates/in-winforms/how-to-toggle-win-forms-ribbon-interface).
+
+
+# Cómo: Acceder al Bar Manager
+
+
+Las aplicaciones WinForms usan el  [Administrador de barras](https://docs.devexpress.com/WindowsForms/5361/controls-and-libraries/ribbon-bars-and-menu/bars)  para mostrar el menú de una aplicación cuando la interfaz de la cinta de opciones está deshabilitada (vea  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)) y para mostrar  [la barra de](https://docs.devexpress.com/eXpressAppFramework/404212/ui-construction/templates/in-winforms/how-to-toggle-win-forms-ribbon-interface)  herramientas de un marco anidado. En este tema se describe cómo acceder al Administrador de barras. Consulte el tema  [Cómo: Personalizar controles de acción](https://docs.devexpress.com/eXpressAppFramework/113183/ui-construction/controllers-and-actions/actions/how-to-customize-action-controls)  para obtener información sobre cómo personalizar  [elementos de barra](https://docs.devexpress.com/WindowsForms/2511/controls-and-libraries/ribbon-bars-and-menu/common-features/the-list-of-bar-items-and-links).
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol](https://supportcenter.devexpress.com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol) .
+
+Siga los pasos que se indican a continuación para acceder al objeto  [BarManager](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarManager)  y personalizar su configuración:
+
+1.  Cree un nuevo  [controlador](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller)  en la carpeta  _Controllers_  del módulo WinForms. Este controlador personaliza los administradores de barras en todos los  [marcos](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames), incluidos los marcos anidados (consulte  [NestedFrame](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.NestedFrame)).
+2.  Reemplace el método  **OnActivated**  del controlador y suscríbase al evento  [Frame.TemplateChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.TemplateChanged)
+3.  En el controlador de eventos  **TemplateChanged**, asegúrese de que el tipo de  [Frame.Template](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Template)  es  **IBarManagerHolder**. Convierta la plantilla al tipo IBarManagerHolder y utilice la propiedad  **IBarManagerHolder.BarManager**  para tener acceso al objeto  **BarManager.**  Por ejemplo, puede establecer la propiedad  [BarManager.AllowCustomization](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarManager.AllowCustomization)  en  **false**  para prohibir que los usuarios finales personalicen una barra.
+4.  Reemplace el método  **OnDeactivated**  del controlador y cancele la suscripción al evento  **TemplateChanged**  cuando se desactive el controlador.
+
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Win.Controls;
+using DevExpress.XtraBars;
+// ...
+public class BarManagerCustomizationWindowController : Controller {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Frame.TemplateChanged += Frame_TemplateChanged;
+    }
+    private void Frame_TemplateChanged(object sender, EventArgs e) {
+        if (Frame.Template is IBarManagerHolder) {
+            BarManager manager = ((IBarManagerHolder)Frame.Template).BarManager;
+            manager.AllowCustomization = false;
+        }
+    }
+    protected override void OnDeactivated() {
+        Frame.TemplateChanged -= Frame_TemplateChanged;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+Ejecute la aplicación para asegurarse de que no se permite la personalización de barras.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/9a2eeacc-2cb9-4997-b8d6-c47631fd6b07)
+
+
+# Cómo: Acceder al Administrador de documentos
+
+
+En este tema se muestra cómo tener acceso al  [Administrador de documentos](https://docs.devexpress.com/WindowsForms/11359/controls-and-libraries/application-ui-manager)  que  [MdiShowViewStrategy](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy)  utiliza para mostrar  [vistas](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  en una aplicación de WinForms. Localizará los títulos de las pestañas a la izquierda y los orientará horizontalmente.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/fcbfe25b-3202-4a36-b6b1-4d8fb60aa466)
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol](https://supportcenter.devexpress.com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol) .
+
+En este caso, se supone que tiene el tipo de interfaz de usuario establecido en  **TabbedMDI**  en el Editor de modelos para la aplicación de Windows Forms (vea  [IModelOptionsWin.UIType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.UIType)). Realice los pasos siguientes para obtener acceso al objeto  [DocumentManager](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Docking2010.DocumentManager)  y personalizar su configuración predeterminada.
+
+1.  Cree un nuevo  [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)  en la carpeta  _Controllers_  del módulo WinForms.
+2.  El Administrador de documentos se encuentra en la  [plantilla](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  MainForm. Reemplace el método  **OnActivated**  del controlador y suscríbase al evento  [Frame.TemplateChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.TemplateChanged)  de la ventana principal para tener acceso a la plantilla MainForm después de que se haya creado o modificado.
+3.  Convierta la plantilla MainForm mediante la interfaz  **IDocumentsHostWindow**  y obtenga acceso al Administrador de documentos mediante la propiedad  **DocumentManager**.
+4.  Suscríbase al evento  [DocumentManager.ViewChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Docking2010.DocumentManager.ViewChanged)  que se produce cuando el Administrador de documentos ha cambiado a otra vista.
+5.  Agregue el siguiente método  **CustomizeDocumentManagerView**  que cambia la ubicación y orientación de los títulos de ficha si la vista del gestor de documentos es del tipo  **TabbedView**.
+6.  Llame al método  **CustomizeDocumentManagerView**  desde los controladores de eventos  **Frame.TemplateChanged**  y  **DocumentManager.ViewChanged.**
+7.  Reemplace el método  **OnDeactivated**  y cancele la suscripción del evento  **Window.TemplateChanged**  cuando se desactive el Controller.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.XtraBars.Docking2010;
+using DevExpress.XtraBars.Docking2010.Views;
+using DevExpress.XtraBars.Docking2010.Views.Tabbed;
+using DevExpress.ExpressApp.Templates;
+// ...
+public class TabsCustomizationWindowController : WindowController {
+    public TabsCustomizationWindowController() {
+        TargetWindowType = WindowType.Main;
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        Window.TemplateChanged += Window_TemplateChanged;
+    }
+    private void Window_TemplateChanged(object sender, EventArgs e) {
+        IFrameTemplate template = Window.Template;
+        DocumentManager docManager = ((IDocumentsHostWindow)template).DocumentManager;
+        docManager.ViewChanged += docManager_ViewChanged;
+        CustomizeDocumentManagerView(docManager.View);
+    }
+    private void docManager_ViewChanged(object sender, ViewEventArgs args) {
+        CustomizeDocumentManagerView(args.View);
+    }
+    private static void CustomizeDocumentManagerView(BaseView view) {
+        if(view is TabbedView) {
+            ((TabbedView)view).DocumentGroupProperties.HeaderLocation = 
+                DevExpress.XtraTab.TabHeaderLocation.Left;
+            ((TabbedView)view).DocumentGroupProperties.HeaderOrientation = 
+                DevExpress.XtraTab.TabOrientation.Horizontal;
+        }
+    }
+    protected override void OnDeactivated() {
+        Window.TemplateChanged -= Window_TemplateChanged;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+Ejecute la aplicación para asegurarse de que se cambia la ubicación de los títulos de pestaña.
+
+
+# Cómo: Obtener acceso al control de cinta de opciones
+
+
+En este tema se muestra cómo tener acceso al control Ribbon usado para mostrar el menú de la aplicación WinForms cuando la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  se establece en  **Ribbon**  (cuando la  [interfaz de la cinta está](https://docs.devexpress.com/eXpressAppFramework/404212/ui-construction/templates/in-winforms/how-to-toggle-win-forms-ribbon-interface)  habilitada).[](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon)  Consulte el tema  [Cómo: Personalizar controles de acción](https://docs.devexpress.com/eXpressAppFramework/113183/ui-construction/controllers-and-actions/actions/how-to-customize-action-controls)  para obtener información sobre cómo personalizar  [elementos de barra](https://docs.devexpress.com/WindowsForms/2511/controls-and-libraries/ribbon-bars-and-menu/common-features/the-list-of-bar-items-and-links).
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol](https://supportcenter.devexpress.com/ticket/details/e4027/how-to-access-the-documentmanager-barmanager-and-ribboncontrol) .
+
+Siga los pasos que se indican a continuación para obtener acceso al objeto  [RibbonControl](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Ribbon.RibbonControl)  y personalizar su configuración:
+
+1.  Cree un nuevo  [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController)  en la carpeta  _Controllers_  del módulo WinForms.
+2.  Reemplace el método  **OnActivated**  del controlador y suscríbase al evento  [Frame.TemplateChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.TemplateChanged)
+3.  En el controlador de eventos  **TemplateChanged**, asegúrese de que el tipo de  [Frame.Template](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Template)  es  [RibbonForm](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Ribbon.RibbonForm). Utilice la propiedad  [RibbonForm.Ribbon](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Ribbon.RibbonForm.Ribbon)  para tener acceso al objeto  **RibbonControl**. Por ejemplo, puede especificar el ancho mínimo permitido del encabezado de página mediante la propiedad RibbonControl.PageHeaderMinWidth y ocultar el botón Expandir/Contraer mediante la propiedad  [RibbonControl.ShowExpandCollapseButton.](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Ribbon.RibbonControl.ShowExpandCollapseButton)[](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.Ribbon.RibbonControl.PageHeaderMinWidth)
+4.  Reemplace el método  **OnDeactivated**  del controlador y cancele la suscripción al evento  **TemplateChanged**  cuando se desactive el controlador.
+
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.XtraBars.Ribbon;
+using DevExpress.Utils;
+// ...
+public class RibbonCustomizationWindowController : WindowController {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Window.TemplateChanged += Window_TemplateChanged;
+    }
+    private void Window_TemplateChanged(object sender, EventArgs e) {
+        RibbonForm ribbonForm = Frame.Template as RibbonForm;
+        if (ribbonForm != null && ribbonForm.Ribbon != null) {
+            RibbonControl ribbon = ribbonForm.Ribbon;
+            ribbon.PageHeaderMinWidth = 100;
+            ribbon.ShowExpandCollapseButton = DefaultBoolean.False;
+        }
+    }
+    protected override void OnDeactivated() {
+        Window.TemplateChanged -= Window_TemplateChanged;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+Ejecute la aplicación para asegurarse de que se aplican las personalizaciones del control de la cinta de opciones.
+
+
+# Cómo: Crear una plantilla personalizada de cinta de Formularios de Windows
+
+
+Las aplicaciones de formularios Windows Forms de XAF implementan la interfaz de usuario estándar o la  [interfaz de usuario de](https://docs.devexpress.com/WindowsForms/5361/controls-and-libraries/ribbon-bars-and-menu/bars)  la  [cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon).
+
+Para cambiar el tipo de interfaz de usuario, especifique la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  del nodo  **Opciones**  del modelo de aplicación. Para obtener instrucciones sobre cómo personalizar una plantilla de formularios Windows Forms para la  [interfaz de usuario](https://docs.devexpress.com/WindowsForms/5361/controls-and-libraries/ribbon-bars-and-menu/bars)  estándar, vea el tema siguiente:  [Cómo: Crear una plantilla estándar de WinForms personalizada](https://docs.devexpress.com/eXpressAppFramework/113706/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-standard-template).
+
+>NOTA
+>
+>Si utiliza .NET 6+, asegúrese de que **DevExpress.ExpressApp.Win.Design** NuGet se agrega al **YourSolutionName.Win**. Este paquete contiene la funcionalidad necesaria en tiempo de diseño basada en las características de vista previa de .NET.
+
+En este ejemplo se muestra cómo hacer lo siguiente:
+
+-   Cree una plantilla personalizada de formularios Windows Forms para la  [interfaz de usuario de la cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon).
+-   Implemente una nueva página de cinta de opciones.
+-   Coloque una acción personalizada en la nueva página de la cinta de opciones.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e216/how-to-create-a-custom-winforms-ribbon-template](https://supportcenter.devexpress.com/ticket/details/e216/how-to-create-a-custom-winforms-ribbon-template) .
+
+## Personalizar una plantilla de formulario de detalles
+
+1.  En el  **Explorador de soluciones**, haga clic con el botón secundario en el proyecto  **YourApplicationName.Win**  y elija  **Agregar elemento DevExpress**  |  **Nuevo artículo...**  para invocar la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery). Seleccione  **XAF WinFormsTemplates**  |  **Elemento de plantilla de formulario de cinta de opciones**. Haga clic en  **Agregar elemento**.
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b2fb568c-14ef-4fba-ae6a-11a88a3e72e0)
+    
+2.  En el  **Ribbon Form Designer** invocado, enfoque el control de cinta de opciones, haga clic en la etiqueta inteligente de la esquina superior derecha y haga clic en  **Ejecutar diseñador**.
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f4c691b8-d1f0-464d-877d-a2f813d79fd9)
+    
+3.  En el Diseñador de controles de cinta  **XAF**  invocado, elija el elemento Barras de herramientas en el panel de navegación y cree un nuevo grupo de páginas de  [la cinta de opciones](https://docs.devexpress.com/WindowsForms/2493/controls-and-libraries/ribbon-bars-and-menu/ribbon/visual-elements/ribbon-page-group).  Puede agregarlo a una página de cinta existente o crear una categoría de página personalizada, agregar una nueva página de cinta de opciones y crear un nuevo grupo de páginas  [de cinta](https://docs.devexpress.com/WindowsForms/2494/controls-and-libraries/ribbon-bars-and-menu/ribbon/visual-elements/ribbon-page)  en esta  [página](https://docs.devexpress.com/WindowsForms/3327/controls-and-libraries/ribbon-bars-and-menu/ribbon/visual-elements/categories-and-contextual-tabs).
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/9f5e616a-583b-4114-b6f2-0c8469e8a895)
+    
+    >NOTA
+    >
+    >**XAF Ribbon Control Designer** es una extensión específica de XAF del [Ribbon Control Designer](https://docs.devexpress.com/WindowsForms/2623/controls-and-libraries/ribbon-bars-and-menu/ribbon/ribbon-control-designer). Consulte el tema siguiente para obtener información sobre cómo administrar elementos de la cinta de opciones, páginas de cinta de opciones y grupos de páginas: [Toolbars Page](https://docs.devexpress.com/WindowsForms/403840/controls-and-libraries/ribbon-bars-and-menu/ribbon/ribbon-control-designer/toolbars-page).
+    
+4.  Cierre la ventana  **Diseñador de controles de cinta XAF**. En el Diseñador de formularios de la cinta de opciones, haga clic con el botón secundario en el nuevo grupo de páginas de  **la cinta de opciones**  y elija  **Agregar contenedor de vínculos locales (BarLinkContainerExItem).**
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4f74ccd7-03c0-4e1d-9d0d-c81994dbec59)
+
+    >PROPINA
+    >
+    >También puede agregar un contenedor de vínculos a la barra de estado. En el menú Barra de estado del Diseñador de formularios de la cinta de opciones, haga clic con el botón secundario en **StatusMessages** y elija Agregar contenedor de  **Add Inplace Link Container (BarLinkContainerExItem)**.
+    
+5.  Haga clic en la etiqueta inteligente en la esquina superior derecha del elemento contenedor. En la ventana de propiedades mostrada, establezca la propiedad  **Caption**  en .`My Actions`
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4afef1dc-1f44-4ec5-8a84-7e57556ee0e4)
+    
+6.  Cree un contenedor de acciones desde el contenedor de vínculos. Abra el Diseñador de controles de  **la cinta de opciones XAF**, elija los  **controles de acción XAF**  |  **Contenedor**  de acciones en el panel de navegación y arrastre el elemento  **Mis**  acciones de la lista  **Controles de contenedor de barras**  a la lista  **Contenedores de acciones**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/330b0063-282d-4eae-ac45-fb2a2367951a)
+
+    
+    >PROPINA
+    >
+    >Para crear un contenedor de acciones  desde un contenedor de vínculos en la barra de estado, arrastre el elemento correspondiente de la lista  **Bar Container Controls** a **Action Containers**.
+    
+7.  Seleccione el elemento  **Mis**  acciones en la lista  **Contenedores de acciones**  y especifique la propiedad  **ActionCategory**. Por ejemplo, establézcalo en .`MyActionCategory`
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d50f0eb5-b38a-4613-9958-4b012f8e25fb)
+    
+8.  Cree una acción desencadenada por el botón del control Ribbon. Para obtener instrucciones paso a paso, consulte el siguiente tutorial detallado de XAF .NET 6+ WinForms & Blazor UI:  [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action).
+    
+    Si la acción se crea en código, pase el nombre de la categoría de acción especificada en el paso anterior al constructor de la acción, tal como se muestra en el ejemplo de código siguiente:
+    
+
+    
+    ```csharp
+    public class MyViewController : ViewController {
+        public MyViewController() {
+            SimpleAction myAction = new SimpleAction(this, "MyAction", "MyActionCategory");
+            myAction.ImageName = "Action_SimpleAction";
+        }
+    }
+    
+    ```
+    
+    Alternativamente, puede:
+    
+    -   Especifique la propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  en el código o en el Diseñador de  **controladores**.
+    -   Personalizar  **ActionDesign**  |  **Nodo ActionToContainerMapping**  en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). Para obtener más información acerca de esta técnica, consulte el tema siguiente:  [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location).
+9.  Vaya al proyecto  **YourApplicationName.Win**  y abra el archivo  _Program.cs_  (_Program.vb_). Controle el evento  [XafApplication.CreateCustomTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)  para reemplazar la plantilla predeterminada por la plantilla personalizada.
+    
+
+    
+    ```csharp
+    [STAThread]
+    static void Main() {
+        // ...
+        winApplication.CreateCustomTemplate += delegate(object sender, CreateCustomTemplateEventArgs e) {
+            if (e.Context == TemplateContext.View) e.Template = new DetailRibbonForm1();
+        };
+        // ...
+    }
+    
+    ```
+    
+    Si la aplicación implementa tanto la interfaz de usuario de la cinta de opciones como la interfaz de usuario estándar, debe comprobar el valor de la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en el controlador de eventos  [CreateCustomTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)  antes de especificar la plantilla personalizada.
+    
+    Cuando acceda al  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works), asegúrese de que no esté establecido en . Para obtener información detallada, consulte la siguiente descripción de cambio importante:  [El método WinApplication.Setup se ejecuta en un subproceso  independiente.](https://supportcenter.devexpress.com/ticket/details/bc4941/winforms-the-winapplication-setup-method-runs-in-a-separate-thread)`null`
+    
+
+    
+    ```csharp
+    [STAThread]
+    static void Main() {
+        // ...
+        winApplication.CreateCustomTemplate += delegate(object sender, CreateCustomTemplateEventArgs e) {
+            if(e.Application.Model != null){
+                if (((IModelOptionsWin)winApplication.Model.Options).FormStyle == RibbonFormStyle.Ribbon) {
+                    // ...
+                }
+            }
+        };
+        // ...
+    }
+    
+    ```
+    
+    La siguiente imagen ilustra el resultado:
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/2ca76e2e-99b6-4662-81e6-06d5b967a95a)
+    
+
+>PROPINA
+>
+>Para localizar una plantilla de  cinta personalizada, use la técnica descrita en el tema siguiente:  [Cómo: Localizar una plantilla de formularios de Windows](https://docs.devexpress.com/eXpressAppFramework/114495/localization/how-to-localize-a-winforms-template).
+
+## Personalizar varias plantillas
+
+Este ejemplo se basa en una aplicación XAF predeterminada creada con el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard). Esa aplicación implementa la vista  [con pestañas](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy)  en la que cada vista recién invocada se abre como una nueva pestaña y todas las acciones se encuentran en la ventana principal. En este caso, XAF combina las plantillas Formulario de cinta de opciones de detalle y Formulario de cinta  [principal de estilo claro](https://docs.devexpress.com/eXpressAppFramework/403446/ui-construction/templates/winforms-application-templates#lightstylemainribbonform), y es esta operación de combinación la que determina las posiciones de todos los elementos de la  [cinta de opciones](https://docs.devexpress.com/eXpressAppFramework/403446/ui-construction/templates/winforms-application-templates#detailribbonformv2).
+
+La fusión es un proceso complejo. Hay ocasiones en las que la combinación puede colocar grupos de páginas personalizados al final de la cinta de opciones en lugar de donde especificó en el  **Diseñador de formularios de la cinta de opciones**. Para evitar este comportamiento, cree una plantilla personalizada de formulario de cinta principal de estilo claro con grupos de páginas personalizados idénticos a los que agregó a la plantilla de formulario de cinta de opciones de detalles personalizada.
+
+Si la aplicación implementa la vista SDI de varias o  [únicas](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.ShowInSingleWindowStrategy)  ventanas, sus acciones se pueden ubicar  [en la ventana](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.ShowInMultipleWindowsStrategy)  principal y en las ventanas invocadas. En tales casos, es posible que deba personalizar la plantilla Formulario de cinta principal de estilo ligero en lugar de la plantilla Formulario de cinta de opciones detallada, o puede que deba personalizar ambas a la vez.
+
+En el siguiente ejemplo de código se muestra cómo controlar el evento cuando se tienen que personalizar ambas plantillas:`CreateCustomTemplate`
+
+
+
+```csharp
+winApplication.CreateCustomTemplate += delegate (object sender, CreateCustomTemplateEventArgs e) {
+    if (e.Context == TemplateContext.ApplicationWindow) {
+        e.Template = new LightStyleMainRibbonForm1();
+    }
+    else if (e.Context == TemplateContext.View) {
+        e.Template = new DetailRibbonForm1();
+    }
+};
+
+```
+
+>PROPINA
+>
+>Si la aplicación XAF se creó en una versión anterior a la 14.  2 y se actualizó más tarde, asegúrese de que la [WinApplication.UseOldTemplates](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseOldTemplates) se establece en .`false`
+
+
+# Cómo: Crear una plantilla estándar de formularios de Windowspersonalizados
+
+
+Las aplicaciones de formularios Windows Forms de XAF implementan la interfaz de usuario  [estándar](https://docs.devexpress.com/WindowsForms/5361/controls-and-libraries/ribbon-bars-and-menu/bars)  o  [de cinta de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon).
+
+Para cambiar el tipo de interfaz de usuario, especifique la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  del nodo  **Opciones**  del modelo de aplicación. Para obtener instrucciones sobre cómo personalizar una plantilla de formularios Windows Forms para la interfaz de usuario de la cinta  [de opciones](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon), vea el tema siguiente:  [Cómo: Crear una plantilla personalizada de cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template).
+
+>NOTA
+>
+>Si usa .NET 6, asegúrese de que el paquete NuGet DevExpress.ExpressApp.Win.Design se agregue al proyecto YourSolutionName.Win. Este paquete contiene la funcionalidad requerida en tiempo de diseño basada en las funciones de vista previa de .NET.
+
+En este ejemplo se muestra cómo hacer lo siguiente:
+
+-   Cree una plantilla personalizada de formularios Windows Forms para la  [interfaz de usuario estándar](https://docs.devexpress.com/WindowsForms/5361/controls-and-libraries/ribbon-bars-and-menu/bars).
+-   Implemente un nuevo menú.
+-   Coloque una acción personalizada en el nuevo menú.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/t196002/how-to-create-a-custom-a-winforms-standard-template](https://supportcenter.devexpress.com/ticket/details/t196002/how-to-create-a-custom-a-winforms-standard-template) .
+
+## Personalizar una plantilla de formulario de detalles
+
+1.  En el  **Explorador de soluciones**, haga clic con el botón secundario en el proyecto  **YourApplicationName.Win**  y elija  **Agregar elemento DevExpress**  |  **Nuevo artículo...**  para invocar la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery). Seleccione las  **plantillas de WinForms de XAF**  |  **Elemento de plantilla de formulario de detalle**. Haga clic en  **Agregar elemento**.
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ce2dd6b9-771e-44f7-8ad3-9f4aa256a17f)
+    
+2.  En el Diseñador de formularios de  **detalles**  invocado, haga clic en el botón  **[Agregar]**  en la barra de menú principal y elija  **Menú (BarSubItem)**.
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/e4cd75a3-20cf-4e78-8d04-ae14ff724891)
+    
+   > PROPINA
+    >
+    >Puede crear una jerarquía compleja de submenús con subelementos de barra anidada.[](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarSubItem)
+    
+3.  En la barra de menú principal, enfoca la  **barra SubItem1**  recién agregada y haz clic en la etiqueta inteligente en la esquina superior derecha. En la ventana de propiedades mostrada, establezca la propiedad  **Caption**  en .`My Actions`
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/42c1a964-30d7-43ed-9ce3-5577da9c7007)
+    
+4.  Haga clic en el elemento  **Mis acciones**  y haga clic en  **[Agregar]**  en el menú que aparece. Seleccione  **Contenedor de vínculos locales (BarLinkContainerExItem)**  en el menú emergente invocado.
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f1d1857c-904f-4f8d-859e-d3a3ccfad1ed)
+    
+5.  Enfoque el contenedor de vínculos recién agregado. En la ventana  **Propiedades**, establezca la propiedad  **Caption**  en .`My Actions`
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/20a1361e-87e0-43ad-9f49-9401ba158708)
+    
+    >PROPINA
+    >
+    >También puede agregar un Contenedor de enlaces a la barra de estado. En el menú de la barra de estado del diseñador de formularios detallados, haga clic en [Agregar] y seleccione Contenedor de vínculos en el lugar (BarLinkContainerExItem).
+    
+6.  Cree un contenedor de acciones desde el contenedor de vínculos. En el panel inferior del Diseñador de  **formularios detallado**, enfoque el control  **barManager**  y haga clic en la etiqueta inteligente de la esquina superior derecha. En el menú que aparece, haga clic en  **Ejecutar diseñador**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/cfe06bd5-6eae-42ff-9986-cd1d70e12cfb)
+
+    
+7.  En el diseñador de  **BarManager**  de XAF invocado (una extensión específica de XAF del  [Diseñador de Bar Manager](https://docs.devexpress.com/WindowsForms/5353/controls-and-libraries/ribbon-bars-and-menu/bars/bar-manager-designer)), elija  **los controles de acción de XAF**  |  **Contenedor**  de acciones en el panel de navegación y arrastre el elemento  **Mis**  acciones de la lista  **Controles de contenedor de barras**  a la lista  **Contenedores de acciones**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/46f33152-7063-4929-b62e-f0a5a2075bf1)
+
+    
+    >PROPINA
+    >
+    >Para crear un Contenedor de acciones a partir de un Contenedor de enlaces en la barra de estado, arrastre el elemento correspondiente desde la lista Controles de contenedores de barra a Contenedores de acciones.
+    
+8.  Si la acción se crea en código, pase el nombre del contenedor de acciones al constructor de la acción, tal como se muestra en el ejemplo de código siguiente:
+    
+
+    
+    ```csharp
+    public class MyViewController : ViewController {
+        public MyViewController() {
+            SimpleAction myAction = new SimpleAction(this, "MyAction", "My Actions");
+            myAction.ImageName = "Action_SimpleAction";
+        }
+    }
+    
+    ```
+    
+    Como alternativa, puede hacer lo siguiente:
+    
+    -   Especifique la propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  en el código o en el Diseñador de  **controladores**.
+    -   Personalizar  **ActionDesign**  |  **Nodo ActionToContainerMapping**  en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). Para obtener más información acerca de esta técnica, consulte el tema siguiente:  [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location).
+9.  Vaya al proyecto  **YourApplicationName.Win**  y abra el archivo  _Program.cs_  (_Program.vb_). Controle el evento  [XafApplication.CreateCustomTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)  para reemplazar la plantilla predeterminada por la plantilla personalizada.
+    
+
+    
+    ```csharp
+    [STAThread]
+    static void Main() {
+        // ...
+        winApplication.CreateCustomTemplate += delegate(object sender, CreateCustomTemplateEventArgs e) {
+            if (e.Context == TemplateContext.View) e.Template = new DetailForm1();
+        };
+        // ...
+    }
+    
+    ```
+    
+    Si la aplicación implementa las interfaces de usuario estándar y de cinta de opciones, debe comprobar el valor de la propiedad  [IModelOptionsWin.FormStyle](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsWin.FormStyle)  en el controlador de eventos  [CreateCustomTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomTemplate)  antes de especificar la plantilla personalizada.
+    
+    Cuando acceda al  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works), asegúrese de que no esté establecido en . Para obtener información detallada, consulte la siguiente descripción de cambio importante:  [El método WinApplication.Setup se ejecuta en un subproceso  independiente.](https://supportcenter.devexpress.com/ticket/details/bc4941/winforms-the-winapplication-setup-method-runs-in-a-separate-thread)`null`
+    
+
+    
+    ```csharp
+    winApplication.CreateCustomTemplate += delegate(object sender, CreateCustomTemplateEventArgs e) {
+        if (e.Application.Model != null){
+            if (((IModelOptionsWin)winApplication.Model.Options).FormStyle == RibbonFormStyle.Standard) {
+                // ...
+            }
+        }
+    };
+    
+    ```
+    
+    La siguiente imagen ilustra el resultado.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4b59f111-aa59-4b7e-90bc-81533eff64c4)
+
+>PROPINA
+>
+>Para localizar una plantilla de  cinta personalizada, use la técnica descrita en el tema siguiente:  [Cómo: Localizar una plantilla de formularios de Windows](https://docs.devexpress.com/eXpressAppFramework/114495/localization/how-to-localize-a-winforms-template).
+
+## Personalizar varias plantillas
+
+Este ejemplo se basa en una aplicación XAF predeterminada creada con el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard). Esa aplicación implementa la vista  [con pestañas](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.MdiShowViewStrategy)  en la que cada vista invocada se abre en una nueva pestaña y todas las acciones se encuentran en la ventana principal. En este caso, XAF combina las plantillas Detalle y Formulario principal, y es esta operación de combinación la que determina las posiciones de todos los elementos de la barra del menú principal.
+
+La fusión es un proceso complejo. Hay ocasiones en las que la combinación puede colocar menús personalizados al final de la barra de menú principal en lugar de donde se especificó en el  **Diseñador de formularios detallados**. Para evitar este comportamiento, cree una plantilla de formulario principal de estilo claro personalizada con menús personalizados idénticos a los que agregó a la plantilla de formulario de detalle personalizada.
+
+Si la aplicación implementa la vista SDI de ventana  [múltiple](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.ShowInMultipleWindowsStrategy)  o  [única](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.ShowInSingleWindowStrategy), sus menús se pueden ubicar en la ventana principal y en las ventanas invocadas. En tales casos, es posible que deba personalizar la plantilla Formulario principal de estilo ligero en lugar de la plantilla Formulario de detalle, o puede que deba personalizar ambas plantillas.
+
+En el siguiente ejemplo de código se muestra cómo controlar el evento cuando se necesitan personalizar ambas plantillas:`CreateCustomTemplate`
+
+
+
+```csharp
+winApplication.CreateCustomTemplate += delegate(object sender, CreateCustomTemplateEventArgs e) {
+    if (e.Context == TemplateContext.ApplicationWindow) {
+        e.Template = new MainForm1();
+    }
+    else if (e.Context == TemplateContext.View) {
+        e.Template = new DetailForm1();
+    }
+};
+
+```
+
+>PROPINA
+>
+>Si la aplicación XAF se creó en una versión anterior a la v14.  2 y posteriores actualizados, asegúrese de que la [aplicación Win.La propiedad Usarplantillas antiguas](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.UseOldTemplates) se establece en .`false`
+
+
+# Cómo: Ajustar el tamaño y el estilo de las ventanas (formularios de Windows)
+
+
+En las aplicaciones WinForms XAF, los usuarios finales pueden arrastrar el agarre de tamaño en la esquina inferior derecha para cambiar el tamaño de las ventanas. También puede personalizar el tamaño inicial del formulario en el código. En este tema se describe cómo cambiar el tamaño y personalizar las ventanas mediante programación en función de la vista mostrada. Las ventanas de diálogo emergentes se utilizan como ejemplo.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/88f5fa67-b3e7-4283-bddd-0e110437feb4)
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4208/how-to-adjust-the-size-of-pop-up-dialogs](https://supportcenter.devexpress.com/ticket/details/e4208/how-to-adjust-the-size-of-pop-up-dialogs) .
+
+>PROPINA
+>
+>Un ejemplo similar para formularios Web Forms ASP.NET está disponible en el tema  [Cómo: Ajustar el tamaño y el estilo de los cuadros de diálogo emergentes (ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113456/ui-construction/templates/in-webforms/how-to-adjust-the-size-and-style-of-pop-up-dialogs-asp-net)  Web Forms ).
+
+## Establecer el tamaño y el estilo predeterminados de las ventanas emergentes
+
+Las ventanas emergentes se pueden personalizar en los eventos  [XafApplication.CustomizeTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CustomizeTemplate)  y  [Frame.TemplateChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.TemplateChanged)  Cree un nuevo  [controlador de ventana](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  y suscríbase a cualquiera de estos eventos cuando el controlador esté activado (evento  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)) como se muestra a continuación.
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Templates;
+//...
+public class CustomizeFormSizeController : WindowController {
+    protected override void OnActivated() {
+        base.OnActivated();
+        Window.TemplateChanged += Window_TemplateChanged;     
+    }
+    private void Window_TemplateChanged(object sender, EventArgs e) {
+        if(Window.Template is System.Windows.Forms.Form && 
+Window.Template is ISupportStoreSettings) {
+            ((ISupportStoreSettings)Window.Template).SettingsReloaded += 
+OnFormReadyForCustomizations;
+        }
+    }
+    private void OnFormReadyForCustomizations(object sender, EventArgs e) {
+        if(YourCustomBusinessCondition(Window.View)) {
+            ((System.Windows.Forms.Form)sender).Size = 
+((IFormSizeProvider)Window.View.CurrentObject).GetFormSize();
+        }
+    }
+    private bool YourCustomBusinessCondition(View view) {
+        return view != null && view.CurrentObject is IFormSizeProvider;
+    }
+    protected override void OnDeactivated() {
+        Window.TemplateChanged -= Window_TemplateChanged;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+En este código, se accede a la plantilla de ventana de destino suscribiéndose al evento  **TemplateChanged**  desde un Controller. A continuación, controle el evento  [ISupportStoreSettings.SettingsReloaded](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.ISupportStoreSettings.SettingsReloaded)  para realizar personalizaciones después de aplicar la configuración predeterminada de la plantilla XAF. Además, puede controlar el evento  [Form.HandleCreated](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.handlecreated) o  [Form.Load.](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load)  Coloque el código de personalización en el controlador  **de eventos OnFormReadyForCustomizations**.
+
+Como resultado, el tamaño de la ventana emergente de destino se determina en función del tamaño de la ventana principal.
+
+## Personalizar una ventana emergente en función de su vista
+
+Si desea personalizar ventanas emergentes para un tipo determinado, cree un controlador  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)  y especifique el tipo de objeto de negocio. Para maximizar la ventana emergente  **DemoObject**, haga lo siguiente:
+
+-   [Crear PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-that-displays-a-pop-up-window).
+-   Controle el evento  [PopupWindowShowAction.CustomizePopupWindowParams.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizePopupWindowParams)
+-   Establezca el parámetro  [CustomizePopupWindowParamsEventArgs.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.View)  en una instancia de View determinada.
+-   Establezca la propiedad  [CustomizePopupWindowParamsEventArgs.Maximized](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.Maximized)  en  **true**.
+
+Vea el ejemplo en la descripción de la clase  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction).
+
+>NOTA
+>
+>Ciertas [plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  de formulario  (por  ejemplo, **LookupForm**, **PopupForm**, **LookupControlTemplate**) pueden tener detalles particulares.
+>
+>-   El tamaño mínimo del formulario se puede establecer de forma predeterminada (la propiedad  **InitialMinimumSize**).
+>-   El tamaño se puede calcular dinámicamente en función del contenido.
+>-   El formulario puede tener restricciones de cambio de tamaño (la propiedad  **IsSizeable**).
+>-   El tamaño del formulario puede reducirse automáticamente (la propiedad  **AutoShrink**)
+>-   El formulario puede expandirse para ocupar todo el espacio (la propiedad  **Maximized**).
+
+# Cómo: Personalizar mensajes de estado de ventana (formularios de Windows)
+
+
+Una barra de estado de una  [ventana](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  típica de una aplicación XAF de formularios Windows Forms muestra un nombre de usuario autenticado actualmente cuando la aplicación utiliza un  [sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/10dcd4cf-569a-494c-ada8-b751e4959b4a)
+
+En este tema se describe cómo agregar un mensaje de estado personalizado y cómo reemplazar el mensaje predeterminado por uno personalizado.
+
+## Agregar un mensaje de estado personalizado
+
+[WindowTemplateController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController)  se activa en todas las ventanas y actualiza el estado y el título actuales de la ventana. WindowTemplateController expone el evento  [WindowTemplateController.CustomizeWindowStatusMessages](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController.CustomizeWindowStatusMessages), que se produce antes de que se actualicen los mensajes de estado de la ventana y permite modificarlos.  Los mensajes de estado son una colección de cadenas en XAF.
+
+Para agregar un mensaje de estado, cree un  [controlador de ventana](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  personalizado, suscríbase al evento  **CustomizeWindowStatusMessages**  y controle. Agregue una cadena personalizada a la colección StatusMessages en el controlador de eventos  **CustomizeWindowStatusMessages**.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+// ...
+public class CustomizeWindowController : WindowController {
+    protected override void OnActivated() {
+        base.OnActivated();
+        WindowTemplateController controller = Frame.GetController<WindowTemplateController>();
+        controller.CustomizeWindowStatusMessages += Controller_CustomizeWindowStatusMessages;
+    }
+    private void Controller_CustomizeWindowStatusMessages(object sender,
+    CustomizeWindowStatusMessagesEventArgs e) {
+        e.StatusMessages.Add("My custom status message");
+    }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        WindowTemplateController controller = Frame.GetController<WindowTemplateController>();
+        controller.CustomizeWindowStatusMessages -= Controller_CustomizeWindowStatusMessages;
+    }
+}
+
+```
+
+Utilice la propiedad  [IsMain](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Window.IsMain)  en el controlador de eventos para crear una condición que agregue un mensaje de estado sólo a la ventana principal o secundaria.`CustomizeWindowStatusMessages`
+
+La siguiente imagen ilustra un mensaje de estado personalizado que se muestra junto con un mensaje predeterminado:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/048ac921-365e-4e1f-abde-19786e263e51)
+
+## Reemplazar el mensaje de estado predeterminado
+
+Para reemplazar una colección de mensajes de estado actual por una personalizada, borre la colección StatusMessages antes de agregar un mensaje personalizado en el controlador de eventos  **CustomizeWindowStatusMessages**.
+
+
+
+```csharp
+private void Controller_CustomizeWindowStatusMessages(object sender, 
+CustomizeWindowStatusMessagesEventArgs e) {
+    e.StatusMessages.Clear();
+    e.StatusMessages.Add("My custom status message");
+}
+
+```
+
+La siguiente imagen ilustra un mensaje de estado personalizado mostrado, en lugar de uno predeterminado:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d2e0c4e5-b45d-48a5-858d-fb33630cfc87)
+
+Puede utilizar el método  [WindowTemplateController.UpdateWindowStatusMessage](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController.UpdateWindowStatusMessage)  para actualizar los mensajes de estado cuando sea necesario.
+
+>NOTA
+>
+>Este tema sólo se refiere a las aplicaciones de formularios Windows Forms. Aunque el controlador de controlador de  [WindowTemplateController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController) integrado del módulo de sistema  independiente de  la plataforma, los mensajes de estado son invisibles en las aplicaciones de formularios Web Forms ASP.NET.
+
+Para colocar cualquier cosa además de mensajes de texto en la barra de estado, considere la  [posibilidad de crear una plantilla de ventana personalizada](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  o suscribirse al evento  [WindowTemplateController.CustomizeStatusBar](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.WindowTemplateController.CustomizeStatusBar)  y acceder directamente a la barra. Consulte los artículos  [Cómo: Acceder al Administrador de barras](https://docs.devexpress.com/eXpressAppFramework/115213/ui-construction/templates/in-winforms/how-to-access-the-bar-manager)  y  [Cómo: Acceder al control de cinta de opciones](https://docs.devexpress.com/eXpressAppFramework/115214/ui-construction/templates/in-winforms/how-to-access-the-ribbon-control)  y a la documentación del producto  [XtraBars](https://docs.devexpress.com/WindowsForms/1199/controls-and-libraries/ribbon-bars-and-menu).
+
+
+# Compatibilidad con PPP alto en una aplicación de Windows Forms
+
+
+Antes de ejecutar una aplicación de formularios Windows Forms XAF en un entorno de PPP alto, asegúrese de que la aplicación es compatible con PPP.
+
+Para asegurarse de que una aplicación tiene compatibilidad adecuada con PPP alto, el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard)  agrega la siguiente sección de configuración de la aplicación al archivo  _YourApplicationName.Win\App.config_  cada vez que crea un nuevo proyecto:
+
+
+
+```xml
+<applicationSettings>
+  <DevExpress.LookAndFeel.Design.AppSettings>
+    <setting name="DPIAwarenessMode" serializeAs="String">
+      <value>System</value>
+    </setting>
+  </DevExpress.LookAndFeel.Design.AppSettings>
+</applicationSettings>
+
+```
+
+Para habilitar manualmente el modo compatible con PPP, utilice una de las técnicas descritas en el tema siguiente: Compatibilidad con  [PPP elevados](https://docs.devexpress.com/WindowsForms/116666/common-features/high-dpi-support).
+
+## Asistente para informes
+
+Cuando agrega el módulo  [Reports V2](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview)  a un nuevo proyecto de aplicación en el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard), el módulo ya incluye el  [Asistente para informes](https://docs.devexpress.com/XtraReports/400946/web-reporting/gui/wizards/report-wizard-fullscreen)  optimizado para pantallas de alto DPI.
+
+Para habilitar manualmente la optimización de pantallas de PPP altos para el Asistente para informes, abra el archivo WinApplication_.cs_  (_WinApplication.vb_). En un constructor descendiente  [de WinApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication), establezca la propiedad estática  [WinReportServiceController.UseNewWizard en .](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ReportsV2.Win.WinReportServiceController.UseNewWizard)`true`
+
+
+
+```csharp
+DevExpress.ExpressApp.ReportsV2.Win.WinReportServiceController.UseNewWizard = true;
+
+```
+
+## Imágenes SVG
+
+Todas las aplicaciones creadas con el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard)  admiten imágenes SVG.
+
+Para habilitar la compatibilidad manual con imágenes SVG, vaya al archivo  _Programa.cs (Programa.vb)._  En la llamada al método, establezca la propiedad  [UseSvgImages](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.ImageLoader.UseSvgImages)  en .`Main``true`
+
+## Limitaciones y recomendaciones actuales
+
+-   Diseñe sus aplicaciones por debajo de 96 DPI (100%). Al reducir el tamaño de un formulario desarrollado en un entorno de PPP alto, pueden producirse problemas.
+-   XAF no admite  [DPI  por monitor](https://docs.microsoft.com/en-us/windows/win32/hidpi/high-dpi-desktop-application-development-on-windows#per-monitor-and-per-monitor-v2-dpi-awareness). Cuando arrastra una ventana de aplicación entre monitores con diferentes configuraciones de DPI, el sistema operativo utiliza sus mecanismos integrados para escalar la ventana en consecuencia.
+
+
+# Cómo: Cambiar el modo de visualización de View
+
+
+En este artículo se describe cómo cambiar la forma en que una aplicación de Windows Forms muestra las vistas invocadas.
+
+>NOTA
+>
+>Para los fines de este artículo, puede utilizar la aplicación  **de demostración principal** instalada como parte del paquete XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF._
+
+El  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard)  crea una aplicación con la vista  [por fichas](https://docs.devexpress.com/WindowsForms/11355/controls-and-libraries/application-ui-manager/views/tabbed-view), por lo que la aplicación muestra cada vista invocada en una pestaña nueva.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/32e5422f-98f3-4f8c-be65-af649c39b0ff)
+
+Las instrucciones siguientes explican cómo habilitar el modo de  _documento único (SDI)_  en lugar del modo de vista con fichas en una aplicación. En el modo SDI, cada vez que invoca una vista, aparece en una nueva ventana que sustituye a la anterior.
+
+1.  En el  **Explorador de soluciones**, expanda la carpeta del proyecto  _MainDemo.Win_  y haga doble clic en el archivo  _Model.xafml_  para abrirlo en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor).
+    
+2.  Desplácese hasta el nodo  **Opciones**. Aquí puede personalizar la apariencia y el comportamiento de la interfaz de usuario de la aplicación.
+    
+3.  Enfoque la propiedad y elija la opción  **SingleWindowSDI**  en el menú desplegable.`UIType`
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ee0180eb-52d1-4c3d-a1a8-35f020209cff)
+
+    
+4.  Ejecute la aplicación y vea el nuevo modo de visualización Ver en acción.
+    
+    
+
+>PROPINA
+>
+>Para obtener más información sobre cómo cambiar el modo de visualización de Vista en el código, consulte el tema siguiente: [Aplicación de Windows.Mostrarestrategia de visualización](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication.ShowViewStrategy).
+
+Si especifica el modo de visualización Ver en el código, XAF omite los cambios de valor de propiedad en el Editor de modelos.`UIType`
+
+
+# Cómo: Habilitar las barras de menú principal o la cinta de opciones en formularios de Windows
+
+
+En este artículo se describe cómo habilitar la  [interfaz de usuario de la cinta de opciones en la](https://docs.devexpress.com/WindowsForms/2500/controls-and-libraries/ribbon-bars-and-menu/ribbon)  aplicación WinForms.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/daf904ed-c03e-474e-b358-90c9b60cb9c4)
+
+>NOTA
+>
+>Para los fines de este artículo, puede utilizar la aplicación  **de demostración principal** instalada como parte del paquete XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF._
+
+## Instrucciones paso a paso
+
+1.  En el  **Explorador de soluciones**, expanda el proyecto y haga doble clic en el archivo  _Model.xafml_  para abrirlo en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor).`MainDemo.Win`
+    
+2.  Desplácese hasta el nodo  **Opciones**. Aquí puede personalizar la apariencia y el comportamiento de la interfaz de usuario de la aplicación.
+    
+3.  Enfoque la propiedad y elija la opción  **Cinta de opciones**  en el menú desplegable.`FormStyle`
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/af504925-e5b1-4b66-b856-148730c71d99)
+
+    
+4.  Ejecute la aplicación para ver el resultado.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c630ad0a-bec0-4f48-8c1f-e2fcc33ce514)
+
+    
+
+>PROPINA
+>
+>Puede encontrar opciones adicionales para la personalización del elemento de la interfaz de usuario de la cinta de opciones en **Options** | **RibbonOptions**.
+
+
+# Plantillas de aplicación Blazor
+
+
+**eXpressApp Framework**  utiliza plantillas integradas para crear automáticamente una interfaz de usuario. Las secciones siguientes describen plantillas para aplicaciones Blazor.
+
+## Plantillas integradas
+
+### ApplicationWindowTemplate
+
+Define el diseño y la apariencia de la ventana principal.
+
+**Plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.ApplicationWindowTemplate`
+
+**Contenido de la plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.ApplicationWindowTemplateComponent`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/847e3cbb-d044-4ae0-b030-41c3055f5c3a)
+
+### LogonWindowTemplate
+
+Define el diseño y la apariencia de la ventana de inicio de sesión.
+
+**Plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.LogonWindowTemplate`
+
+**Contenido de la plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.LogonWindowTemplateComponent`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f0a92e57-9037-4b5d-a549-8eaaf7ace34a)
+
+### PopupWindowTemplate
+
+Define el diseño y la apariencia de la ventana emergente. Ejemplos:  [Cómo: Ajustar el tamaño y el estilo de los cuadros de diálogo emergentes (Blazor).](https://docs.devexpress.com/eXpressAppFramework/404014/ui-construction/templates/in-blazor/change-popup-window-dimensions)
+
+**Plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.PopupWindowTemplate`
+
+**Contenido de la plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.PopupWindowTemplateComponent`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c755ba09-ebea-4d89-899e-f8fa83b115f8)
+
+### NestedFrameTemplate
+
+Define el diseño y la apariencia de los marcos anidados.
+
+**Plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.NestedFrameTemplate`
+
+**Contenido de la plantilla:**  `DevExpress.ExpressApp.Blazor.Templates.NestedFrameTemplateComponent`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/cb8a494d-3458-4517-8748-71f15e3844d0)
+
+## Personalizar plantillas integradas
+
+En el ejemplo de código siguiente se muestra cómo tener acceso a la plantilla de ventana emergente y cambiar el valor de la propiedad 'MaxWidth' de la plantilla.
+
+**File**:  
+_MySolution.Blazor.Server\Controllers\PopupResizeController.cs_  en soluciones sin el proyecto de módulo específico de ASP.NET Core Blazor.  _MySolution.Module.Blazor\Controllers\PopupResizeController.cs_  en soluciones con el proyecto de módulo específico de ASP.NET Core Blazor.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor;
+using DevExpress.ExpressApp.Blazor.Templates;
+// ...
+public partial class PopupResizeController : WindowController {
+    public PopupResizeController() {
+        InitializeComponent();
+        this.TargetWindowType = WindowType.Main;
+    }
+
+    protected override void OnActivated() {
+        base.OnActivated();
+        // Subscribe the CustomizeTemplate event
+        ((BlazorApplication)Application).CustomizeTemplate += 
+            PopupResizeController_CustomizeTemplate;
+    }
+
+    private void PopupResizeController_CustomizeTemplate(object sender, CustomizeTemplateEventArgs e) {
+        // Change MaxWidth for popup windows
+        if(e.Context == TemplateContext.PopupWindow) {
+            ((PopupWindowTemplate)e.Template).MaxWidth = "900px";
+        }
+    }
+
+    protected override void OnDeactivated() {
+        // Unsubscribe the CustomizeTemplate event
+        ((BlazorApplication)Application).CustomizeTemplate -=
+            PopupResizeController_CustomizeTemplate;
+        base.OnDeactivated();
+    }
+}
+
+```
+
+## Ejemplo
+
+Este tutorial explica cómo cambiar el sistema de navegación integrado (utiliza un componente  [DxTreeView](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxTreeView)) con un componente  [DxMenu](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxMenu).
+
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/aa56770e-ec31-402e-bf57-c6a7392aa3fa)
+
+
+# Cómo: Crear una plantilla de aplicación de Blazor personalizada
+
+
+En este artículo se explica cómo crear una  [plantilla de ventana de](https://docs.devexpress.com/eXpressAppFramework/403450/ui-construction/templates/blazor-application-templates#applicationwindowtemplate)  aplicación personalizada en una aplicación XAF ASP.NET Core Blazor.
+
+Las aplicaciones XAF creadas en el  [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard)  utilizan un componente de navegación DxAccordion o  [DxTreeView](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxTreeView).[](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxAccordion)  La plantilla personalizada descrita en este tema utiliza el componente de navegación  [DxMenu](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxMenu).
+
+
+## Detalles de implementación
+
+1.  En el  **Explorador de soluciones**, vaya al proyecto  **YourSolutionName.Blazor.Server**  y cree la carpeta  _Templates_.
+2.  Cree un control Action personalizado que muestre un componente de navegación personalizado. Haga clic con el botón derecho en la carpeta  _Plantillas_, seleccione  **Agregar | Clase...**  del menú contextual y establezca el nombre de la nueva clase en  _CustomShowNavigationItemActionControl.cs_. Implemente la interfaz en la clase recién creada. Establezca la propiedad de la acción ajustada en .`ISingleChoiceActionControl``ActionId``ShowNavigationItem`
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.Actions;
+    using DevExpress.ExpressApp.Templates;
+    using DevExpress.ExpressApp.Templates.ActionControls;
+    using Microsoft.AspNetCore.Components;
+    
+    namespace YourSolutionName.Blazor.Server.Templates {
+        public class CustomShowNavigationItemActionControl : ISingleChoiceActionControl {
+            private ChoiceActionItemCollection choiceActionItems;
+            private EventHandler<SingleChoiceActionControlExecuteEventArgs> execute;
+            string IActionControl.ActionId => "ShowNavigationItem";
+            object IActionControl.NativeControl => this;
+            public IEnumerable<ChoiceActionItem> Items => choiceActionItems;
+            // The CustomShowNavigationItemActionControlComponent is added in the next step.
+            public RenderFragment GetComponentContent(RenderFragment titleTemplate) => CustomShowNavigationItemActionControlComponent.Create(titleTemplate, this);
+            void ISingleChoiceActionControl.SetChoiceActionItems(ChoiceActionItemCollection choiceActionItems) => this.choiceActionItems = choiceActionItems;
+            public void DoExecute(ChoiceActionItem choiceActionItem) {
+                execute?.Invoke(this, choiceActionItem == null ? new SingleChoiceActionControlExecuteEventArgs() : new SingleChoiceActionControlExecuteEventArgs(choiceActionItem));
+            }
+            event EventHandler<SingleChoiceActionControlExecuteEventArgs> ISingleChoiceActionControl.Execute {
+                add => execute += value;
+                remove => execute -= value;
+            }
+    
+            void IActionControl.SetCaption(string caption) { }
+            void IActionControl.SetConfirmationMessage(string confirmationMessage) { }
+            void IActionControl.SetEnabled(bool enabled) { }
+            void IActionControl.SetImage(string imageName) { }
+            void IActionControl.SetPaintStyle(ActionItemPaintStyle paintStyle) { }
+            void ISingleChoiceActionControl.SetSelectedItem(ChoiceActionItem selectedItem) { }
+            void IActionControl.SetShortcut(string shortcutString) { }
+            void ISingleChoiceActionControl.SetShowItemsOnClick(bool value) { }
+            void IActionControl.SetToolTip(string toolTip) { }
+            void ISingleChoiceActionControl.Update(IDictionary<object, ChoiceActionItemChangesType> itemsChangedInfo) { }
+            void IActionControl.SetVisible(bool visible) { }
+            event EventHandler IActionControl.NativeControlDisposed { add { } remove { } }
+        }
+    }
+    
+    ```
+    
+3.  Cree un componente Razor personalizado que represente el componente  [DxMenu](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxMenu). Haga clic con el botón derecho en la carpeta  _Plantillas_, seleccione Agregar  **| Razor**  Component en el menú contextual y establezca el nombre del nuevo componente en  _CustomShowNavigationItemActionControlComponent.razor._  Reemplace el contenido del archivo generado automáticamente con el código siguiente:
+ - Razor
+    
+
+    
+    ```
+    @* File: CustomShowNavigationItemActionControlComponent.razor *@
+    @using DevExpress.ExpressApp.Actions
+    
+    <DxMenu Data="@ActionControl.Items" ItemClick="@OnItemClick" HamburgerButtonPosition="MenuHamburgerButtonPosition.Left" CollapseItemsToHamburgerMenu="true">
+        <TitleTemplate>
+            @TitleTemplate
+        </TitleTemplate>
+        <DataMappings>
+            <DxMenuDataMapping Text="@nameof(ChoiceActionItem.Caption)" Children="@nameof(ChoiceActionItem.Items)" />
+        </DataMappings>
+    </DxMenu>
+    
+    @code {
+        public static RenderFragment Create(RenderFragment titleTemplate, CustomShowNavigationItemActionControl actionControl) =>
+        @<CustomShowNavigationItemActionControlComponent TitleTemplate="@titleTemplate" ActionControl="@actionControl" />;
+        [Parameter]
+        public RenderFragment TitleTemplate { get; set; }
+        [Parameter]
+        public CustomShowNavigationItemActionControl ActionControl { get; set; }
+        private void OnItemClick(MenuItemClickEventArgs e) => ActionControl.DoExecute((ChoiceActionItem)e.ItemInfo.Data);
+    }
+    
+    ```
+    
+4.  Cree una nueva plantilla de ventana de aplicación. Haga clic con el botón secundario en la carpeta  _Plantillas_  y seleccione Agregar  **elemento DevExpress | Nuevo artículo...**  del menú contextual. En la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery)  invocada, vaya a la sección Plantillas de  **XLOR de núcleo de XAF ASP.NET**  y seleccione el elemento  **Plantilla de ventana de aplicación**. Asígnele  _el nombre CustomApplicationWindowTemplate.cs_  y haga clic en  **Agregar elemento**.
+    
+5.  En la clase, reemplace el integrado con el recién creado:`CustomApplicationWindowTemplate``ShowNavigationItemActionControl``CustomShowNavigationItemActionControl`
+    
+
+    
+    ```csharp
+    using DevExpress.Blazor;
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Blazor.Components.Models;
+    using DevExpress.ExpressApp.Blazor.Templates;
+    using DevExpress.ExpressApp.Blazor.Templates.Navigation.ActionControls;
+    using DevExpress.ExpressApp.Blazor.Templates.Security.ActionControls;
+    using DevExpress.ExpressApp.Blazor.Templates.Toolbar.ActionControls;
+    using DevExpress.ExpressApp.Templates;
+    using DevExpress.ExpressApp.Templates.ActionControls;
+    using DevExpress.Persistent.Base;
+    using Microsoft.AspNetCore.Components;
+    
+    namespace YourSolutionName.Blazor.Server.Templates {
+        public class CustomApplicationWindowTemplate : WindowTemplateBase, ISupportActionsToolbarVisibility, ISelectionDependencyToolbar {
+            public CustomApplicationWindowTemplate() {
+                NavigateBackActionControl = new NavigateBackActionControl();
+                AddActionControl(NavigateBackActionControl);
+                AccountComponent = new AccountComponentAdapter();
+                AddActionControls(AccountComponent.ActionControls);
+                ShowNavigationItemActionControl = new CustomShowNavigationItemActionControl();
+                AddActionControl(ShowNavigationItemActionControl);
+    
+                IsActionsToolbarVisible = true;
+                Toolbar = new DxToolbarAdapter(new DxToolbarModel());
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.ObjectsCreation));
+                Toolbar.AddActionContainer("SaveOptions", ToolbarItemAlignment.Right, isDropDown: true,
+                defaultActionId: "SaveAndNew", autoChangeDefaultAction: true);
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Save), ToolbarItemAlignment.Right);
+                Toolbar.AddActionContainer("Close");
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.UndoRedo));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Edit));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.RecordEdit));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.RecordsNavigation));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.View));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Reports));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Search));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Filters));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.FullTextSearch));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Tools));
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Export));
+                Toolbar.AddActionContainer("Diagnostic");
+                Toolbar.AddActionContainer(nameof(PredefinedCategory.Unspecified));
+    
+                HeaderToolbar = new DxToolbarAdapter(new DxToolbarModel() {
+                    ItemRenderStyleMode = ToolbarRenderStyleMode.Plain,
+                    TitleTemplate = content => ViewCaptionComponent.Creator(this),
+                    CssClass = "pe-2"
+                });
+                HeaderToolbar.ImageSize = 18;
+                HeaderToolbar.AddActionContainer("QuickAccess", ToolbarItemAlignment.Right);
+                HeaderToolbar.AddActionContainer("Notifications", ToolbarItemAlignment.Right);
+                HeaderToolbar.AddActionContainer("Diagnostic", ToolbarItemAlignment.Right);
+            }
+            protected override IEnumerable<IActionControlContainer> GetActionControlContainers() {
+                return Toolbar.ActionContainers.Union(HeaderToolbar.ActionContainers);
+            }
+            protected override RenderFragment CreateComponent() => CustomApplicationWindowTemplateComponent.Create(this);
+            protected override void BeginUpdate() {
+                base.BeginUpdate();
+                ((ISupportUpdate)Toolbar).BeginUpdate();
+            }
+            protected override void EndUpdate() {
+                ((ISupportUpdate)Toolbar).EndUpdate();
+                base.EndUpdate();
+            }
+            public bool IsActionsToolbarVisible { get; private set; }
+            public NavigateBackActionControl NavigateBackActionControl { get; }
+            public AccountComponentAdapter AccountComponent { get; }
+            public CustomShowNavigationItemActionControl ShowNavigationItemActionControl { get; }
+            public DxToolbarAdapter Toolbar { get; }
+            public string AboutInfoString { get; set; }
+            public DxToolbarAdapter HeaderToolbar { get; }
+    
+            void ISupportActionsToolbarVisibility.SetVisible(bool isVisible) => IsActionsToolbarVisible = isVisible;
+        }
+    }
+    
+    ```
+    
+6.  Modifique el componente  _CustomApplicationWindowTemplateComponent.razor_  según los requisitos de su negocio. Puede ver un ejemplo en el ejemplo de código siguiente:
+    
+- Razor
+    
+    ```
+    @* File: CustomApplicationWindowTemplateComponent.razor *@
+    @using DevExpress.ExpressApp
+    @using DevExpress.ExpressApp.Blazor
+    @using DevExpress.ExpressApp.Blazor.Components
+    @using DevExpress.ExpressApp.Blazor.Templates
+    @using Microsoft.JSInterop
+    
+    @inherits FrameTemplateComponentBase<CustomApplicationWindowTemplate>
+    
+    <div id="main-window-template-component" class="app h-100 d-flex flex-column">
+        <div class="header d-flex flex-row shadow-sm navbar-dark flex-nowrap">
+            <div class="header-left-side d-flex align-items-center ps-2">
+                @FrameTemplate.ShowNavigationItemActionControl.GetComponentContent(@<ViewCaptionComponent WindowCaption="@FrameTemplate" />)
+            </div>
+            <div class="header-right-side w-100 overflow-hidden d-flex align-items-center ps-4">
+                <SizeModeContainer>
+                    @FrameTemplate.HeaderToolbar.GetComponentContent()
+                </SizeModeContainer>
+                <div class="d-flex ms-auto">
+                    @FrameTemplate.AccountComponent.GetComponentContent()
+                    <SettingsComponent />
+                </div>
+            </div>
+        </div>
+        <div class="main xaf-flex-auto overflow-hidden d-flex flex-column">
+            <SizeModeContainer>
+                @if (FrameTemplate.IsActionsToolbarVisible && @FrameTemplate.Toolbar.ContainsVisibleActionControl())
+                {
+                    <div class="main-toolbar py-3 px-2 px-sm-3">@FrameTemplate.Toolbar.GetComponentContent()</div>
+                }
+                <div class="main-content xaf-flex-auto overflow-auto pb-3 px-2 px-sm-3 d-flex flex-column">
+                    <div class="xaf-flex-auto">
+                        <ViewSiteComponent View="@FrameTemplate.View" />
+                    </div>
+                    <div class="about-info text-muted mt-3">
+                        @((MarkupString)FrameTemplate.AboutInfoString)
+                    </div>
+                </div>
+            </SizeModeContainer>
+        </div>
+    </div>
+    
+    @code {
+        public static RenderFragment Create(CustomApplicationWindowTemplate applicationWindowTemplate) => 
+        @<CustomApplicationWindowTemplateComponent FrameTemplate="@applicationWindowTemplate" />;
+    }
+    
+    ```
+    
+7.  Reemplace el método del archivo  _MySolution.Blazor.Server\BlazorApplication.cs_  para usar una instancia de la nueva plantilla:`CreateDefaultTemplate`
+    
+   
+    
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Blazor;
+    using DevExpress.ExpressApp.SystemModule;
+    using DevExpress.ExpressApp.Templates;
+    using YourSolutionName.Blazor.Server.Templates;
+    
+    namespace YourSolutionName.Blazor.Server;
+    
+    public class YourSolutionNameBlazorApplication : BlazorApplication {
+        // ...
+        protected override IFrameTemplate CreateDefaultTemplate(TemplateContext context) {
+            if (context == TemplateContext.ApplicationWindow) {
+                return new CustomApplicationWindowTemplate() { AboutInfoString = AboutInfo.Instance.GetAboutInfoString(this) };
+            }
+            return base.CreateDefaultTemplate(context);
+        }
+    }
+    
+    ```
+    
+8.  Ejecute la aplicación. Ahora XAF representa el control de navegación como un menú desplegable.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/e3a9c456-4ea6-457e-be14-eeef14c7a93b)
+
+
+
+# Cómo: Ajustar el tamaño y el estilo de los cuadros de diálogo emergentes (Blazor)
+
+
+En este artículo se explica cómo cambiar el tamaño de una ventana emergente en una aplicación XAF Blazor.
+
+## Cambiar las dimensiones de todas las ventanas emergentes dentro de la aplicación
+
+Puede especificar dimensiones personalizadas para todas las ventanas emergentes mostradas en la aplicación XAF Blazor.
+
+### En el nivel de aplicación Blazor
+
+Agregue el código siguiente a  _[SolutionName]. Blazor.Server/BlazorApplication.cs_  cuando personaliza este comportamiento para una aplicación específica y no desea reutilizar estas personalizaciones en otras aplicaciones.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor;
+using DevExpress.ExpressApp.Blazor.Templates;
+
+namespace MySolution.Blazor.Server {
+    public partial class MySolutionBlazorApplication : BlazorApplication {
+        public MySolutionBlazorApplication() {
+            CustomizeTemplate += MySolutionBlazorApplication_CustomizeTemplate;
+        }
+        private void MySolutionBlazorApplication_CustomizeTemplate(object sender, CustomizeTemplateEventArgs e) {
+            if(e.Template is IPopupWindowTemplateSize size) {
+                size.MaxWidth = "100vw";
+                size.Width = "800px";
+                size.MaxHeight = "100vh";
+                size.Height = "600px";
+            }
+        }
+    }
+}
+
+```
+
+### En el nivel del módulo Blazor
+
+Utilice este enfoque para crear un módulo Blazor reutilizable que afecte a la apariencia de la aplicación donde se utiliza.
+
+Agregue el código siguiente a  _[CustomModuleName]. Archivo Blazor.Server/BlazorModule.cs_:
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor.Templates;
+
+namespace MyCustomModule.Module.Blazor {
+    public sealed partial class MySolutionBlazorModule : ModuleBase {
+        public override void Setup(XafApplication application) {
+            base.Setup(application);
+            application.CustomizeTemplate += Application_CustomizeTemplate;
+        }
+        private void Application_CustomizeTemplate(object sender, CustomizeTemplateEventArgs e) {
+            if(e.Template is IPopupWindowTemplateSize size) {
+                size.MaxWidth = "100vw";
+                size.Width = "800px";
+                size.MaxHeight = "100vh";
+                size.Height = "600px";
+            }
+        }
+    }
+}
+
+```
+
+## Cambiar las dimensiones de una ventana emergente individual
+
+### En un controlador de ventana
+
+Para cambiar las dimensiones de una ventana emergente individual, agregue un nuevo controlador de ventana a  _[SolutionName]. Carpeta Blazor.Server/Controllers_  con el siguiente código:
+
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor.Templates;
+
+namespace MySolution.Blazor.Server.Controllers {
+    public class CustomizePopupSizeController : WindowController {
+        protected override void OnActivated() {
+            base.OnActivated();
+
+            Window.TemplateChanged += Window_TemplateChanged;
+        }
+        private void Window_TemplateChanged(object sender, EventArgs e) {
+            // Change the dimensions only for the View  
+            // with Id set to "PermissionPolicyRole_DetailView".
+            if (Window.Template is IPopupWindowTemplateSize size 
+                && Window.View.Id == "PermissionPolicyRole_DetailView") {
+                size.MaxWidth = "100vw";
+                size.Width = "1800px";
+                size.MaxHeight = "100vh";
+                size.Height = "1600px";
+            }
+        }
+        protected override void OnDeactivated() {
+            Window.TemplateChanged -= Window_TemplateChanged;
+            base.OnDeactivated();
+        }
+    }
+}
+
+```
+
+### En la ventana emergenteMostraracción
+
+Si  [invoca una ventana emergente mediante una acción personalizada](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-an-action-that-displays-a-pop-up-window), puede personalizar las dimensiones de la ventana emergente de la siguiente manera:
+
+
+
+```csharp
+using System.Drawing;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
+
+namespace MySolution.Module.Blazor.Controllers {
+    public class PopupWindowShowAction_CustomSizeController : ViewController {
+        public PopupWindowShowAction_CustomSizeController() {
+            PopupWindowShowAction showCustomSizePopup = new PopupWindowShowAction(this, "ShowCustomSizePopup", PredefinedCategory.RecordEdit);
+            showCustomSizePopup.Caption = "ShowCustomSizePopup";
+            showCustomSizePopup.CustomizePopupWindowParams += ShowCustomSizePopup_CustomizePopupWindowParams;
+        }
+        private void ShowCustomSizePopup_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e) {
+            IObjectSpace objectSpace = Application.CreateObjectSpace(typeof(SampleObject));
+            SampleObject obj = objectSpace.CreateObject<SampleObject>();
+            e.View = Application.CreateDetailView(objectSpace, obj);
+
+            e.Maximized = true;
+            // OR
+            // e.Size = new Size(800, 600);
+        }
+    }
+} 
+```
+
+
+# Plantillas de aplicación de formularios Web Forms ASP.NET
+
+
+**eXpressApp Framework**  utiliza plantillas integradas para la construcción automática de la interfaz de usuario. Las plantillas para ASP.NET aplicaciones de formularios Web Forms se enumeran a continuación.
+
+## Plantillas de aplicación de formularios Web Forms ASP.NET
+
+### DefaultVerticalTemplateContentNew
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/664f20d5-053f-4304-a185-804b6f2c63bd)
+
+**Clase:**  `DefaultVerticalTemplateContentNew`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar las ventanas principales de Ventana y Vista de detalles (tanto en los modos de vista como de edición).
+
+### DialogTemplateContentNew
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5ca29666-75d6-478f-81a9-4af896a3c4ae)
+
+**Clase:**  `DialogTemplateContentNew`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana de diálogo (por ejemplo, una ventana desplegable del Editor de propiedades de búsqueda o una ventana emergente de PopupWindowShowAction).
+
+### FindDialogTemplateContentNew
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/05ade023-d6d7-46dd-9d96-bf858d9819d1)
+
+**Clase:**  `FindDialogTemplateContentNew`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana de diálogo (por ejemplo, una ventana desplegable del Editor de propiedades de búsqueda o una ventana emergente de PopupWindowShowAction) con el filtro de registros.
+
+### NestedFrameControlNew
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/99620aab-4c47-425a-b668-7b6b35e600b0)
+
+**Clase:**  `NestedFrameControlNew`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana (marco) anidada en otra ventana (marco), como un editor de propiedades de lista o un marco del editor de propiedades de detalle.
+
+### LogonTemplateContentNew
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5be1602c-bb47-49fa-87da-88e44d03b95e)
+
+**Clase:**  `LogonTemplateContentNew`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana de inicio de sesión.
+
+>NOTA
+>
+>Si utiliza un estilo de aplicación ASP.NET Web Forms clásico y desea utilizar el nuevo estilo en su lugar, llame a la aplicación Web. 
+
+## Plantillas clásicas de aplicación de formularios Web Forms ASP.NET
+
+### DefaultVerticalTemplateContent
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/142de9de-f91f-4252-acef-1614faf35292)
+
+**Clase:**  `DefaultVerticalTemplateContent`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se puede utilizar para mostrar las ventanas principales de Ventana y Vista de detalles (tanto en los modos de vista como de edición). Esta plantilla es la plantilla estándar de la ventana principal con la barra de navegación vertical. Para obtener más información acerca de cómo utilizar esta plantilla, consulte el tema  [Apariencia de la aplicación de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance).
+
+### DefaultTemplateContent
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7893e15a-4749-486e-a1b0-eb36d9da260d)
+
+**Clase:**  `DefaultTemplateContent`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar las ventanas principales de Ventana y Vista de detalles (tanto en los modos de vista como de edición). Esta plantilla es una plantilla opcional que tiene pestañas de navegación alineadas horizontalmente que conservan el espacio de la ventana principal.
+
+### DialogTemplateContent
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/fe511a0d-f706-4cc2-80d4-1f09d5fe1780)
+
+**Clase:**  `DialogTemplateContent`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana de diálogo (por ejemplo, una ventana desplegable del Editor de propiedades de búsqueda o una ventana emergente de PopupWindowShowAction).
+
+### NestedFrameControl
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b90f94f6-b316-47bf-b4d1-93ee099ad2d0)
+
+**Clase:**  `NestedFrameControl`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana (marco) anidada en otra ventana (marco), como un editor de propiedades de lista o un marco del editor de propiedades de detalle.
+
+### LogonTemplateContent
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/1b98921c-6426-46e7-b2ee-6a04d724081e)
+
+**Clase:**  `LogonTemplateContent`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates`
+
+Se utiliza para mostrar una ventana de inicio de sesión. Contiene el contenedor de acciones PopupActions.
+
+### ErrorInfoControl
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6386d37f-6504-49e8-8631-006eafc19c14)
+
+
+**Clase:**  `ErrorInfoControl`
+
+**Namespace:**  `DevExpress.ExpressApp.Web.Templates.Controls`
+
+Se utiliza para mostrar una ventana con un comentario sobre un error.
+
+>NOTA
+>
+>Si utiliza un nuevo tema de aplicación de formularios Web Forms ASP.NET y desea utilizar el estilo clásico en su lugar, llame a la aplicación Web.
+
+
+# Cómo: Personalizar una plantilla de formularios Web Forms ASP.NET
+
+
+De forma predeterminada, el contenido de la plantilla de ASP.NET aplicaciones de formularios Web Forms lo proporcionan  [los controles de  usuario](https://docs.microsoft.com/en-us/dotnet/api/system.web.ui.usercontrol)  incrustados en  _DevExpress.ExpressApp.Web_  y, por lo tanto, no se puede modificar. Sin embargo, puede incluir archivos de origen de contenido de plantilla en el proyecto de aplicación, modificar este contenido y cambiar a él en su lugar. En este ejemplo se muestra cómo modificar el contenido de la plantilla  **DefaultVerticalTemplateContentNew**.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4359/how-to-customize-an-asp-net-template](https://supportcenter.devexpress.com/ticket/details/e4359/how-to-customize-an-asp-net-template) .
+
+## Agregar una plantilla editable
+
+Abra la solución XAF existente o cree una nueva. Invocar la  [Galería](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery)  de plantillas para el proyecto de aplicación ASP.NET formularios Web Forms, elija las  **XAF ASP.NET Web Forms Templates** | **Default Vertical Template Content**  y especifique un nombre (por ejemplo, "MyDefaultVerticalTemplateContent").
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8301a73c-c6b9-4c38-abf4-7ecfde2c7be3)
+
+>NOTA
+>
+>Si usa [la interfaz de usuario web clásica](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance), seleccione **Deprecated Templates** | **Default Vertical Template Content** en lugar de  **XAF ASP.NET Web Forms Templates** | **Default Vertical Template Content**).
+
+>IMPORTANTE
+>>Agregue siempre una plantilla personalizada a una carpeta raíz de un proyecto de aplicación de formularios Web Forms ASP.NET.  De lo contrario, es posible que las URL de las imágenes se generen incorrectamente.
+
+Se agregarán los siguientes archivos que implementan el control de usuario.
+
+-   _MyDefaultVerticalTemplateContent.ascx_
+-   _MyDefaultVerticalTemplateContent.ascx.cs_
+-   _MyDefaultVerticalTemplateContent.ascx.designer.cs_
+
+Estos archivos se seleccionan en la imagen siguiente, que se tomó de la ventana  **Explorador de soluciones**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6432d6be-8186-41ea-93c2-dac48396eba6)
+
+Abra el archivo ASCX. Aquí, puede modificar el marcado de contenido. Por ejemplo, puede cambiar el estilo del Panel de actualización: reemplace su color "4a4a4a" con "2c86d3".
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/77f32816-e9ed-4eff-b6b6-cf50625e9580)
+
+## Usar la plantilla modificada en lugar de la predeterminada
+
+Para usar el contenido modificado en lugar del contenido predeterminado, abra el archivo Global.asax.cs (_Global.asax.vb_) y modifique el controlador de eventos Session_Start_._  Especifique una ruta de acceso al control de usuario personalizado como se muestra a continuación.
+
+
+
+```csharp
+protected void Session_Start(Object sender, EventArgs e) {
+    // ...
+    WebApplication.Instance.Settings.DefaultVerticalTemplateContentPath =
+        "MyDefaultVerticalTemplateContent.ascx";
+    WebApplication.Instance.SwitchToNewStyle();
+    WebApplication.Instance.Setup();
+    WebApplication.Instance.Start();
+}
+
+```
+
+La imagen siguiente ilustra el estilo de título de vista modificado en la aplicación en ejecución.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ca943c19-6b04-45c3-b57f-9308ebbc9a8c)
+
+>NOTA
+>
+>Si desea invalidar los scripts de plantilla predeterminados, controle la [WebWindow.CustomRegisterTemplateDependentScripts](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow.CustomRegisterTemplateDependentScripts).
+
+## Agregar un contenedor de acciones a la plantilla
+
+**NavigationHistoryActionContainer**, que muestra el historial de navegación (rutas de navegación), no está disponible en la  [nueva interfaz de usuario web](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance). Sin embargo, puede agregarlo fácilmente a su plantilla personalizada de formularios Web Forms ASP.NET mediante el siguiente marcado.
+
+
+
+```aspx
+<xaf:XafUpdatePanel ID="XafUpdatePanel3" runat="server">
+    <xaf:NavigationHistoryActionContainer runat="server" 
+        ContainerId="ViewsHistoryNavigation" 
+        id ="NavigationHistoryActionContainer" 
+        Delimiter=" / " />
+</xaf:XafUpdatePanel>
+
+```
+
+El contenedor de acciones debe colocarse dentro del control  **XafUpdatePanel**. El resultado se muestra a continuación.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b2d76d4a-99d8-4c8e-a08b-c6db16ff5e98)
+
+Puede usar el mismo enfoque para agregar cualquier otro  [contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  integrado o personalizado a una ubicación deseada dentro de una plantilla. Tenga en cuenta que la instancia personalizada del contenedor de acciones debe agregarse a la lista devuelta por el método  [IFrameTemplate.GetContainers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IFrameTemplate.GetContainers)  de la plantilla.
+
+
+# Cómo: Ajustar el tamaño y el estilo de los cuadros de diálogo emergentes (formularios Web Forms ASP.NET)
+
+
+En ASP.NET aplicaciones XAF de formularios Web Forms, se muestran ventanas de diálogo emergentes mediante  [ASPxPopupControl](https://docs.devexpress.com/AspNet/3582/components/docking-and-popups/popup-control). Los usuarios finales pueden arrastrar el agarre de tamaño en la esquina inferior derecha para cambiar el tamaño de una ventana emergente si no está restringido en la configuración. También puede personalizar el tamaño inicial en el código. El tamaño de la ventana principal es igual al tamaño de la ventana del navegador. En este tema se describe cómo cambiar el tamaño y personalizar las ventanas emergentes mediante programación, en función de la vista mostrada.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5c87ab8d-152b-4af4-842d-1bf6cc3aaaf6)
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e4208/how-to-adjust-the-size-of-pop-up-dialogs](https://supportcenter.devexpress.com/ticket/details/e4208/how-to-adjust-the-size-of-pop-up-dialogs) .
+
+>PROPINA
+>
+>Un ejemplo similar para Formularios de Windows está disponible en el tema Cómo: Ajustar el tamaño y el estilo de Windows [](https://docs.devexpress.com/eXpressAppFramework/117231/ui-construction/templates/in-winforms/how-to-adjust-the-windows-size-and-style).
+
+## Establecer el tamaño y el estilo predeterminados de las ventanas emergentes
+
+Para aplicar un estilo unificado para todas las ventanas emergentes de la aplicación ASP.NET formularios Web Forms con la  [nueva interfaz de usuario web](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance), utilice las siguientes propiedades estáticas  [XafPopupWindowControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl)  recomendadas.
+
+-   [XafPopupWindowControl.DefaultWidth](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.DefaultWidth)
+-   [XafPopupWindowControl.DefaultHeight](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.DefaultHeight)
+-   [XafPopupWindowControl.PopupTemplateType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.PopupTemplateType)
+-   [XafPopupWindowControl.ShowPopupMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.ShowPopupMode)
+
+Agregue el código siguiente al método  **Application_Start**  en el archivo Global.asax_.cs (Global.asax__.vb_).
+
+
+
+```csharp
+using DevExpress.ExpressApp.Web.Controls;
+using System.Web.UI.WebControls;
+//...
+protected void Application_Start(object sender, EventArgs e) {
+    XafPopupWindowControl.DefaultHeight = Unit.Percentage(50);
+    XafPopupWindowControl.DefaultWidth = Unit.Percentage(60);
+    XafPopupWindowControl.PopupTemplateType = PopupTemplateType.FindDialog;
+    XafPopupWindowControl.ShowPopupMode = ShowPopupMode.Centered;
+    //...
+}
+
+```
+
+Si personaliza ventanas emergentes en una aplicación de formularios Web Forms ASP.NET con la interfaz de usuario web clásica, puede establecer el alto y el ancho predeterminados en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  mediante las propiedades IModelPopupWindowOptionsWeb.WindowHeight e  [IModelPopupWindowOptionsWeb.WindowWidth.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelPopupWindowOptionsWeb.WindowHeight)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.SystemModule.IModelPopupWindowOptionsWeb.WindowWidth)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/0785edfe-c720-49b5-8f7f-bd520d3e691f)
+
+## Establecer el tamaño y el estilo de las ventanas emergentes individuales
+
+El evento  [XafPopupWindowControl.CustomizePopupWindowSize](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.CustomizePopupWindowSize)  permite cambiar los parámetros predeterminados de la ventana emergente. Para ello, cree un Controller en el proyecto de módulo ASP.NET formularios Web Forms y suscríbase al evento PopupWindowManager.PopupShowing para tener acceso a la instancia de  [XafPopupWindowControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl)[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.PopupWindowManager.PopupShowing)  A continuación, suscríbase al evento  **CustomizePopupWindowSize**  y defina el tamaño o estilo necesario en el controlador de eventos.
+
+En el ejemplo siguiente se muestra cómo cambiar el tamaño predeterminado de todas las ventanas emergentes:
+
+
+
+```csharp
+using System.Web.UI.WebControls;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Web;
+//...
+public class CustomizePopupSizeController : WindowController {
+    public CustomizePopupSizeController() {
+        this.TargetWindowType = WindowType.Main;
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        ((WebApplication)Application).PopupWindowManager.PopupShowing += 
+PopupWindowManager_PopupShowing;
+    }
+    private void PopupWindowManager_PopupShowing(object sender, PopupShowingEventArgs e) {
+        e.PopupControl.CustomizePopupWindowSize += XafPopupWindowControl_CustomizePopupWindowSize;
+    } 
+    private void XafPopupWindowControl_CustomizePopupWindowSize(object sender, 
+DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs e) {
+        e.Width = new Unit(600);
+        e.Height = new Unit(400);
+        e.Handled = true;
+    }
+}
+
+```
+
+Utilice las propiedades  [ShowPopupMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.ShowPopupMode)  y  [PopupTemplateType de](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.PopupTemplateType)  [CustomizePopupWindowSizeEventArgs](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs)  para cambiar el estilo de una ventana emergente.
+
+Tenga en cuenta que en la  [nueva interfaz de usuario web](https://docs.devexpress.com/eXpressAppFramework/113153/application-shell-and-base-infrastructure/themes/asp-net-web-application-appearance), no puede administrar el alto y la posición de una ventana emergente si su  [ShowPopupMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.ShowPopupMode)  está establecido en  **Slide**.
+
+Para tener acceso a las propiedades de  [ASPxPopupControl](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxPopupControl?v=23.1), controle el evento  [XafPopupWindowControl.CustomizePopupControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.XafPopupWindowControl.CustomizePopupControl)  de la misma manera.
+
+## Acceda a la vista mostrada en la ventana emergente y su vista principal
+
+Para tener acceso a la  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  primaria de una ventana emergente, utilice la propiedad  [ShowViewSource.SourceView.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewSource.SourceView)  Por ejemplo, para ajustar el tamaño de las ventanas emergentes del tipo  **DemoTask**, utilice el código siguiente.
+
+
+
+```csharp
+using System.Web.UI.WebControls;
+//...
+private void XafPopupWindowControl_CustomizePopupWindowSize(object sender, 
+DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs e) {
+    if (e.ShowViewSource.SourceView.ObjectTypeInfo.Type  == typeof(DemoTask)) {
+        e.Width = new Unit(600);
+        e.Height = new Unit(400);
+        e.Handled = true;
+    }
+}
+
+```
+
+Si es necesario personalizar una ventana emergente invocada desde un  **marco**  determinado y mostrar un objeto de un tipo específico en ella, utilice las propiedades CustomizePopupWindowSizeEventArgs.PopupFrame y  [CustomizePopupWindowSizeEventArgs.SourceFrame.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.SourceFrame)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.PopupFrame)En el ejemplo siguiente se explica cómo personalizar una ventana emergente con el objeto  **DemoTask**  invocado desde la ventana con el objeto  **Contact**.
+
+
+
+```csharp
+using DevExpress.ExpressApp.Web.Controls;
+using System.Web.UI.WebControls;
+//...
+private void XafPopupWindowControl_CustomizePopupWindowSize(object sender,
+CustomizePopupWindowSizeEventArgs e) {
+    if ((e.PopupFrame.View.ObjectTypeInfo.Type == typeof(DemoTask)) && 
+    (e.SourceFrame.View.ObjectTypeInfo.Type == typeof(Contact))) {  
+        e.Width = new Unit(600);
+        e.Height = new Unit(400);
+        e.Handled = true;
+    }
+}
+
+```
+
+Si la vista emergente es una parte incrustada de un editor de propiedades de referencia (**ASPxLookupPropertyEditor o ASPxObjectPropertyEditor**), puede ser necesario determinar qué búsqueda es el origen de la ventana emergente que se va a invocar.  El siguiente fragmento de código muestra cómo determinar la ventana de búsqueda de origen. En este ejemplo, la propiedad  **Data**  proporciona acceso a las referencias de acción del editor.
+
+
+
+```csharp
+using DevExpress.ExpressApp.Web.Controls;
+using DevExpress.ExpressApp.Web.Editors.ASPx;
+//...
+private void XafPopupWindowControl_CustomizePopupWindowSize(object sender, 
+CustomizePopupWindowSizeEventArgs e) {
+    if(e.ShowViewSource != null && e.ShowViewSource.SourceAction != null && 
+    e.ShowViewSource.SourceAction.Data.ContainsKey(ASPxObjectPropertyEditorBase.EditorActionRelationKey)) {
+        ASPxLookupPropertyEditor lookupPropertyEditor = 
+        e.ShowViewSource.SourceAction.Data[ASPxObjectPropertyEditorBase.EditorActionRelationKey] 
+        as ASPxLookupPropertyEditor;
+    }
+}
+
+```
+
+Además, puede crear la instancia de clase PopupWindowShowAction para invocar ventanas emergentes con la  **vista**  concreta establecida en el parámetro  [CustomizePopupWindowParamsEventArgs.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.View)  del controlador.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)  Consulte la descripción de la clase  **PopupWindowShowAction**  para ver el ejemplo de código.
+
+>NOTA
+>
+>Determinadas plantillas de formulario  (por  ejemplo, plantillas de ventana emergente con la propiedad [CustomizePopupWindowSizeEventArgs.ShowPopupMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.CustomizePopupWindowSizeEventArgs.ShowPopupMode) establecida en [ShowPopupMode.Centered](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Controls.ShowPopupMode) puede tener detalles particulares.
+>
+>-   El tamaño se puede calcular dinámicamente en función del contenido.
+>-   La ventana puede tener restricciones para cambiar el tamaño (la propiedad  **IsSizeable**).
+>-   La ventana puede expandirse para ocupar todo el espacio (la propiedad  **Maximized**).
+>
+>Si su tamaño personalizado se omite utilizando el método mencionado anteriormente, es posible que desee investigar el código fuente de cada plantilla de formulario requerida y ajustar la configuración predeterminada del formulario en consecuencia.
+
+
+# Cómo: Distribuir plantillas personalizadas con módulos
+
+
+**eXpressApp Framework**  utiliza  [plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  predeterminadas al crear interfaces de usuario de formularios Windows Forms. Puedes personalizarlos. Los enfoques para la personalización se definen en los temas  [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  y  [Cómo: Crear una plantilla personalizada de cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template). Una vez que haya desarrollado una plantilla personalizada, es posible que deba usarla en varias aplicaciones. La forma adecuada de distribuir plantillas de formularios Windows Forms es agregarlas a un módulo que, a continuación, se agregará a las aplicaciones de formularios Windows Forms necesarias. En este tema se muestra cómo hacerlo. ASP.NET plantillas de formularios web y ASP.NET Core Blazor se pueden distribuir fácilmente, tal cual. Puede agregarlos a un proyecto de aplicación ASP.NET Web Forms o ASP.NET Core Blazor reemplazando los valores predeterminados.
+
+Al crear una interfaz de usuario de formularios Windows Forms, la instancia de clase  [WinApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.WinApplication)  utiliza su fábrica de plantillas de marco para crear una plantilla adecuada en el contexto actual. Frame Template Factory es una clase que implementa la interfaz  **IFrameTemplateFactory**. Esta interfaz expone un único método,  **CreateTemplate**, que obtiene el contexto actual de la plantilla como parámetro.  **eXpressApp Framework**  tiene una clase base que implementa esta interfaz, FrameTemplateFactoryBase, y su descendiente,  **DefaultLightStyleFrameTemplateFactory**.  La clase base expone métodos abstractos a los que llama el método  **CreateTemplate**, en función del contexto de plantilla pasado. Ellos son:  **CreateNestedFrameTemplate**, CreatePopupWindowTemplate,  **CreateLookupControlTemplate**,  **CreateLookupWindowTemplate,**  **CreateApplicationWindowTemplate y CreateViewTemplate**.  La clase  **DefaultLightStyleFrameTemplateFactory**  reemplaza estos métodos para crear las plantillas XAF predeterminadas.
+
+Para hacer que una aplicación use plantillas personalizadas, haga lo siguiente:
+
+-   Agregue las plantillas personalizadas al proyecto de módulo que se va a distribuir.
+-   Implemente una clase Frame Template Factory en el módulo que se va a distribuir.
+    
+    Esta clase debe devolver la plantilla personalizada necesaria en un contexto adecuado. El código siguiente muestra cómo implementar esto para dos plantillas personalizadas: la plantilla  **MyMainForm**, que se crea para representar la ventana principal, y la plantilla  **MyDetailViewForm**, que se crea para representar un formulario de detalle. Estas plantillas tienen constructores personalizados que toman un objeto  [IModelTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelTemplate)  como único parámetro, con fines de inicialización. La clase  **MyFrameTemplateFactory**  recién implementada se hereda de la clase  **DefaultLightStyleFrameTemplateFactory**, para reemplazar únicamente los métodos  **CreateApplicationWindowTemplate**  y  **CreateViewTemplate**.
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Model;
+    using DevExpress.ExpressApp.Utils;
+    using DevExpress.ExpressApp.Win;
+    //...
+    public class MyFrameTemplateFactory : DefaultLightStyleFrameTemplateFactory {
+        private WinApplication application;
+        public MyFrameTemplateFactory(WinApplication application) {
+            Guard.ArgumentNotNull(application, nameof(application));
+            this.application = application;
+        }
+        protected IModelTemplate GetTemplateInfo(TemplateContext templateContext) {            
+            return application.Model.Templates[templateContext.Name];
+        }
+        protected override DevExpress.ExpressApp.Templates.IFrameTemplate           
+            CreateApplicationWindowTemplate() {            
+            return new MyMainForm(GetTemplateInfo(TemplateContext.ApplicationWindow));
+        }
+        protected override DevExpress.ExpressApp.Templates.IFrameTemplate CreateViewTemplate() {
+            return new MyDetailViewForm(GetTemplateInfo(TemplateContext.View));
+        }
+    }
+    
+    ```
+    
+-   Establezca la fábrica de plantillas de marco personalizada para la aplicación.
+    
+    Para que la aplicación utilice el Frame Template Factory personalizado para crear plantillas, establézcalo para la propiedad  **WinApplication.FrameTemplateFactory**  en el método  **Setup**  del módulo distribuido. El código siguiente muestra esto:
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.Win;
+    //...
+    public class MyWindowsFormsModule : ModuleBase {
+       public override void Setup(XafApplication application) {
+          base.Setup(application);
+          ((WinApplication)application).FrameTemplateFactory = 
+             new MyFrameTemplateFactory((WinApplication)application);
+       }
+       //...
+    }
+    
+    ```
+    
+-   Compile el proyecto de módulo y agréguelo al proyecto de aplicación requerido (consulte  [Estructura de la solución de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)).
+
+
+
+# Contenedores de acciones
+
+
+_Los contenedores de_  acciones son marcadores de posición para acciones (pueden aparecer varias  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  dentro de un solo contenedor).  [Las plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  definen la posición de los contenedores de acciones en la pantalla.
+
+En este tema se explica cómo personalizar los contenedores de acciones existentes e implementar los suyos propios.
+
+XAF suministra una serie de contenedores de acción integrados para la construcción automática de la interfaz de usuario. Los contenedores de acciones integrados para ASP.NET aplicaciones Core Blazor, Windows Forms y ASP.NET Web Forms se suministran con los ensamblados DevExpress.ExpressApp.Blazor, DevExpress.ExpressApp.Win y  **DevExpress.ExpressApp.Web**, respectivamente**.**
+
+Puede encontrar la lista de todos los contenedores de acciones en  **ActionDesign**  |  **Nodo ActionToContainerMapping**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works).
+
+## Contenedores de acciones de ASP.NET  Core Blazor
+
+Las siguientes imágenes muestran la ubicación de Action Container en ASP.NET interfaz de usuario de la aplicación Core Blazor:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/61aa593b-8edf-4946-bf1d-632c743949d3)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/81a1a6a2-09dc-4c67-aef9-8386993e0652)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/353cdb52-2b06-4903-a393-5c3c447e042b)
+
+## Creación de contenedores de acciones
+
+Cuando XAF crea una plantilla, también crea todos los contenedores de acciones que pertenecen a esta plantilla. El controlador integrado determina las acciones que rellenan cada contenedor de acciones. Esa información proviene de  **ActionDesign**  |  **Nodo ActionToContainerMapping**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works). El controlador llama al método del contenedor de acciones para crear un control para cada acción. Por ejemplo, en una aplicación de Windows Forms, el contenedor de acciones crea un objeto para a y un control para un .`FillActionContainers``FillActionContainers``Register``ActionContainerBarItem``BarButtonItem``SimpleAction``BarEditItem``SingleChoiceAction`
+
+## Personalización del contenedor de acciones
+
+Puede personalizar las acciones de un contenedor de acciones determinado en código, en tiempo de diseño y en tiempo de ejecución.
+
+### En el modelo de aplicación
+
+El  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  contiene  **ActionDesign**  |  **Nodo ActionToContainerMapping**. Este nodo contiene información sobre qué acciones debe mostrar un contenedor de acciones determinado. Puede personalizar la información generada automáticamente en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  en tiempo de diseño o en tiempo de ejecución (vea  [Cómo: Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/ui-construction/controllers-and-actions/actions/how-to-place-an-action-in-a-different-location)). En este nodo, puede mover una acción a otro contenedor de acciones, eliminar una acción de un contenedor de acciones en particular, etc. También puede agregar un nuevo contenedor de acciones y agregarle acciones, pero dicho contenedor de acciones solo aparece en una interfaz de usuario si pertenece a una plantilla. Para obtener más información acerca de este nodo del modelo de aplicación, consulte la descripción de la interfaz  [IModelActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelActions).
+
+### En código
+
+Para personalizar un contenedor de acciones, controle el evento  [Frame.ProcessActionContainer.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.ProcessActionContainer)  Puede personalizar un contenedor de acciones utilizando sus propiedades. También puede utilizar la propiedad  [IActionContainer.Actions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IActionContainer.Actions)  para tener acceso a las acciones de un contenedor de acciones determinado y personalizar estas acciones. Por ejemplo, puede alternar la propiedad  [ActionBase.Active](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Active)  de una acción para desactivar esta acción. También puede acceder al control de una acción y personalizarlo.
+
+Para personalizar un elemento de la barra de herramientas, controle el evento del fabricante de elementos de barra correspondiente. Para obtener información adicional, consulte el tema siguiente:  [Cómo: Personalizar controles de acción](https://docs.devexpress.com/eXpressAppFramework/113183/ui-construction/controllers-and-actions/actions/how-to-customize-action-controls).`CustomizeActionControl`
+
+Puede controlar el evento  [ActionControlsSiteController.CustomizeContainerActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ActionControlsSiteController.CustomizeContainerActions)  para personalizar la asignación de acción a contenedor en el código.
+
+### En la plantilla de aplicación ASP.NET  Core Blazor
+
+En ASP.NET aplicaciones Core Blazor, puede agrupar Acciones en un menú desplegable y especificar una Acción predeterminada que sirva como elemento de menú raíz.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/874596c9-684b-49e9-91b0-3144c19c5973)
+
+Cree una  [plantilla de aplicación Blazor personalizada](https://docs.devexpress.com/eXpressAppFramework/403452/ui-construction/templates/in-blazor/custom-blazor-application-template)  y especifique las siguientes propiedades del contenedor de acciones:
+
+`isDropDown`
+
+Especifica si las acciones del contenedor se agrupan en una lista desplegable.
+
+`defaultActionId`
+
+Especifica el identificador predeterminado de la acción.
+
+`autoChangeDefaultAction`
+
+Especifica si la última acción ejecutada se convierte en la predeterminada.
+
+
+```csharp
+Toolbar.AddActionContainer("SaveOptions", ToolbarItemAlignment.Right, isDropDown: true, defaultActionId: "SaveAndNew", autoChangeDefaultAction: true);
+
+```
+
+Si especifica una  [acción SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction)  como predeterminada, se muestra en el menú principal sin elementos secundarios.
+
+El menú desplegable no admite y con  [ItemType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction.ItemType)  establecido en  [SingleChoiceActionItemType.ItemIsMode.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceActionItemType)`ParametrizedAction``SingleChoiceAction`
+
+### En la plantilla de aplicación de formularios Web Forms de ASP.NET
+
+En ASP.NET aplicaciones de formularios Web Forms, puede agrupar acciones en un menú desplegable con la acción predeterminada colocada como elemento de menú raíz.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8a0dd57c-8f89-46fb-8681-e97483f64572)
+
+Puede  [personalizar una plantilla de aplicación de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113460/ui-construction/templates/in-webforms/how-to-customize-an-asp-net-template)  para tener acceso a determinadas configuraciones del contenedor de acciones que no están disponibles en el modelo de aplicación. En el archivo ASCX, puede localizar un elemento requerido por su valor y establecer las siguientes propiedades:`WebActionContainer``ContainerId`
+
+- `IsDropDown`
+Especifica si las acciones del contenedor se agrupan en una lista desplegable.
+
+- `DefaultActionID`
+Especifica un identificador de la acción predeterminada para el grupo (colocado como un elemento de menú raíz).
+
+- `DefaultItemImageName`
+Especifica el nombre de la imagen para el elemento raíz del grupo (cuando no se especifica).`DefaultActionID`
+
+- `DefaultItemCaption`
+Especifica el texto del elemento raíz del grupo (cuando no se especifica).`DefaultActionID`
+
+- `AutoChangeDefaultAction`
+Especifica si se debe establecer como predeterminada la última acción ejecutada.
+
+El código siguiente configura un menú desplegable sin una acción predeterminada. El elemento raíz expande el menú y no está asociado a una acción:
+
+
+
+```acsx
+<ActionContainers>
+<xaf:WebActionContainer IsDropDown="true" ContainerId="Security" DefaultItemCaption="My Account" DefaultItemImageName="BO_Person" />
+</ActionContainers>
+
+```
+
+El código siguiente configura un menú desplegable con una acción predeterminada:
+
+
+
+```acsx
+<ActionContainers>
+<xaf:WebActionContainer ContainerId="Save" DefaultActionID="Save" IsDropDown="true" AutoChangeDefaultAction="true" />
+</ActionContainers>
+
+```
+
+>NOTA
+>
+>Si especifica una [SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction) como predeterminada, se muestra en el menú principal sin elementos secundarios y en el menú desplegable con elementos secundarios.
+
+## Implemente su propio contenedor de acciones
+
+Si necesita cambiar los controles utilizados para mostrar acciones, puede implementar sus propios contenedores de acciones. Para ello, herede del control necesario e implemente la interfaz  [IActionContainer](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IActionContainer). Como alternativa, puede derivar el contenedor personalizado de uno de los contenedores de acciones existentes. Es posible que también deba especificar los controles que XAF debe usar para cada tipo de acción.
+
+Después de declarar su propio contenedor de acciones, cree una nueva plantilla o personalice una plantilla existente como se describe en los siguientes temas:
+
+-   [Cómo: Crear una plantilla de aplicación de Blazor personalizada](https://docs.devexpress.com/eXpressAppFramework/403452/ui-construction/templates/in-blazor/custom-blazor-application-template)
+-   [Cómo: Crear una plantilla estándar de WinForms personalizada](https://docs.devexpress.com/eXpressAppFramework/113706/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-standard-template)
+-   [Cómo: Crear una plantilla personalizada de la cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template)
+-   [Cómo: Personalizar una plantilla de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/113460/ui-construction/templates/in-webforms/how-to-customize-an-asp-net-template)
+
+Agregue el contenedor de acciones a la plantilla y agregue la instancia del contenedor de acciones a la lista devuelta por el método  [IFrameTemplate.GetContainers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Templates.IFrameTemplate.GetContainers)  de la plantilla.
+
+Si tiene instalados orígenes XAF, puede ver cómo se implementan los contenedores de acciones integrados en las siguientes ubicaciones:
+
+-   %PROGRAMFILES%\DevExpress  23.1\Components\Sources\DevExpress.ExpressApp\DevExpress.ExpressApp.Web\Templates\ActionContainers\
+-   %PROGRAMFILES%\DevExpress  23.1\Components\Sources\DevExpress.ExpressApp\DevExpress.ExpressApp.Win\Templates\ActionContainers\
+-   %PROGRAMFILES%\DevExpress  23.1\Components\Sources\DevExpress.ExpressApp\DevExpress.ExpressApp.Blazor\Templates\
