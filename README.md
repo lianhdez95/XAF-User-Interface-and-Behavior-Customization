@@ -6595,6 +6595,7 @@ En este ejemplo, un comportamiento Action se personaliza a través de un único 
 Una ventana emergente contiene una  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  (vista de detalle o de lista) y  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions), como cualquier otra ventana. Las acciones se muestran mediante los  [contenedores de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers)  de la plantilla de la ventana. Si necesita agregar una acción a una ventana emergente, debe agregarla al contenedor de acciones de la plantilla adecuada. En este tema se detalla qué plantillas integradas se usan para mostrar ventanas emergentes y cómo agregar acciones a sus contenedores de acciones. Para obtener información sobre cómo mostrar una ventana (una ventana emergente o no) de una acción, consulte el tema  [Formas de mostrar una vista](https://docs.devexpress.com/eXpressAppFramework/112803/ui-construction/views/ways-to-show-a-view/ways-to-show-a-view).
 
 Las siguientes plantillas integradas se utilizan para mostrar ventanas emergentes:
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6bc98883-beb9-4ee4-a4d2-01f6e17f471f)
 
 
 The  **ButtonsContainer**  Action Container displays all Action types as a button. However, the button’s  **Click**  event is handled in different ways for different Action types:
@@ -6634,3 +6635,289 @@ Los contenedores de acciones obtienen acciones para mostrar desde la aplicación
     
 
 Si necesita agregar un contenedor de acciones adicional a una plantilla que se utiliza para mostrar ventanas emergentes, personalice esta plantilla. Para obtener información detallada, consulte los temas  [Personalización de plantillas](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  y  [Cómo: Crear una plantilla personalizada de cinta de WinForms](https://docs.devexpress.com/eXpressAppFramework/112618/ui-construction/templates/in-winforms/how-to-create-a-custom-winforms-ribbon-template).
+
+
+
+# Controlador de diálogo
+
+El Framework eXpressApp tiene varios  [Controllers](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  que se agregan automáticamente a cada  [Frame](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  y proporcionan funcionalidad básica en las aplicaciones ([NewObjectViewController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController),  [ShowNavigationItemController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ShowNavigationItemController), etc.). Sin embargo, esto no incluye el  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController), debe agregarlo manualmente si es necesario. Se utiliza para agregar los botones  **Aceptar**  y  **Cancelar**  en  [ventanas](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  emergentes. Por ejemplo, el controlador de diálogo está contenido en la ventana emergente invocada por  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction). Este controlador proporciona los botones  **Aceptar**  y  **Cancelar**. En este tema se describe el comportamiento del controlador de diálogo y cómo utilizarlo en una ventana emergente.
+
+**Accept Action**
+Especificado por la propiedad DialogController.AcceptAction. Si la ventana emergente actual contiene una vista detallada, esta acción ejecuta la acción de guardar del controlador de modificaciones de la ventana. Puede cancelar el guardado configurando la propiedad DialogController.SaveOnAccept en false. Esta acción no tiene efecto si la ventana emergente actual contiene una vista de lista. Para implementar código personalizado antes de ejecutar el código predeterminado asociado con esta acción, maneje el evento DialogController.Accepting.
+
+**Cancel Action**
+Especificado por la propiedad DialogController.CancelAction. Esta acción cierra la ventana emergente actual de forma predeterminada. Para implementar código personalizado antes de cerrar la ventana, maneje el evento DialogController.Cancelling. También puede cancelar el cierre de la ventana configurando la propiedad DialogController.CanCloseWindow en falso.
+
+**Close Action**
+Esta Acción no se muestra en una Ventana emergente porque la Plantilla que representa la Ventana no contiene el Contenedor de Acción asociado con la Acción. Sin embargo, esta acción se ejecuta al presionar una fila seleccionada en la vista de lista de la ventana emergente. El evento ExecuteCompleted de esta acción es manejado por el controlador de eventos correspondiente de la acción Aceptar, que cierra la ventana emergente.
+
+
+El controlador de diálogo tiene las siguientes especificidades:
+
+-   Si una ventana emergente con el controlador de diálogo muestra una  [vista de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views),  [ListViewProcessCurrentObjectController.ProcessCurrentObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ListViewProcessCurrentObjectController.ProcessCurrentObjectAction)  (ejecutada al hacer clic o hacer doble clic en una fila) cierra la ventana emergente y acepta el cuadro de diálogo. Este comportamiento está diseñado para vistas de lista de búsqueda. Para cancelar el cierre de la ventana emergente y procesar  **ProcessCurrentObjectAction**  como en las ventanas normales, establezca la propiedad  [DialogController.CloseOnCurrentObjectProcessing](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController.CloseOnCurrentObjectProcessing)  en  **false**.
+    
+-   Además de los miembros del controlador de cuadros de diálogo relacionados con Actions, hay un evento  [DialogController.WindowTemplateChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController.WindowTemplateChanged)  Manéjelo si necesita personalizar la  [plantilla](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  asignada a una ventana emergente.
+    
+-   Puede personalizar la clase  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController)  heredando de ella.
+    
+-   Las controladoras de diálogo no se agregan automáticamente a la colección  [Frame.Controllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Controllers)  de un marco. Debe agregarlos manualmente cuando sea necesario.
+    
+
+Lea las secciones siguientes para obtener más información sobre cómo usar los controladores de diálogo en ventanas emergentes que se invocan después de ejecutar una acción y en ventanas emergentes invocadas a través de  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)  (consulte  [Formas de mostrar una vista](https://docs.devexpress.com/eXpressAppFramework/112803/ui-construction/views/ways-to-show-a-view/ways-to-show-a-view)).
+
+## Controladores de diálogo en ventanas emergentes invocados a través de Mostrarobjetos de parámetros de vista
+
+Para invocar una ventana después de ejecutar una acción, especifique un parámetro  [ActionBaseEventArgs.ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBaseEventArgs.ShowViewParameters)  del controlador de eventos  **Execute**  de la acción. Se deben cumplir las siguientes condiciones para crear la aplicación emergente de ventana invocada:
+
+-   La propiedad ShowViewParameters.TargetWindow se establece en  [TargetWindow.NewModalWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TargetWindow)  y la propiedad  [ShowViewParameters.Context](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.Context)  se establece en  [TemplateContext.PopupWindow.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TemplateContext.PopupWindow)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.TargetWindow)
+-   La propiedad TargetWindow se establece en  **TargetWindow.NewModalWindow**, la propiedad Context se establece en  [TemplateContext.Undefined](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TemplateContext.Undefined)  (valor predeterminado) y la colección  [ShowViewParameters.Controllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.Controllers)  no está vacía.
+-   La propiedad TargetWindow se establece en  [TargetWindow.NewWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TargetWindow)  y la propiedad  **Context**  se establece en  **PopupWindow**.
+-   En el  [modo SDI](https://docs.devexpress.com/eXpressAppFramework/404211/ui-construction/templates/in-winforms/how-to-choose-win-forms-ui-type), la propiedad TargetWindow se establece en  **TargetWindow.NewWindow**, la propiedad Context se establece en  [TemplateContext.Undefined](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.TemplateContext.Undefined)  (valor predeterminado) y la colección  **ShowViewParameters.Controllers**  no está vacía.
+
+>NOTA
+>
+>Consulte los temas  [Plantillas](https://docs.devexpress.com/eXpressAppFramework/112609/ui-construction/templates)  y  [personalización](https://docs.devexpress.com/eXpressAppFramework/112696/ui-construction/templates/template-customization)  de plantillas para  saber qué plantillas se crean para diferentes contextos de plantilla en aplicaciones ASP.NET Web Forms y Windows Forms.
+
+Para agregar un controlador de cuadros de diálogo a la ventana emergente, utilice el parámetro  [ShowViewParameters.Controllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.Controllers)  del controlador de eventos  **Execute**  de la acción. En el código siguiente se muestra cómo crear una vista de lista en una ventana emergente y agregar un controlador de diálogo.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e244/how-to-show-a-window-via-an-action](https://supportcenter.devexpress.com/ticket/details/e244/how-to-show-a-window-via-an-action) .
+
+
+
+```csharp
+using DevExpress.ExpressApp.SystemModule;
+// ...
+void myAction_Execute(Object sender, SimpleActionExecuteEventArgs e) {
+   IObjectSpace objectSpace = Application.CreateObjectSpace(typeof(MyBusinessClass));
+   string listViewId = Application.FindListViewId(typeof(MyBusinessClass));
+   e.ShowViewParameters.CreatedView = Application.CreateListView(
+      listViewId,
+      Application.CreateCollectionSource(objectSpace, typeof(MyBusinessClass), listViewId),
+      true);
+   e.ShowViewParameters.TargetWindow = TargetWindow.NewWindow;
+   e.ShowViewParameters.Context = TemplateContext.PopupWindow;
+   e.ShowViewParameters.Controllers.Add(Application.CreateController<DialogController>());
+}
+
+```
+
+>NOTE
+>
+>-   Puede agregar el **controlador de diálogo**  integrado  o uno personalizado que se herede de él.
+>-   Si el[ShowViewParameters.CreateAllControllers](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.CreateAllControllers)  está establecido en **false** y desea que los botones Actions de una plantilla agreguen el **FillActionContainersController** a la colección  **Controllers**.
+
+## Controladores de diálogo en ventanas emergentes invocados a través de la ventanaemergenteMostraracciones de tipo de acción
+
+Las ventanas emergentes que se invocan al presionar una  [acción de mostrar ventana emergente](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction)  contienen un controlador de diálogo de tipo  [DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DialogController). Puede cambiar el comportamiento de las acciones del controlador de diálogo de la siguiente manera:
+
+**Accept Action**
+Llamado "OK" por defecto. Para establecer otro título, utilice la propiedad `PopupWindowShowAction.AcceptButtonCaption`.
+
+Esto genera los eventos `ActionBase.Executing`, `PopupWindowShowAction.Execute` y `ActionBase.Executed`, secuencialmente. Luego, si el parámetro `PopupWindowShowActionExecuteEventArgs.CanCloseWindow` del controlador de eventos `Execute` se establece en verdadero, guarda los cambios (si la ventana contiene una vista detallada) y cierra la ventana. De lo contrario, no hace nada.
+
+**Cancel Action**
+Llamado "Cancelar" por defecto. Para establecer otro título, use la propiedad `PopupWindowShowAction.CancelButtonCaption`.
+El evento `PopupWindowShowAction.Cancel` se genera cuando un usuario final hace clic en el botón Cancelar de la ventana emergente actual (consulte la tabla anterior).
+
+
+Puede usar el parámetro CustomizePopupWindowParams del controlador de eventos  [PopupWindowShowAction.CustomizePopupWindowParamsEventArgs.DialogController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.DialogController)  del controlador de eventos  [PopupWindowParams](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizePopupWindowParams)  para personalizar el controlador de cuadros de diálogo predeterminado que usa la ventana emergente. También puede reemplazar este controlador de diálogo por uno personalizado. El código siguiente muestra cómo crear una vista de lista en una ventana emergente y agregar un controlador de diálogo personalizado.
+
+
+
+```csharp
+private void MyPopupWindowShowAction_CustomizePopupWindowParams(object sender, 
+      CustomizePopupWindowParamsEventArgs e) {
+   IObjectSpace objectSpace = Application.CreateObjectSpace(typeof(MyBusinessClass));
+   string listViewId = Application.FindListViewId(typeof(MyBusinessClass));
+   e.View =  Application.CreateListView(
+      listViewId,
+      Application.CreateCollectionSource(objectSpace, typeof(MyBusinessClass), listViewId),
+      true);
+   e.DialogController = Application.CreateController<MyDialogController>();
+}
+```
+
+
+# Controladores y acciones de formularios de inicio de sesión
+
+
+Cuando se utiliza el  [sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/404204/getting-started/in-depth-tutorial-blazor/enable-additional-modules/use-the-security-system)  con la autenticación  [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard), se muestra la ventana de inicio de sesión en el inicio. Esta ventana contiene una vista detallada de un objeto Parámetros de inicio de sesión (**AuthenticationStandardLogonParameters**  de forma predeterminada o  [parámetros de inicio de sesión personalizados](https://docs.devexpress.com/eXpressAppFramework/112982/data-security-and-safety/security-system/authentication/customize-standard-authentication-behavior-and-supply-additional-logon-parameters)). Los controladores no se activan automáticamente para el formulario de inicio de sesión por razones de seguridad. En este tema se describe cómo activar el controlador personalizado para el formulario de inicio de sesión.
+
+## Activar un controlador para el formulario de inicio de sesión
+
+Para activar un Controller específico, invalide el método CreateLogonWindowControllers de la clase  [XafApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication)  o controle el evento  [XafApplication.CreateCustomLogonWindowControllers de](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateCustomLogonWindowControllers)  la siguiente manera.
+
+
+```csharp
+public sealed partial class MySolutionModule : ModuleBase {
+    // ...
+    public override void Setup(XafApplication application) {
+        base.Setup(application);
+        application.CreateCustomLogonWindowControllers += application_CreateCustomLogonWindowControllers;
+    }
+    private void application_CreateCustomLogonWindowControllers(object sender, CreateCustomLogonWindowControllersEventArgs e) {
+        e.Controllers.Add(((XafApplication)sender).CreateController<MyController>());
+    }
+}
+
+```
+
+Algunos controladores integrados (por ejemplo, controladores de los módulos  [de validación](https://docs.devexpress.com/eXpressAppFramework/113684/validation-module)  y  [apariencia condicional](https://docs.devexpress.com/eXpressAppFramework/113286/conditional-appearance)) están activos al iniciar sesión. Esto permite aplicar reglas de apariencia y validación al objeto de parámetros de inicio de sesión.
+
+## Agregar una acción personalizada al formulario de inicio de sesión
+
+Para agregar una acción personalizada al formulario de inicio de sesión, implemente un controlador como se muestra arriba. A continuación, agregue la acción al controlador y establezca la categoría de la acción como describen los artículos  [Agregar acciones a una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/112804/ui-construction/controllers-and-actions/add-actions-to-a-popup-window)  e  [Incluir una acción en una vista detallada Diseño](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout).
+
+
+# Determinar por qué una acción, controlador o editor está inactivo
+
+
+Al crear una aplicación, es posible que deba determinar por qué una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  o  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  no está activo (visible) en una  [ventana](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  determinada. Una acción puede desactivarse o deshabilitarse por varias razones: permisos del  [sistema de seguridad](https://docs.devexpress.com/eXpressAppFramework/113366/data-security-and-safety/security-system), la vista actual es de solo lectura, un tipo de objeto inconveniente de la  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  actual y otros parámetros específicos. La vista actual también puede hacerse de solo lectura por diferentes razones. Es posible que se requiera una depuración exhaustiva para determinar la razón real. Para este propósito,  **eXpressApp Framework**  proporciona la acción  **de información de diagnóstico**. Esta acción muestra una ventana con información sobre todos los controladores y acciones cargados en el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  para la vista actual y  [las reglas de validación](https://docs.devexpress.com/eXpressAppFramework/113008/validation/validation-rules)  aplicadas a la vista. Puede usar esta información para encontrar problemas y solucionarlos. En este tema se explica cómo agregar la acción de información  **de diagnóstico**  a la aplicación y usarla para obtener esta información.
+
+-   [Habilitar la acción DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive#enable-the-diagnosticinfo-action)
+-   [Analizar el resultado de la acción DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive#analyze-the-diagnosticinfo-action-output)
+-   [Referencia de DiagnosticInfo](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive#diagnosticinfo-reference)
+-   [Información de diagnóstico personalizada sobre acciones](https://docs.devexpress.com/eXpressAppFramework/112818/ui-construction/controllers-and-actions/determine-why-an-action-controller-or-editor-is-inactive#custom-diagnostic-information-on-actions)
+
+## Habilitar la acción Información de diagnóstico
+
+Para agregar la acción  **Información de diagnóstico**  a la interfaz de usuario, siga estos pasos:
+
+1.  Abra el archivo de configuración del proyecto de la aplicación. El nombre del archivo depende del marco de la interfaz de usuario:
+    
+    -   WinForms:  _App.config_
+    -   ASP.NET formularios Web Forms:  _Web.config_
+    -   ASP.NET Core Blazor:  _configuración de aplicaciones. Desarrollo.json_
+2.  Busque la clave y establezca su valor en para agregar la acción Información de diagnóstico al modelo de aplicación y mostrar la acción en la interfaz  **de**  usuario.`EnableDiagnosticActions``True`
+    
+    Para WinForms y formularios web ASP.NET:
+    
+
+    
+    ```xml
+    <add key="EnableDiagnosticActions" value="True" />
+    
+    ```
+    
+    Para ASP.NET Core Blazor:
+    
+
+    
+    ```json
+    {
+      //...
+      "DevExpress": {
+        "ExpressApp": {
+          "EnableDiagnosticActions": true
+        }
+      }
+    }
+    
+    ```
+    
+
+La acción de información de diagnóstico se implementa en el contenedor  **de**  acciones de  **diagnóstico**  y pertenece a él. Las imágenes siguientes muestran la ubicación de la acción de  **información de diagnóstico**  en diferentes plantillas.`DevExpress.ExpressApp.SystemModule.DiagnosticInfoController`
+
+WinForms
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/06bac9ce-4ae5-45ee-a1cb-d4878e331cbf)
+
+ASP.NET formularios web
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/18b96681-1a8a-442c-8e60-7960a8cec53d)
+
+ASP.NET Core Blazor
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5374d63c-726d-41df-9e3f-3c792d90e36e)
+
+La acción de  **información de diagnóstico**  es  [SingleChoiceAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction). Al hacer clic en el elemento de esta acción, invoca una ventana de diálogo con la vista de detalles  **de DiagnosticInfoObject_DetailView**. La propiedad contiene información en formato XML.`DiagnosticInfoObject.AsText`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/375576e5-5895-437c-9104-e3bcaa9a9816)
+
+## Analizar el resultado de la acción Información de diagnóstico
+
+Siga los pasos a continuación para determinar por qué una acción está deshabilitada.
+
+1.  Determine el identificador de una acción que desea depurar. Si la acción se implementa en el código, use el valor  [ActionBase.Id](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Id). De lo contrario, consulte el tema Determinar el controlador y el identificador de una acción para obtener instrucciones sobre cómo obtener el  [identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier)  [integrada](https://docs.devexpress.com/eXpressAppFramework/113016/ui-construction/controllers-and-actions/built-in-controllers-and-actions)  o de terceros.
+2.  Haga clic en  **Diagnóstico**  |  **Información de acciones**  y busque el identificador de acción en el XML de salida.
+3.  Observe el elemento XML que describe la acción de destino y su controlador. Por ejemplo:
+    
+
+    
+    ```xml
+    <Controller Name="OpenObjectController" FullName="DevExpress.ExpressApp.Win.SystemModule.OpenObjectController" Active="True">
+      <ActiveList>
+        <Item Key="View is assigned" Value="True" />
+        <Item Key="View type is ObjectView" Value="True" />
+        <Item Key="PropertyEditor has ObjectSpace" Value="True" />
+      </ActiveList>
+      <Actions>
+        <Action ID="OpenObject" Caption="Open Related Record" TypeName="SimpleAction" Category="OpenObject" Active="False" Enabled="True" AdditionalInfo="">
+          <ActiveList>
+            <Item Key="Controller active" Value="True" />
+            <Item Key="HasReadPermissionToTargetType" Value="True" />
+            <Item Key="DataViewMode" Value="False" />
+          </ActiveList>
+        </Action>
+      </Actions>
+    </Controller>
+    
+    ```
+    
+4.  Si los atributos or para el elemento  **Controller**  o  **Action**  devuelven , mire cada elemento individual debajo de los elementos anidados y. El atributo de cada propiedad describe brevemente por qué la acción o el controlador está activo o no. Una superposición de todos los atributos Value para estos elementos anidados forma el valor  **Active**  o  **Enabled**  resultante para la acción principal o su controlador.`Active``Enabled``False``ActiveList``EnabledList``Key`
+    
+
+## Referencia de información de diagnóstico
+
+Al seleccionar el elemento  **Información de acciones**, la ventana invocada muestra la siguiente información:
+
+**Template**
+Especifica el nombre de contexto de la ventana actual y el nombre del tipo de plantilla.
+
+**Template | DefaultActionContainer**
+Especifica el nombre del contenedor de acciones predeterminado de la plantilla actual.
+
+**Template | DefaultActionContainer | Actions**
+Enumera las acciones registradas en el contenedor de acciones predeterminado.
+
+**Template | DefaultActionContainer | Actions | Action**
+Especifica el ID de una acción.
+
+**Template | ActionContainers**
+Enumera los contenedores de acción de la plantilla actual.
+
+**Template | ActionContainers | Container**
+Especifica el nombre de un contenedor de acciones.
+
+**Template | ActionContainers | Container | Actions**
+Muestra las acciones registradas en el contenedor de acciones actual.
+
+**Template | ActionContainers | Container | Actions | Action**
+Especifica el identificador de acción.
+
+**Controllers**
+Enumera todos los controladores cargados en el modelo de aplicación.
+
+**Controllers | Controller**
+Especifica el nombre de un controlador y el estado activo.
+
+**Controllers | Controller | ActiveList**
+Le permite comparar el estado de los elementos de la colección `Controller.Active` con el estado esperado.
+
+**Controllers | Controller | ActiveList | Item**
+Especifica la clave y el valor de un elemento de la lista `Controller.Active`.
+
+**Controllers | Controller | Actions**
+Enumera las acciones contenidas en el controlador actual.
+
+**Controllers | Controller | Actions | Action**
+Especifica los siguientes detalles de la acción:
+- ID (ActionBase.Id)
+- Título (ActionBase.Caption)
+- Escribe un nombre
+- Categoría (ver ActionBase.Category)
+- Estado activo (ver ActionBase.Active)
+- Estado habilitado (ver ActionBase.Enabled)
+- Información adicional especificada por la propiedad ActionBase.DiagnosticInfo de la acción (ver más abajo)
