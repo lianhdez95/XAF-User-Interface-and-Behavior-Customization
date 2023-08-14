@@ -1,4 +1,4 @@
-# Interfaz de usuario y personalización del comportamiento
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/912e2d69-d683-41a8-b052-40213ab5cbf0)# Interfaz de usuario y personalización del comportamiento
 
 La construcción de la interfaz de usuario es un paso principal en la creación de una aplicación empresarial. eXpressApp Framework genera automáticamente una interfaz de usuario basada en su modelo de negocio y el modelo de aplicación. Puede usar la interfaz de usuario predeterminada o personalizarla a través de un modelo de aplicación o en código. Los temas de esta sección proporcionan información detallada sobre los elementos de la interfaz de usuario de XAF y los mecanismos de su creación e interacción.
 
@@ -14462,3 +14462,645 @@ Los metadatos del elemento de vista recién implementado están disponibles en e
 Muestre el botón o cualquier otro elemento Ver en una vista detallada como se describe en el tema siguiente:  [Ver elementos Personalización del diseño](https://docs.devexpress.com/eXpressAppFramework/112817/ui-construction/views/layout/view-items-layout-customization).
 
 ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/058a7834-e478-4a62-b37d-0ea6f8add4a4)
+
+
+
+# Crear un elemento de detalle de control personalizado
+
+
+En este artículo se describe cómo agregar un control personalizado a una  **vista de detalle**. Utilice este enfoque cuando necesite colocar un control personalizado cerca de un editor determinado en una vista  **detallada**  y el enfoque de  [elemento de vista de contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout)  sea inapropiado.
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no admiten el enfoque descrito en este tema.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/t137193/how-to-create-a-custom-control-detail-item](https://supportcenter.devexpress.com/ticket/details/t137193/how-to-create-a-custom-control-detail-item) .
+
+-   [Invoque el Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  dependiente de la plataforma del proyecto MySolution.Win o  _MySolution.Web_  y busque las  **vistas**  necesarias |  **Nodo DetailView**. Agregue un nodo  [IModelControlDetailItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelControlDetailItem)  mediante el menú contextual invocado para el nodo secundario  **Items**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/76021834-228a-42bb-8186-97e319d31269)
+
+    
+-   En una aplicación WinForms, establezca la propiedad  [IModelControlDetailItem.ControlTypeName](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelControlDetailItem.ControlTypeName)  del nodo recién creado en "System.Windows.Forms.Button". En una aplicación de formularios Web Forms ASP.NET, establezca la propiedad  **ControlTypeName**  del nodo recién creado en "DevExpress.Web.ASPxButton". Establezca la propiedad  **Id**  en "MyButton" e  [IModelViewItem.Caption](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelViewItem.Caption)  - en "My Button".
+-   **Enfoque de las vistas**  |  **DetailView**  |  **Nodo de diseño**. Haga clic con el botón derecho en un espacio vacío para invocar el cuadro de diálogo de personalización del diseño y, a continuación, coloque el control recién creado en la ubicación requerida. Para obtener más información sobre cómo cambiar el diseño, consulte el tema  [Personalización del diseño Ver elementos](https://docs.devexpress.com/eXpressAppFramework/112817/ui-construction/views/layout/view-items-layout-customization).
+    
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c038fbb7-c8cb-4744-a940-c63bd985c63b)
+    
+-   Ejecute la aplicación para asegurarse de que el botón se agrega a la  **Vista de detalles**  necesaria.
+-   Para controlar el evento  **Click**  del botón agregado en el  **modelo de aplicación**, agregue un nuevo controlador de  **View**  al  [proyecto de módulo](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  WinForms o ASP.NET formularios Web Forms. Si la solución no contiene este proyecto, agregue el Controller al  [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure). Suscríbase al evento  [ViewItem.ControlCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.ControlCreated)  y reemplace el código generado automáticamente por lo siguiente.
+    
+    **WinForms**
+    
+    **File**:  
+    _MySolution.Win\Controllers\ControlViewItemControllerWin.cs_  en soluciones sin el proyecto de módulo específico de WinForms.  _MySolution.Module.Win\Controllers\ControlViewItemControllerWin.cs(.vb)_  en soluciones con el proyecto de módulo específico de WinForms.
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Layout;
+    using DevExpress.ExpressApp.Win.Core;
+    using System.Windows.Forms;
+    // ...
+    public class ControlViewItemControllerWin : ObjectViewController<DetailView, Contact> {
+        protected override void OnActivated() {
+            base.OnActivated();
+            ControlViewItem item = ((DetailView)View).FindItem("MyButton") as ControlViewItem;
+            if (item != null) {
+                item.ControlCreated += item_ControlCreated;
+            }
+        }
+        void item_ControlCreated(object sender, EventArgs e) {
+            (((ControlViewItem)sender).Control as Button).Text = "Click me!";
+            (((ControlViewItem)sender).Control as Button).Click += ButtonClickHandlingWinController_Click;
+        }
+        void ButtonClickHandlingWinController_Click(object sender, EventArgs e) {
+            MessageBox.Show("Action from custom View Item was executed!");
+        }
+    }
+    
+    ```
+    
+    **ASP.NET formularios web**
+    
+    **Archivo**:  _MySolution.Module.Web\Controllers\ControlViewItemControllerWeb.cs(.vb)._
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Layout;
+    using DevExpress.ExpressApp.Web;
+    using DevExpress.Web;
+    // ...
+    public class ControlViewItemControllerWeb : ObjectViewController<DetailView, Contact> {
+        protected override void OnActivated() {
+            base.OnActivated();
+            ControlViewItem item = ((DetailView)View).FindItem("MyButton") as ControlViewItem;
+            if (item != null) {
+                item.ControlCreated += item_ControlCreated;
+            }
+        }
+        private void item_ControlCreated(object sender, EventArgs e) {
+            ASPxButton button = ((ControlViewItem)sender).Control as ASPxButton;
+            if (button == null) return;
+            button.ID = "MyButton";
+            button.Text = "Click me!";
+            button.Click += ButtonClickHandlingWebController_Click;
+        }
+        void ButtonClickHandlingWebController_Click(object sender, EventArgs e) {
+            WebWindow.CurrentRequestWindow.RegisterClientScript(
+                "ShowAlert", @"alert('Action from custom View Item was executed!');");
+        }
+    }
+    
+    ```
+    
+-   Ejecute la aplicación para asegurarse de que aparece la ventana de información al hacer clic en el botón recién creado.
+
+
+
+# Incluir una acción en un diseño de vista detallada
+
+
+XAF le permite colocar una acción en una  **vista**  en lugar de una barra de herramientas.
+
+En la imagen de abajo, el botón "Mi acción simple" es una acción que se muestra dentro de una vista detallada.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/40f8d2d1-d4a6-4463-9b7b-0ec07a3a9c5f)
+
+Siga los pasos que se indican a continuación para agregar un botón de acción a una  **vista detallada**.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e1847/how-to-include-an-action-to-a-detail-view-layout](https://supportcenter.devexpress.com/ticket/details/e1847/how-to-include-an-action-to-a-detail-view-layout) .
+
+## Paso 1. Crear una nueva acción
+
+### En tiempo de diseño
+
+1.  Cree un  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers), agréguele una acción simple y controle el evento  **Execute**  de la  **acción**. El evento  **Execute**  se produce cuando un usuario hace clic en el botón de la acción.
+    
+    Para obtener una guía paso a paso, consulte el tutorial  **Agregar una acción simple**:
+    
+    -   [WinForms y Blazor](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/add-actions-menu-commands/add-a-simple-action)
+2.  Cree una nueva  **categoría Acción**. En la ventana  **Propiedades**, seleccione el texto de la propiedad  [ActionBase.Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category)  y escriba un valor personalizado. Por ejemplo, puede establecer la categoría de la acción en "MiCategoría" (consulte la imagen a continuación). Reconstruya su proyecto.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/2805d1d8-61ba-4cf3-b135-ebadb72d8d94)
+
+    
+
+### En código
+
+En el proyecto, agregue una nueva clase a la carpeta. Reemplace su contenido con el código siguiente:`{YourSolution}.Module``Controllers`
+
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
+using MySolution.Module.BusinessObjects;
+
+namespace MySolution.Module.Controllers {
+    public class MyViewController : ViewController {
+        public MyViewController() {
+            TargetViewType = ViewType.DetailView;
+            TargetObjectType = typeof(Contact);
+
+            SimpleAction mySimpleAction = new SimpleAction(this, "MySimpleAction", "MyCategory") {
+                Caption = "My Simple Action",
+                ConfirmationMessage = "My Simple Action Shows a Message",
+            };
+            mySimpleAction.Execute += MySimpleAction_Execute;
+        }
+        private void MySimpleAction_Execute(Object sender, SimpleActionExecuteEventArgs e) {
+            // ...
+        }
+
+    }
+}
+
+```
+
+Reconstruya su proyecto.
+
+## Paso 2. Colocar una nueva acción en una vista detallada
+
+1.  Si el  **Editor de modelos**  ya está abierto, reinícielo. Invoque el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  para el proyecto de  **módulo**  independiente de la plataforma y navegue hasta el nodo  **Vistas**. En este nodo, desplácese hasta la vista de detalles en la que desea mostrar una acción. Invoque el menú contextual para agregar un nuevo nodo secundario  **ActionContainerViewItem**  al nodo Elementos de la vista detallada.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b3b6707b-201a-4d17-a101-3f911e236d82)
+
+    
+2.  Establezca la propiedad  **Id**  del nodo recién creado en "MyActionContainer" y la propiedad  **ActionContainer**  en "MyCategory".
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/bfa41e16-800d-4ca2-b0e1-bad97509442b)
+
+    
+3.  Enfoque el nodo  **Diseño**  de la vista de detalles. En el diseñador de diseño, haga clic con el botón derecho en un espacio vacío e invoque el cuadro de diálogo de personalización del diseño. Coloque el control recién creado en la ubicación requerida. Para obtener más información sobre cómo cambiar el diseño, consulte el tema siguiente:  [Ver personalización del diseño de elementos](https://docs.devexpress.com/eXpressAppFramework/112817/ui-construction/views/layout/view-items-layout-customization).
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5cbea4b5-e437-42dd-af32-9cb757d9e908)
+
+    
+4.  Ejecute la aplicación para asegurarse de que el botón Acción se agrega a la Vista de detalles necesaria.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/bfedba31-8625-4319-8cab-53a3d006c665)
+
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7dfd3284-5fd4-498d-b885-7f1c5352fbd5)
+
+    
+
+## Paso 3. _Opcional._ Personalizar una acción en el diseño
+
+Controle el evento  [Action.CustomizeControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.CustomizeControl)  para personalizar los controles de Action.
+
+En el ejemplo siguiente se quitan los rellenos y se ajusta el tamaño del botón para que coincida con el tamaño del cuadro de texto de entrada.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.XtraLayout;
+using System.Windows.Forms;
+// ...
+public class MyViewController : ObjectViewController<DetailView, MyObject> {
+    public MyViewController() {
+        var action = new SimpleAction(this, "Test", "My");
+        action.CustomizeControl += Action_CustomizeControl;
+    }
+    private void Action_CustomizeControl(object sender, CustomizeControlEventArgs e) {
+        Control control = (Control)e.Control;
+        LayoutControl layoutControl = (LayoutControl)control.Parent;
+        LayoutControlItem item = layoutControl.GetItemByControl(control);
+        item.Padding = new DevExpress.XtraLayout.Utils.Padding(0);
+        layoutControl.OptionsView.AutoSizeInLayoutControl = AutoSizeModes.UseMinSizeAndGrow;
+    }
+}
+
+```
+
+Consulte el tema siguiente para obtener más información sobre la configuración de elementos de diseño:  [Tamaño y alineación](https://docs.devexpress.com/WindowsForms/17574/controls-and-libraries/form-layout-managers/layout-and-data-layout-controls/size-and-alignment).
+
+Si define una acción en el  [proyecto de módulo](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure#module-project)  independiente de la plataforma, puede crear un descendiente específico de WinForms y controlar el evento  [Action.CustomizeControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.CustomizeControl)  en este constructor descendiente.
+
+Como alternativa, cree un nuevo  [controlador de](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  WinForms. En el método  **OnActivated**  del Controller, llame al método  [Frame.GetController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)  para obtener el Controller independiente de la plataforma. Utilice la propiedad  [Controller.Actions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Actions)  para obtener la acción y controlar su evento  [Action.CustomizeControl.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.CustomizeControl)
+
+>NOTA
+>
+>XAF crea una clase **ButtonsContainer** (un descendiente de Layout Control) para cada **ActionContainerViewItem** y coloca **ButtonsContainer** en un diseño **DetailView**. Todos los controles de acción se encuentran en este **ButtonsContainer**. Si la personalización del control Action no cumple con sus requisitos, puede personalizar **ButtonsContainer**.
+
+
+
+# Cómo: Mostrar un control enlazado a datos personalizado en una vista XAF (formularios Web Forms ASP.NET)
+
+
+En este artículo se describe cómo puede utilizar un control personalizado para ver y editar datos en la  [vista detallada](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  de una aplicación de formularios Web Forms ASP.NET. En el ejemplo de este artículo se muestra cómo agregar  [controles ASPxTextBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxTextBox?v=23.1)  y  [ASPxCardView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxCardView)  a la aplicación MainDemo (%_PUBLIC%\Documents\DevExpress Demos  23.1\Components\XAF\MainDemo_).  Puede utilizar un enfoque similar en su propia aplicación con cualquier otro control web.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d0ab32f7-7c4c-433a-8373-1260623451a9)
+
+>PROPINA
+>
+>Un ejemplo similar para formularios de Windows está disponible en el tema  [Cómo: Mostrar un control enlazado a datos personalizado en una vista XAF (formularios de Windows](https://docs.devexpress.com/eXpressAppFramework/114159/ui-construction/using-a-custom-control-that-is-not-integrated-by-default/how-to-show-a-custom-data-bound-control-in-an-xaf-view-winforms)  ).
+
+## Declarar una interfaz para tener acceso a un control de usuario de formularios Web Forms desde un controlador de View
+
+En el Explorador de soluciones, haga clic con el botón secundario en el proyecto de módulo ASP.NET formularios Web Forms y elija  **Agregar**  |  **Nuevo artículo...**  para agregar la interfaz  **IDepartmentView**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/2f9ced1f-edec-4787-bd43-04f0d6629302)
+
+Haga  _pública_  esta interfaz y agregue los siguientes miembros:
+
+-   la propiedad  **Title**  string que especifica el texto del control  [ASPxTextBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxTextBox?v=23.1);
+-   la propiedad  **de colección Contacts**  que especifica el origen de datos del control  [ASPxCardView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxCardView);
+-   el evento  **TitleChanged**  que se produce cuando cambia el texto del control  [ASPxTextBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxTextBox?v=23.1).
+
+
+
+```csharp
+using System;
+using System.Collections.Generic;
+using MainDemo.Module.BusinessObjects;
+// ..
+public interface IDepartmentView {
+    string Title { get; set; }
+    ICollection<Contact> Contacts { get; set; }
+    event EventHandler TitleChanged;
+}
+
+```
+
+## Crear un controlador de vistas para administrar los datos del control de usuario de formularios Web Forms
+
+En el Explorador de soluciones, haga clic con el botón secundario en la carpeta  _Controllers_  del proyecto del módulo de formularios Web Forms de ASP.NET y elija  **Agregar**  |  **Nuevo artículo...**  para agregar la clase  **DepartmentViewController**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/93571f62-6128-4273-93a8-a7d6c5982dc5)
+
+Realice los siguientes cambios con la clase Controller creada:
+
+-   Hacer  _público_  el Controlador.
+-   Herede el Controller de la clase  [ObjectViewController<DetailView, Department>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)  para activar el Controller sólo en las vistas de detalles del departamento.
+-   Reemplace el método  **OnActivated**, itere todos los elementos  [WebCustomUserControlViewItems](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.WebCustomUserControlViewItem)  de la vista de detalles y suscríbase al evento  [ControlCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.ControlCreated)  de cada elemento.
+-   En el controlador de eventos  **WebCustomUserControlViewItem.ControlCreated**, compruebe si el control actual admite la interfaz IDepartmentView, configure el control con los datos  [de ViewCurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2.ViewCurrentObject)  y suscríbase al evento  **IDepartmentView.TitleChanged.**
+-   En el controlador de eventos  **IDepartmentView.TitleChanged**, pase los datos del control a la propiedad  **ViewCurrentObject**.
+-   En el método  **OnActivated**  , suscríbase al evento  [CurrentObjectChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObjectChanged). En el controlador de eventos, pase  **ViewCurrentObject**  al control.
+-   Reemplace el método  **OnDeactivated**  y anule la suscripción a los eventos  **WebCustomUserControlViewItem.ControlCreated**  y  **View.CurrentObjectChanged.**
+
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Web.Editors;
+using MainDemo.Module.BusinessObjects;
+// ...
+public class DepartmentViewController : ObjectViewController<DetailView, Department> {
+    protected override void OnActivated() {
+        base.OnActivated();
+        foreach(WebCustomUserControlViewItem item in View.GetItems<WebCustomUserControlViewItem>()) {
+            item.ControlCreated += ViewItem_ControlCreated;
+        }
+        View.CurrentObjectChanged += View_CurrentObjectChanged;
+    }
+    protected override void OnDeactivated() {
+        foreach(WebCustomUserControlViewItem item in View.GetItems<WebCustomUserControlViewItem>()) {
+            item.ControlCreated -= ViewItem_ControlCreated;
+        }
+        View.CurrentObjectChanged -= View_CurrentObjectChanged;
+        base.OnDeactivated();
+    }
+    private void ViewItem_ControlCreated(object sender, EventArgs e) {
+        IDepartmentView departmentView = ((WebCustomUserControlViewItem)sender).Control as IDepartmentView;
+        if(departmentView != null) {
+            departmentView.TitleChanged += DepartmentView_TitleChanged;
+            InitializeDepartmentView(departmentView);
+        }
+    }
+    private void View_CurrentObjectChanged(object sender, EventArgs e) {
+        foreach(WebCustomUserControlViewItem item in View.GetItems<WebCustomUserControlViewItem>()) {
+            IDepartmentView departmentView = item.Control as IDepartmentView;
+            if(departmentView != null) {
+                InitializeDepartmentView(departmentView);
+            }
+        }
+    }
+    private void DepartmentView_TitleChanged(object sender, EventArgs e) {
+        if(ViewCurrentObject != null) {
+            ViewCurrentObject.Title = ((IDepartmentView)sender).Title;
+        }
+    }
+    private void InitializeDepartmentView(IDepartmentView departmentView) {
+        if(ViewCurrentObject != null) {
+            departmentView.Title = ViewCurrentObject.Title;
+            departmentView.Contacts = ViewCurrentObject.Contacts;
+        }
+        else {
+            departmentView.Title = null;
+            departmentView.Contacts = null;
+        }
+    }
+}
+
+```
+
+## Crear un control de usuario de formularios Web Forms
+
+En el Explorador de soluciones, haga clic con el botón secundario en el proyecto de aplicación ASP.NET formularios Web Forms y elija  **Agregar**  |  **Nuevo artículo...**  para agregar el  **control de usuario de formularios Web Forms**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/559726de-5ea9-4796-98d2-33aaa5b36800)
+
+En el diseñador, haga lo siguiente:
+
+-   Agregue el control  **ASPxTextBox**, establezca su propiedad  **ID**  en  _TitleControl_,  **Caption**  en  _Title_  y  **Width**  en  _100%_;
+-   Agregue el control  _ASPxCardView_, establezca su propiedad  **ID**  en  _ContactsControl_, configúrelo para mostrar el nombre completo y el correo electrónico del contacto en dos columnas.
+
+acsx
+
+```
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DepartmentViewControl.ascx.cs" Inherits="MainDemo.Web.DepartmentViewControl" %>
+<%@ Register Assembly="DevExpress.Web.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+
+<dx:ASPxTextBox ID="TitleControl" runat="server" Caption="Title" Width="100%"></dx:ASPxTextBox>
+<div style="height:5px"></div>
+<dx:ASPxCardView ID="ContactsControl" runat="server" AutoGenerateColumns="false">
+    <Columns>
+        <dx:CardViewTextColumn Name="FullName" FieldName="FullName" Caption="Full Name" VisibleIndex="0"></dx:CardViewTextColumn>
+        <dx:CardViewTextColumn Name="Email" FieldName="Email" Caption="Email" VisibleIndex="1"></dx:CardViewTextColumn>
+    </Columns>
+    <SettingsPager>
+        <SettingsTableLayout ColumnCount="2" />
+    </SettingsPager>
+</dx:ASPxCardView>
+
+```
+
+>NOTA
+>
+>Si el control de usuario necesita llamar a un script al cargar una página, regístrelo como se describe en el siguiente tema de ayuda: [Cómo registrar scripts cargados en devoluciones de llamada.](https://docs.devexpress.com/AspNet/7828/common-concepts/callbacks/how-to-register-javascript-on-devexpress-callbacks)
+
+## Implementar la interfaz de vista IDepartmenten el control de vistade departamento
+
+Cierre el diseñador, haga clic con el botón secundario en el archivo  _DepartmentViewControl.ascx_, elija  **Ver código**  y haga lo siguiente:
+
+-   Implemente la interfaz  **MainDemo.Module.Web.IDepartmentView.**
+    
+-   Defina los siguientes campos:
+    
+    -   **isInitialized**: un indicador para determinar si se llama al método  **OnInit**  del control;
+    -   **_Title**  - almacena la cadena de título;
+    -   **_Contacts**: almacena la colección de contactos.
+-   Reemplace el método  **OnInit:**
+    
+    -   establezca el indicador  **isInitialized**  en  **true**,
+    -   inicializar controles utilizando valores  __Title_  y  __Contacts_,
+    -   suscribirse al evento  **TitleControl.TextChanged.**
+-   Agregue el evento  **TitleChanged**  y provoque en el controlador de eventos  **TitleControl.TextChanged.**
+    
+-   Agregue la propiedad  **Title**:
+    -   En el captador de propiedades, devuelva el valor del campo  **_Title**.
+    -   en el configurador de propiedades, establezca el valor del campo  **_Title**  y actualice el valor  **TitleControl.Text.**
+-   Agregue la propiedad  **Contacts**:
+    -   En el obtentor de propiedades, devuelva el valor del campo  **_Contacts**
+    -   en el configurador de propiedades, establezca el valor del campo  **_Contacts**  pase el nuevo valor a ContactsControl.DataSource y llame al método  **ContactsControl.DataBind**  para aplicar los cambios**.**
+
+
+
+```csharp
+using System;
+using System.Collections.Generic;
+using MainDemo.Module.BusinessObjects;
+using MainDemo.Module.Web;
+
+namespace MainDemo.Web {
+    public partial class DepartmentViewControl : System.Web.UI.UserControl, IDepartmentView {
+        private bool isInitialized;
+        private string _Title;
+        private ICollection<Contact> _Contacts;
+
+        protected override void OnInit(EventArgs e) {
+            isInitialized = true;
+            UpdateTitleControl();
+            UpdateContactsControl();
+            TitleControl.TextChanged += TitleControl_TextChanged;
+            base.OnInit(e);
+        }
+        private void UpdateTitleControl() {
+            if(!isInitialized) return;
+            TitleControl.Text = Title;
+        }
+        private void UpdateContactsControl() {
+            if(!isInitialized) return;
+            ContactsControl.DataSource = Contacts;
+            ContactsControl.DataBind();
+        }
+        private void TitleControl_TextChanged(object sender, EventArgs e) {
+            _Title = TitleControl.Text;
+            if(TitleChanged != null) {
+                TitleChanged(this, EventArgs.Empty);
+            }
+        }
+        public string Title {
+            get { return _Title; }
+            set {
+                _Title = value;
+                UpdateTitleControl();
+            }
+        }
+        public ICollection<Contact> Contacts {
+            get { return _Contacts; }
+            set {
+                _Contacts = value;
+                UpdateContactsControl();
+            }
+        }
+        public event EventHandler TitleChanged;
+    }
+}
+
+```
+
+## Agregar un elemento de vista de control de usuariopersonalizadoweba una vista
+
+En el proyecto de aplicación ASP.NET formularios Web Forms, haga doble clic en el archivo  _Model.xafml_  para iniciar el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). Haga clic con el botón derecho en el nodo  **Vistas**  y elija  **Agregar**  |  **DetailView**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/9d6d7efd-7857-4467-87ee-20c0412b9f66)
+
+Establezca la propiedad  **Id**  en  **CustomDepartment_DetailView**  y la propiedad  **ModelClass**  en  **Department**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/67ba95e1-08f2-497f-a53a-578d6d259964)
+
+Haga clic con el botón derecho en  **Vistas**  |  **MainDemo.Module.BusinessObjects**  |  **CustomDepartment_DetailView**  |  **Elementos**  y elija  **Agregar...**  |  **CustomUserControlViewItemWeb**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/1025109b-eb0e-468e-a3f6-4fe867dbdf54)
+
+Establezca la propiedad  **Id**  en  **DepartmentViewItem**  y la propiedad  [CustomControlPath](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.IModelCustomUserControlViewItemWeb.CustomControlPath)  en  **DepartmentViewControl.ascx**  (el nombre de archivo del control de usuario personalizado de formularios Web Forms).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/0661645c-9c53-4c6e-961c-edee89ea426e)
+
+Como resultado, el elemento  [de vista WebCustomUserControlViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.WebCustomUserControlViewItem)  se agrega a  **CustomDepartment_DetailView**.
+
+## Cambiar la vista de detalles predeterminada para la vista de lista de departamentos
+
+Navegar a las  **vistas**  |  **MainDemo.Module.BusinessObjects**  |  **Department_ListView**  nodo. En la lista desplegable  [DetailView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelListView.DetailView), seleccione  **CustomDepartment_DetailView**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ee623550-1894-47a2-972b-fc3cdd9d3317)
+
+Ejecute la aplicación ASP.NET formularios Web Forms, navegue hasta la vista Lista de  **departamentos**  y edite cualquier departamento. La vista Detalle muestra el cuadro de texto y la vista Tarjeta enlazados a la colección  **Department.Contacts**  ([vea la captura de pantalla al principio de este tema](https://docs.devexpress.com/eXpressAppFramework/114160/ui-construction/using-a-custom-control-that-is-not-integrated-by-default/how-to-show-a-custom-data-bound-control-in-an-xaf-view-asp-net#result)).
+
+
+
+# Cómo: Mostrar un control enlazado a datos personalizado en una vista XAF (formularios Win)
+
+
+En este ejemplo se muestra cómo puede agregar un control personalizado enlazado a datos (compatible con datos) a una vista y mostrar esta vista desde la navegación en una aplicación WinForms XAF.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/fc273476-ed19-48d6-a38f-5eda6690161e)
+
+>PROPINA
+>
+>Un ejemplo similar para formularios Web Forms ASP.NET está disponible en  [Cómo: Mostrar un control enlazado a datos personalizado en una vista XAF (formularios Web Forms ASP.NET)](https://docs.devexpress.com/eXpressAppFramework/114160/ui-construction/using-a-custom-control-that-is-not-integrated-by-default/how-to-show-a-custom-data-bound-control-in-an-xaf-view-asp-net)
+
+## Crear un control de usuario
+
+Cree un  [control  de usuario](https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/aa302342(v=msdn.10))  en el  [proyecto de módulo WinForms](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  (_MySolution.Module.Win_). Si la solución no contiene este proyecto, agregue este control al proyecto de  [aplicación de WinForms](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  (_MySolution.Win_). Haga clic con el botón derecho en el proyecto y elija  **Agregar**  |  **Control de usuario (formularios Windows Forms)...**:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7546931f-159f-411b-bd58-3a65cb94b4cd)
+
+Agregue el control necesario, por ejemplo,  [GridControl](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.GridControl)  del  **Cuadro de herramientas**  al diseñador.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/894d5c36-f1aa-455f-aeca-a9da023edfd7)
+
+Personalizar el control según sea necesario; por ejemplo, convertir  [GridControl.MainView](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.GridControl.MainView)  en  [CardView](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Card.CardView).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/33af5acf-479e-4224-8e56-08669a5203b1)
+
+>PROPINA
+>
+>También puede agregar el componente  [Origen de datosde recopilación](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ReportsV2.CollectionDataSource) desde DX**.23.1: Orígenes de datos XAF para informes** y, a continuación, enlazar el control a este componente. Utilice la [base de origende datos.Tipo deobjeto Nombre para especificar el tipo de objeto](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ReportsV2.DataSourceBase.ObjectTypeName) de negocio requerido. Esto le permitirá ver las columnas de datos en el diseñador y personalizarlas según sea necesario. El enlace de datos real se realizará más adelante en el código.
+
+## Enlazar el control a datos mediante el espacio de objetos
+
+Cierre el diseñador, haga clic con el botón secundario en el archivo UserControl1_.cs (UserControl1__.vb_) y elija Ver código para editar el  **código**  **de control de usuario**. Implemente la interfaz  [IComplexControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexControl). En el método  [IComplexControl.Setup](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexControl.Setup(DevExpress.ExpressApp.IObjectSpace-DevExpress.ExpressApp.XafApplication)), puede tener acceso al espacio de objetos mediante el parámetro  _objectSpace_, usar la API de  [espacio de objetos](https://docs.devexpress.com/eXpressAppFramework/113711/data-manipulation-and-business-logic/create-read-update-and-delete-data)  para leer los datos necesarios y, a continuación, inicializar el origen  [de](https://docs.devexpress.com/eXpressAppFramework/113707/data-manipulation-and-business-logic/object-space)  datos del control. En el método  [IComplexControl.Refresh](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexControl.Refresh)  (que se ejecuta cuando un usuario hace clic en la acción  **Actualizar**), puede volver a crear el origen de datos del control. El código siguiente muestra la colección de objetos  **DemoTask**  asignados a la propiedad  [GridControl.DataSource.](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.GridControl.DataSource)
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+// ...
+public partial class UserControl1 : UserControl, IComplexControl {
+    public UserControl1() {
+        InitializeComponent();
+    }
+    private IObjectSpace objectSpace;
+    void IComplexControl.Setup(IObjectSpace objectSpace, XafApplication application) {
+        gridControl1.DataSource = objectSpace.GetObjects<EFDemo.Module.Data.DemoTask>();
+        this.objectSpace = objectSpace;
+    }
+    void IComplexControl.Refresh() {
+        gridControl1.DataSource = objectSpace.GetObjects<EFDemo.Module.Data.DemoTask>();
+    }
+}
+
+```
+
+>PROPINA
+>
+>También puede usar el parámetro de la aplicación para acceder a ciertas configuraciones del modelo de aplicación usando la propiedad **XafApplication.Model** y personalizar el control en consecuencia.
+
+## Agregar un elemento Vista de controlElemento Ver elemento Elemento A una vista
+
+En el proyecto de aplicación WinForms, haga doble clic en el archivo  _Model.xafml_  para iniciar el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor). Haga clic con el botón derecho en el nodo  **Vistas**  y elija  **Agregar**  |  **DashboardView**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5c34215b-877f-4f53-923b-4a8be19c2c64)
+
+Establezca la propiedad  **Id**  en  **TaskCardView**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/b3266275-9911-4cca-8ddf-c4a51fbf664d)
+
+Haga clic con el botón derecho en  **Vistas**  |  **TaskCardView**  |  **Elementos**  y elija  **Agregar...**  |  **ControlDetailItem**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7c98bc12-47f3-4223-81ad-40237d34ca91)
+
+Establezca la propiedad  **Id**  en  **TaskCardView**  y la propiedad  [IModelControlDetailItem.ControlTypeName](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelControlDetailItem.ControlTypeName)  (en el tipo del control de usuario personalizado que ha creado (por ejemplo,  **EFDemo.Win.UserControl1**).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d7f7cc8d-07ac-4d7c-90c0-51b67ba18e05)
+
+Enfoque el nodo  **Diseño**. Haga clic con el botón derecho en la superficie del diseñador a la derecha y elija  **Personalizar diseño**. A continuación, haga clic con el botón secundario en el elemento de diseño  **TaskCardView**  y elija  **Ocultar texto**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a06d82b3-2f48-4116-9682-52c2b49a6709)
+
+>NOTA
+>
+>Puede agregar el elemento de vista **ControlViewItem** a cualquier vista de detalle o vista de tablero existente en lugar de crear una nueva **Dashboard View**.
+
+## Crear un elemento de navegación que muestre la vista con el control personalizado
+
+Navegar a  **NavigationItems**  |  **Artículos**  |  **Predeterminado**  |  **Nodo Elementos**. Haga clic con el botón derecho en el nodo  **Elementos**  y seleccione  **Agregar...**  |  **NavigationItem**  en el menú contextual invocado.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/eda817ae-27df-4346-8c17-3ae83fc4813d)
+
+Para el nodo recién agregado, en la lista desplegable  [IModelNavigationItem.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelNavigationItem.View), seleccione la Vista que creó anteriormente (TaskCardView).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/cafdc8f1-5272-4cb4-92d0-98ca44f44c34)
+
+Ejecute la aplicación WinForms y haga clic en  **Vista de tarjeta de tareas**  en la navegación. Se mostrará la vista de tarjeta enlazada a la colección DemoTask ([consulte la imagen al principio de este tema](https://docs.devexpress.com/eXpressAppFramework/114159/ui-construction/using-a-custom-control-that-is-not-integrated-by-default/how-to-show-a-custom-data-bound-control-in-an-xaf-view-winforms#result)).
+
+
+
+# Aplicar formato HTML a los elementos de vista de formularios de Windows
+
+
+En este artículo se describe cómo utilizar el formato HTML en aplicaciones WinForms XAF.
+
+Los siguientes elementos de la interfaz de usuario de XAF admiten el formato HTML:
+
+-   El texto del  [elemento](https://docs.devexpress.com/eXpressAppFramework/112612/ui-construction/view-items-and-property-editors)  Vista de texto estático.
+-   Leyendas del editor de propiedades en  [Vistas detalladas](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview).
+-   Títulos de columna en aplicaciones WinForms ([GridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor)).
+
+Consulte Formato de  [texto](https://docs.devexpress.com/WindowsForms/4874/common-features/html-text-formatting)  HTML para obtener una lista de etiquetas HTML compatibles.
+
+## Empezar
+
+Debe abrir el nodo  **Opciones**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  y establecer la propiedad  [IModelOptionsEnableHtmlFormatting.EnableHtmlFormatting](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.SystemModule.IModelOptionsEnableHtmlFormatting.EnableHtmlFormatting)  en  **true**  antes de poder usar el formato HTML.
+
+Puede tener acceso a esta propiedad desde el módulo WinForms o el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  del proyecto de aplicación.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/1d67dce2-166b-42bb-b55b-771cf442c321)
+
+Las instrucciones siguientes muestran cómo aplicar formato HTML a varios elementos de la interfaz de usuario de la aplicación. Los ejemplos de este artículo utilizan la demostración principal (%_PUBLIC%\Documents\DevExpress Demos  23.1\Components\XAF\MainDemo_).
+
+## Texto estático Text View del elemento
+
+En esta sección se describe cómo tener acceso al texto del  [elemento de vista](https://docs.devexpress.com/eXpressAppFramework/112612/ui-construction/view-items-and-property-editors)  de texto estático y cambiar su apariencia con etiquetas HTML.
+
+Establecer la propiedad  **Text**  de las  **vistas**  del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  |  **AuthenticationStandardLogonParameters_DetailView_Demo**  |  **Artículos**  |  **LogonText**  a <color=green>¡Bienvenido! Introduzca su nombre de usuario y contraseña a continuación.</color>.
+
+La siguiente imagen muestra la ventana de inicio de sesión resultante:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/2cef3351-7d74-46ee-8aff-a83d0415650c)
+
+## Título del editor de propiedades
+
+En esta sección se describe cómo acceder al título de un editor de propiedades y cambiar su apariencia con etiquetas HTML.
+
+Establecer la propiedad  **Caption**  de las  **vistas**  del modelo de aplicación |  **Contact_DetailView**  |  **Artículos**  |  **WebPageAddress**  a .`<size=12><color=red><b>Web </b><color=0,255,0><i>Page </i><color=#0000FF><u>Address</u></color></size>`
+
+La siguiente imagen muestra una parte de la  [vista de detalles](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview)  de contacto resultante:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/76e84d1d-a1ff-4c83-8ff6-e675a7f8233c)
+
+## Título de columna del editor de listas predeterminado
+
+En esta sección se describe cómo acceder al título de una columna dentro del  [Editor de listas](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor)  predeterminado y cambiar la apariencia de estos subtítulos con etiquetas HTML.
+
+Establecer la propiedad  **Caption**  de las  **vistas**  del modelo de aplicación |  **Contact_ListView**  |  **Columnas**  |  **Apellido**  a . `<size=10><color=#CFCAFF><size=+4>L<color=#B0A8FF><size=+4>A<color=#6F79FF><size=+4>S<color=#4D3EFF><size=+4>T <color=#4D3EFF><size=-4>N<color=#6F79FF><size=-4>A<color=#B0A8FF><size=-4>M<color=#CFCAFF><size=-4>E</color></size>`
+
+La siguiente imagen muestra la vista de lista de contactos  [resultante](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview):
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6dab022e-8854-4f4f-967d-fe68011e51ce)
