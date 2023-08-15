@@ -15141,9 +15141,9 @@ Esta sección contiene las formas más comunes de personalizar los editores de l
     
     En el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112830/installation-upgrade-version-history/visual-studio-integration/model-editor), navegue hasta el nodo  **Vistas**  y establezca la propiedad  **DefaultListEditor**  en el tipo requerido del Editor de listas:
     
-    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d0d019a3-2bcd-40f8-85cb-1566e2a231f6)
 
-    
+
 -   **Personalizar el control de un editor de listas determinado**
     
     Los ejemplos siguientes muestran cómo personalizar el control de un editor de listas:
@@ -15171,3 +15171,444 @@ Esta sección contiene las formas más comunes de personalizar los editores de l
     [Cómo: Admitir un menú contextual para un editor de lista de WinForms personalizado](https://docs.devexpress.com/eXpressAppFramework/112660/ui-construction/list-editors/how-to-support-a-context-menu-for-a-custom-winforms-list-editor)
     
     [Cómo: Implementar un editor de listas de formularios Web Forms ASP.NET mediante un control personalizado](https://docs.devexpress.com/eXpressAppFramework/113126/ui-construction/list-editors/how-to-use-a-custom-control-to-implement-list-editor-web-forms)
+
+
+
+# Cómo: Configurar bandas en un editor de listas de cuadrícula (formularios Windows y formulariosWeb Forms ASP.NET)
+
+
+En este tema se describe cómo agrupar columnas de cuadrícula mediante  [bandas](https://docs.devexpress.com/eXpressAppFramework/113695/ui-construction/views/layout/list-view-bands-layout)  en aplicaciones XAF de formularios WinForms y ASP.NET formularios Web Forms.
+
+>NOTA
+>
+>- Si prefiere ver un video en lugar de seguir estas instrucciones paso a paso, visite el tutorial correspondiente en el canal de YouTube de DevExpress: XAF: Bandas en editores de listas de cuadrícula . También puedes ver una demostración de bandas en los **List Editors** | **Grid** | **Banded List View** de la demostración del Centro de características. La ubicación predeterminada de la aplicación es %PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework. XPO.
+>- Las aplicaciones ASP.NET Core Blazor no admiten bandas.
+
+En este ejemplo, se utiliza la aplicación de demostración  **Simple Project Manager**  instalada en %_PUBLIC%\Documents\DevExpress Demos  23.1\Components\XAF\SimpleProjectManager.NETFramework._  Sin embargo, puede seguir los pasos a continuación en cualquier aplicación XAF que proporcione una vista de lista con varias columnas, pero obviamente los títulos serán diferentes.
+
+1.  [Ejecute el Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  para el módulo independiente de la plataforma. En el árbol de nodos de la izquierda, busque el nodo ListView que va a personalizar (por ejemplo, el nodo  **ProjectTask_ListView**). Enfoque el nodo secundario  **BandsLayout**. En la cuadrícula de propiedades de la derecha, establezca la propiedad  [IModelBandsLayout.Enable](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelBandsLayout.Enable)  en  **true**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8ced6a44-d467-4893-ae66-af2ad61f002a)
+
+    
+2.  Después de cambiar el valor  **Enabled**, observará que ahora es posible expandir los nodos secundarios del nodo  **BandsLayout**. De forma predeterminada, no se agregan bandas y este nodo solo contiene columnas. Para agregar una banda, haga clic con el botón derecho en  **BandsLayout**  y elija  **Agregar...**  |  **Banda**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/c0d3dc96-f52c-4af0-aa78-f569729a12fd)
+
+    
+3.  Enfoque el nodo recién agregado y especifique un  **ID**  significativo para él (por ejemplo,  **TaskDetails**).
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a9c0bfeb-cd56-46ef-a33d-d552decbe70a)
+
+    
+    >NOTA
+    >
+    >La [`IModelBand.Caption`](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelBand.Caption) de una banda se rellena automáticamente en función del valor  **Id**. Sin embargo, puede cambiar el título cuando sea necesario.
+    
+4.  Seleccione las columnas que desea agregar a la banda  **TaskDetails**  (mantenga presionada la tecla CTRL y haga clic en los nodos correspondientes). A continuación, arrastre las columnas seleccionadas al nodo de banda  **TaskDetails**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/be4c828f-6aad-4a3b-ad77-4baf45b1aeef)
+
+    
+5.  Analogously, add another band (e.g.,  **Schedule**) and move the remaining columns into it. The resulting bands layout is illustrated below.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a298af88-fb25-42be-8c4c-a35d44a702c3)
+
+    
+    >PROPINA
+    >
+    >Puede agregar una banda dentro de una banda existente para crear una jerarquía de bandas compleja.
+    
+6.  Ejecute la aplicación WinForms para ver el resultado. Según el diseño de bandas ilustrado en el paso anterior, la vista Lista ProjectTask tiene dos bandas:  **Schedule**  y  **TaskDetails**.  La banda  **Programar**  archiva las columnas Fecha de  **inicio**  y  **Fecha de finalización**. Las columnas  **Asunto**,  **Estado**  y  **Asignado a**  se agrupan en la banda  **TaskDetails**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/2d079317-31c2-47f6-8303-f9991102dcc1)
+
+    
+7.  Ejecute la aplicación ASP.NET formularios Web Forms para asegurarse de que el diseño de las bandas es exactamente el mismo.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f133085f-9617-4200-b42a-1bac63eb53e5)
+
+    
+8.  Ahora probemos las opciones de configuración adicionales disponibles solo para WinForms. Detenga la depuración y ejecute el editor de modelos para el proyecto de aplicación WinForms. En el árbol de nodos de la izquierda, busque el nodo  **BandsLayout**  que configuró en los pasos anteriores. Enfocar una columna dentro de una banda (por ejemplo,  **Asunto**). Cambie el valor  [IModelBandedColumnWin.RowIndex](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Model.IModelBandedColumnWin.RowIndex)  a  **1**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8f7e88b7-bc10-423b-917a-7bee1d529bbb)
+
+    
+    >PROPINA
+    >
+    > En Formularios de Windows, puede especificar qué capacidades de personalización de bandas se permiten a los usuarios finales y ocultar encabezados de banda/columna mediante las propiedades de  [`IModelBandsLayoutWin`](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Model.IModelBandsLayoutWin).
+    
+9.  Ejecute la aplicación WinForms para ver el resultado. La columna  **Asunto**  ahora se muestra debajo de las columnas  **Estado**  y  **Asignado a**  que tienen cero  **RowIndex**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/dce6b7cd-c68f-4b05-b98e-4fb59c04eea4)
+
+    
+
+IMPORTANTE
+
+Al configurar bandas, tenga en cuenta las diferencias de comportamiento entre los controles de cuadrícula de formularios WindowsForms y ASP.NET  Web Forms:
+
+-   Las columnas que no se agregan a ninguna banda sólo están visibles en las aplicaciones de formularios Web Forms ASP.NET.  El control de cuadrícula Formularios de Windows no muestra dichas columnas.
+-   La [IModelBandedColumnWin.RowIndex](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Model.IModelBandedColumnWin.RowIndex) solo está disponible para formularios de Windows. No puede organizar encabezados de columna entre filas en aplicaciones de formularios Web Forms ASP.NET.
+-   Las opciones que restringen la configuración de bandas por parte de los usuarios (consulte [IModelBandsLayoutWin](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Model.IModelBandsLayoutWin)) solo están disponibles en formularios Win.
+
+Es por eso que recomendamos lo siguiente:
+
+-   Configure las bandas por separado para formularios Windows y formulariosWeb Forms ASP.NET.  La configuración de bandas en un módulo independiente de la plataforma es adecuada solo para diseños de banda muy simples.
+-   Evite [fusionar](https://docs.devexpress.com/eXpressAppFramework/113334/installation-upgrade-version-history/visual-studio-integration/model-merge-tool) la configuración de banda específica de la plataforma en un módulo común.
+
+
+
+# Cómo: Implementar un editor de listas personalizado (formularios de Windows)
+
+
+El  **eXpressApp Framework**  se envía con una serie de  [editores de listas integrados](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors). Sin embargo, en determinados escenarios, es posible que deba implementar un Editor de listas personalizado para mostrar colecciones de objetos de una manera determinada. En este tema se muestra cómo implementar un editor de listas  **WinCustomListEditor**  personalizado que utiliza un control de la biblioteca de .NET Framework. Este editor de listas está diseñado para mostrar objetos, implementando una interfaz  **IPictureItem**  personalizada como una lista de imágenes, una para cada objeto. Se puede utilizar, por ejemplo, para mostrar portadas de DVD.
+
+La siguiente imagen muestra el Editor de listas implementado en una vista de lista de álbumes:
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5be72b09-0842-4bc9-9440-d3eeb4b3dd1f)
+
+>NOTA
+>
+>Puede ver el código implementado aquí en la demostración del **Centro de características** instalada con **XAF.** Esta demostración se encuentra en _%PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework.  XPO_, por defecto.
+
+>PROPINA
+>
+>Para obtener información sobre cómo admitir un menú contextual para el **WinCustomListEditor**, consulte el tema [Cómo: Admitir un menú contextual para un **WinCustomListEditor**](https://docs.devexpress.com/eXpressAppFramework/112660/ui-construction/list-editors/how-to-support-a-context-menu-for-a-custom-winforms-list-editor).
+
+Al implementar un Editor de listas personalizado que funciona con datos específicos, puede diseñarlo para una clase determinada. Sin embargo, en este ejemplo, se introducirá una interfaz que contiene las propiedades requeridas por el Editor de listas. Luego, el Editor de listas se diseñará para mostrar objetos que implementan la interfaz. Este enfoque le permite utilizar simultáneamente ese mismo Editor de listas para diferentes clases. Las vistas de lista mostradas con  **WinCustomListEditor**  tendrán dos columnas:  **Imagen**  y  **Texto**. La interfaz especial tiene una propiedad de identificador adicional que representa un  **identificador de**  objeto único.
+
+
+
+```csharp
+using System.Drawing;
+//...
+interface IPictureItem {
+    Image Image { get; }
+    string Text { get; }
+    string ID { get; }
+}
+
+```
+
+Comience a implementar el Editor de listas heredando su clase de la clase  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor)  e implemente la funcionalidad básica reemplazando los siguientes miembros. Tenga en cuenta que su editor debe ser público.
+
+-   **Método CreateControlsCore**, que crea instancias del control del Editor de listas. Invalidar para crear y configurar el control.
+-   **Método AssignDataSourceToControl**, que asigna el origen de datos del editor de listas a su control. Invíalo para admitir la notificación de cambio de objeto, cuando el origen de datos implemente la interfaz  **IBindingList**.
+-   [Método ListEditor.Refresh](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Refresh), que actualiza los datos del control del Editor de listas. Invalidar para que el control vuelva a cargar todos los objetos de su origen de datos.
+-   [Método ListEditor.Dispose](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Dispose), que dispone de una propiedad  **controlDataSource**  asignada manualmente.
+-   Para especificar que las vistas de lista que muestran  **IPictureItem**, los objetos deben utilizar  **WinCustomListEditor**, decorar la clase List Editor con  [ListEditorAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditorAttribute).
+
+El Editor de listas demostrado puede mostrar una colección de objetos que implementan la interfaz  **IPictureItem**. Sin embargo, no admite la selección de elementos, ya que no puede reconocer qué elemento está seleccionado actualmente. Para admitir la selección, se deben modificar los siguientes miembros:
+
+-   En el método  **CreateControlsCore**, suscríbase a los eventos  **SelectedIndexChanged**  e  **ItemSelectionChanged**  del control. En el controlador de eventos  **SelectedIndexChanged**, llame al método  **OnSelectionChanged**. En el controlador de eventos ItemSelectionChanged, llame a los métodos  **OnSelectionChanged**  y  **OnFocusedObjectChanged**.
+-   Reemplace la propiedad  [ListEditor.SelectionType.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.SelectionType)  Dado que el control  **ListView**  admite selecciones únicas y múltiples, esta propiedad debe devolver  [SelectionType.Full.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SelectionType)
+-   Reemplace el método  [ListEditor.GetSelectedObjects.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.GetSelectedObjects)  Este método debe devolver una lista de los objetos seleccionados.
+
+Además de la selección, un editor de lista debe poder invocar una vista detallada para el objeto enfocado cuando un usuario final presione ENTRAR o haga doble clic en el objeto. Para ello, modifique los siguientes miembros:
+
+-   En el método  **CreateControlsCore**, suscríbase a los eventos  **MouseDoubleClick**  y  **KeyDown**  del control. En los controladores de eventos, llame al método  **OnProcessSelectedItem**.
+-   Reemplace la propiedad  [ListEditor.FocusedObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.FocusedObject)  para obtener y establecer el objeto enfocado. Para ello, implementamos un método auxiliar  **FindByTag**  adicional.
+-   Modifique el método  [ListEditor.Refresh](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Refresh)  para que el Editor de listas conserve el foco al actualizar los datos del control.
+
+Si necesita almacenar la configuración del editor en el modelo de aplicación, implemente el método  [ListEditor.SaveModel.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.SaveModel)  De lo contrario, deje este método vacío
+
+Este fragmento de código muestra los pasos anteriores.
+
+
+
+```csharp
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Templates;
+using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Win.Controls;
+using DevExpress.ExpressApp.Win.SystemModule;
+using DevExpress.Utils.Menu;
+using DevExpress.XtraBars;
+// ...
+[ListEditor(typeof(IPictureItem))]
+public class WinCustomListEditor : ListEditor {
+    private System.Windows.Forms.ListView control;
+    private System.Windows.Forms.ImageList images;
+    private Object controlDataSource;
+    private void dataSource_ListChanged(object sender, ListChangedEventArgs e) {
+        Refresh();
+    }
+    private void control_MouseDoubleClick(object sender, MouseEventArgs e) {
+        if(e.Button == MouseButtons.Left) {
+            OnProcessSelectedItem();
+        }
+    }
+    private void control_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e) {
+        if(e.KeyCode == Keys.Enter) {
+            OnProcessSelectedItem();
+        }
+    }
+    private void control_ItemSelectionChanged(object sender, System.Windows.Forms.ListViewItemSelectionChangedEventArgs e) {
+        OnSelectionChanged();
+    }
+    private void control_SelectedIndexChanged(object sender, EventArgs e) {
+        OnSelectionChanged();
+        OnFocusedObjectChanged();
+    }
+    private System.Windows.Forms.ListViewItem FindByTag(object tag) {
+        IPictureItem itemToSearch = (IPictureItem)tag;
+        if(control != null && itemToSearch != null) {
+            foreach(System.Windows.Forms.ListViewItem item in control.Items) {
+                if(((IPictureItem)item.Tag).ID == itemToSearch.ID)
+                    return item;
+            }
+        }
+        return null;
+    }
+    protected override object CreateControlsCore() {
+        control = new System.Windows.Forms.ListView();
+        control.Sorting = SortOrder.Ascending;
+        images = new System.Windows.Forms.ImageList();
+        images.ImageSize = new System.Drawing.Size(104, 150);
+        images.ColorDepth = ColorDepth.Depth32Bit;
+        control.LargeImageList = images;
+        control.HideSelection = false;
+        control.SelectedIndexChanged += control_SelectedIndexChanged;
+        control.ItemSelectionChanged += control_ItemSelectionChanged;
+        control.MouseDoubleClick += control_MouseDoubleClick;
+        control.KeyDown += control_KeyDown;
+        Refresh();
+        return control;
+    }
+    protected override void AssignDataSourceToControl(Object dataSource) {
+        if(dataSource is DevExpress.Xpo.XPServerCollectionSource) {
+            throw new Exception("The WinCustomListEditor doesn't support Server mode and so cannot use an XPServerCollectionSource object as the data source.");
+        }
+        if(controlDataSource != dataSource) {
+            IBindingList oldBindable = controlDataSource as IBindingList;
+            if(oldBindable != null) {
+                oldBindable.ListChanged -= new ListChangedEventHandler(dataSource_ListChanged);
+            }
+            controlDataSource = dataSource;
+            IBindingList bindable = controlDataSource as IBindingList;
+            if(bindable != null) {
+                bindable.ListChanged += dataSource_ListChanged;
+            }
+            Refresh();
+        }
+    }
+    public WinCustomListEditor(IModelListView info)
+        : base(info) {
+    }
+    public override void Dispose() {
+        controlDataSource = null;
+        base.Dispose();
+    }
+    public override void Refresh() {
+        if(control == null)
+            return;
+        object focused = FocusedObject;
+        control.SelectedItems.Clear();
+        try {
+            control.BeginUpdate();
+            images.Images.Clear();
+            control.Items.Clear();
+            if(ListHelper.GetList(controlDataSource) != null) {
+                images.Images.Add(ImageLoader.Instance.GetImageInfo("NoImage").Image);
+                foreach(IPictureItem item in ListHelper.GetList(controlDataSource)) {
+                    int imageIndex = 0;
+                    if(item.Image != null) {
+                        images.Images.Add(item.Image);
+                        imageIndex = images.Images.Count - 1;
+                    }
+                    System.Windows.Forms.ListViewItem lItem =
+                        new System.Windows.Forms.ListViewItem(item.Text, imageIndex);
+                    lItem.Tag = item;
+                    control.Items.Add(lItem);
+                }
+            }
+        }
+        finally {
+            control.EndUpdate();
+        }
+
+        FocusedObject = focused;
+        if(FocusedObject == null && control.Items.Count > 1) {
+            FocusedObject = control.Items[0].Tag;
+        }
+    }
+    public override IList GetSelectedObjects() {
+        if(control == null)
+            return new object[0] { };
+
+        object[] result = new object[control.SelectedItems.Count];
+        for(int i = 0; i < control.SelectedItems.Count; i++) {
+            result[i] = control.SelectedItems[i].Tag;
+        }
+        return result;
+    }
+    public override void SaveModel() {
+    }
+    public override SelectionType SelectionType {
+        get { return SelectionType.Full; }
+    }
+    public override object FocusedObject {
+        get {
+            return (control != null) && (control.FocusedItem != null) ? control.FocusedItem.Tag : null;
+        }
+        set {
+            System.Windows.Forms.ListViewItem item = FindByTag(value);
+            if(item != null) {
+                control.SelectedItems.Clear();
+
+                item.Focused = true;
+                item.Selected = true;
+            }
+        }
+    }
+}
+```
+
+
+# Cómo: Utilizar un control personalizado para implementar el Editor de listas (formularios Web Forms ASP.NET)
+
+
+El  **eXpressApp Framework**  se envía con una serie de  [editores de listas integrados](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors). Sin embargo, en determinados escenarios, es posible que deba implementar un Editor de listas personalizado para mostrar colecciones de objetos de una manera determinada. En este tema se muestra cómo implementar un editor de listas  **ASPxCustomListEditor**  personalizado que utiliza un control personalizado. Este editor de listas está diseñado para mostrar objetos, implementando una interfaz  **IPictureItem**  personalizada como una lista de imágenes, una para cada objeto. Se puede utilizar, por ejemplo, para mostrar portadas de DVD.
+
+La siguiente imagen muestra el Editor de listas implementado en una vista de lista de álbumes:
+
+
+
+>NOTA
+>
+>-   Puede ver el código implementado aquí en la demostración del **Centro de características** instalada con **XAF.** Esta demostración se encuentra en _%PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework.  XPO_, por defecto.
+>-   Controles de formularios  Web Forms de ASP.NET que utilizan el Administrador  de secuencias de comandos de cliente.[El método RegisterStartupScript  ](https://docs.microsoft.com/en-us/dotnet/api/system.web.ui.clientscriptmanager.registerstartupscript)no se puede integrar con este ejemplo. Si necesita integrar dicho control, no dude en ponerse en contacto con nuestro [equipo  de soporte](https://supportcenter.devexpress.com/ticket/list).
+    
+
+Al implementar un Editor de listas personalizado que funciona con datos específicos, puede diseñarlo para una clase determinada. Sin embargo, en este ejemplo, se introducirá una interfaz que contiene las propiedades requeridas por el Editor de listas. Luego, el Editor de listas se diseñará para mostrar objetos que implementan la interfaz. Este enfoque le permite utilizar simultáneamente ese mismo Editor de listas para diferentes clases. Las vistas de lista mostradas a través de  **ASPxCustomListEditor**  tendrán dos columnas:  **Imagen**  y  **Texto**. La interfaz especial tiene una propiedad de identificador adicional que representa un  **identificador de**  objeto único.
+
+
+
+```csharp
+using System.Drawing;
+//...
+public interface IPictureItem {
+    Image Image { get; }
+    string Text { get; }
+    string ID { get; }
+}
+
+```
+
+Comience a implementar el Editor de listas heredando su clase de la clase  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor)  e implemente la funcionalidad básica reemplazando los siguientes miembros. Tenga en cuenta que su editor debe ser público.
+
+-   **Método CreateControlsCore**  que crea una instancia del control del Editor de listas. Invalidar para crear y configurar una instancia del control personalizado (en este ejemplo,  **ASPxCustomListEditorControl**).
+-   **Método AssignDataSourceToControl**  que asigna el origen de datos del editor de listas a su control.
+-   [Método ListEditor.Refresh](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Refresh)  que actualiza el origen de datos del control del Editor de listas.
+-   Para especificar que las vistas de lista que muestran objetos  **IPictureItem**  deben utilizar  **ASPxCustomListEditor**, decore la clase List Editor con  [ListEditorAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditorAttribute).
+
+
+```csharp
+using System;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Utils;
+// ...
+[ListEditor(typeof(IPictureItem))]
+public class ASPxCustomListEditor : ListEditor {
+    public ASPxCustomListEditor(IModelListView info) : base(info) { }
+    private ASPxCustomListEditorControl control;
+    protected override object CreateControlsCore() {
+        control = new ASPxCustomListEditorControl();
+        control.ID = "CustomListEditor_control";
+        return control;
+    }
+    protected override void AssignDataSourceToControl(Object dataSource) {
+        if (control != null) {
+            control.DataSource = ListHelper.GetList(dataSource);
+        }
+    }
+    public override void Refresh() {
+        if (control != null) control.Refresh();
+    }
+}
+
+```
+
+El Editor de listas mostrado anteriormente puede mostrar una colección de objetos que implementan la interfaz  **IPictureItem**. Además, un editor de listas debe poder invocar una vista detallada para el objeto enfocado cuando un usuario final hace clic en el objeto. Para ello, modifique los siguientes miembros:
+
+-   En el método  **CreateControlsCore**, suscríbase al evento  **OnClick**  del control. En el controlador de eventos, llame a los métodos  **OnSelectionChanged**  y  **OnProcessSelectedItem**.
+-   Reemplace el método  [ListEditor.FocusedObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.FocusedObject)  para obtener y establecer el objeto enfocado.
+
+Además, implemente la clase  **personalizada CustomListEditorClickEventArgs**  con el campo  **IPictureItem**  para el evento  **OnClick**.
+
+
+
+```csharp
+[ListEditor(typeof(IPictureItem))]
+public class ASPxCustomListEditor : ListEditor {
+    //...
+    protected override object CreateControlsCore() {
+        //...
+        control.OnClick += control_OnClick;
+        //...   
+    }
+    private void control_OnClick(object sender, CustomListEditorClickEventArgs e) {
+        this.FocusedObject = e.ItemClicked;
+        OnSelectionChanged();
+        OnProcessSelectedItem();
+    }
+    private object focusedObject;
+    public override object FocusedObject {
+        get {
+            return focusedObject;
+        }
+        set {
+            focusedObject = value;
+        }
+    }
+}
+public class CustomListEditorClickEventArgs : EventArgs {
+    public IPictureItem ItemClicked;
+}
+
+```
+
+The final step is to implement the following abstract members:
+
+-   Override the  [ListEditor.SelectionType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.SelectionType)  property. Since the List Editor supports selection which is active only while a postback is processed, this property must return the  [SelectionType.TemporarySelection](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SelectionType)  value.
+-   Override the  [ListEditor.GetSelectedObjects](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.GetSelectedObjects)  method. This method must return a list of the selected objects. In our case, this is the focused object.
+-   Override the  [ListEditor.ContextMenuTemplate](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.ContextMenuTemplate)  property. This property is used to support the List Editor’s context menu. Since Internet browsers already have a context menu, we return null in this property.
+
+
+
+```csharp
+using System.Collections;
+using System.Collections.Generic;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Templates;
+// ...
+[ListEditor(typeof(IPictureItem))]
+public class ASPxCustomListEditor : ListEditor {
+    //...
+    public override SelectionType SelectionType {
+        get { return SelectionType.TemporarySelection; }
+    }
+    public override IList GetSelectedObjects() {
+        List<object> selectedObjects = new List<object>();
+        if(FocusedObject != null) {
+            selectedObjects.Add(FocusedObject);
+        }
+        return selectedObjects;
+    }
+    public override IContextMenuTemplate ContextMenuTemplate {
+        get { return null; }
+    }
+}
+```
+
