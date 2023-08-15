@@ -1,4 +1,4 @@
-![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/912e2d69-d683-41a8-b052-40213ab5cbf0)# Interfaz de usuario y personalización del comportamiento
+# Interfaz de usuario y personalización del comportamiento
 
 La construcción de la interfaz de usuario es un paso principal en la creación de una aplicación empresarial. eXpressApp Framework genera automáticamente una interfaz de usuario basada en su modelo de negocio y el modelo de aplicación. Puede usar la interfaz de usuario predeterminada o personalizarla a través de un modelo de aplicación o en código. Los temas de esta sección proporcionan información detallada sobre los elementos de la interfaz de usuario de XAF y los mecanismos de su creación e interacción.
 
@@ -15104,3 +15104,70 @@ Establecer la propiedad  **Caption**  de las  **vistas**  del modelo de aplicaci
 La siguiente imagen muestra la vista de lista de contactos  [resultante](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview):
 
 ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6dab022e-8854-4f4f-967d-fe68011e51ce)
+
+
+# Editores de listas
+
+
+[Las vistas de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  se visualizan mediante editores de listas. Un editor de lista tiene un control que se utiliza para mostrar una colección de objetos proporcionada por una vista de lista. Un editor de lista controla el enlace de su control y admite la interacción entre la vista de lista y el control. De forma predeterminada, ciertos editores de lista se utilizan para todas las vistas de lista. Puede cambiar los editores de lista utilizados en una interfaz de usuario predeterminada o personalizarlos. En este tema se explica cómo hacerlo y se definen los tipos de Editor de listas disponibles. Para obtener información sobre cómo implementar su propio Editor de listas, consulte la descripción de la clase  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor).
+
+Los editores de listas son entidades de interfaz de usuario abstractas representadas por descendientes de clase. La clase declara miembros comunes a todos los editores de listas. Estos miembros definen la funcionalidad básica del Editor de listas. Para crear controles reales, cada tipo de editor de lista reemplaza el método protegido al que se llama cuando es necesario mostrar un editor de listas en una interfaz de usuario. Dado que se utilizan diferentes controles en ASP.NET aplicaciones Core Blazor, WinForms y ASP.NET Web Forms, existen diferentes editores de listas implementados para ASP.NET Core Blazor, WinForms y ASP.NET interfaz de usuario de formularios Web Forms, respectivamente. En las tablas siguientes se enumeran los editores de listas básicos suministrados por XAF. `ListEditor``ListEditor``CreateControlCore`.
+
+
+## Editores de listas en aplicaciones de formularios Windows
+
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a966b83f-e00d-48bc-a3c4-be650f03c5f8)
+
+## Editores de listas en aplicaciones de formularios Web Forms ASP.NET
+
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4f7b8923-460d-471b-b0ee-082c1d343106)
+
+## List Editors in ASP.NET Core Blazor Applications
+
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/822b17e8-a9db-4a22-8e90-043eed6bba0a)
+
+## Personalizar editores de listas
+
+Esta sección contiene las formas más comunes de personalizar los editores de lista.
+
+-   **Cambiar el Editor de listas para una vista de lista determinada**
+    
+    En el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor), vaya a  **Vistas**  |  **_<ListView>_**  y establezca la propiedad  **EditorType**  en el tipo requerido del Editor de listas:
+    
+    ![Uploading image.png…]()
+
+    
+-   **Cambiar el Editor de listas predeterminado para todas las vistas de lista**
+    
+    En el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112830/installation-upgrade-version-history/visual-studio-integration/model-editor), navegue hasta el nodo  **Vistas**  y establezca la propiedad  **DefaultListEditor**  en el tipo requerido del Editor de listas:
+    
+    ![Uploading image.png…]()
+
+    
+-   **Personalizar el control de un editor de listas determinado**
+    
+    Los ejemplos siguientes muestran cómo personalizar el control de un editor de listas:
+    
+    [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)
+    
+    [Cómo: Configurar bandas en un editor de lista de cuadrícula (WinForms y ASP.NET formularios Web Forms)](https://docs.devexpress.com/eXpressAppFramework/113694/ui-construction/list-editors/how-to-configure-bands-in-a-grid-list-editor-winforms-and-asp-net)
+    
+    [Cómo: Extender el modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112810/ui-construction/application-model-ui-settings-storage/customize-application-model-in-code/access-the-application-model-in-code)
+    
+    [Cómo: Ocultar la columna Editar acción de un control ListView en una aplicación de formularios Web Forms ASP.NET](https://docs.devexpress.com/eXpressAppFramework/114715/ui-construction/controllers-and-actions/actions/how-to-hide-the-edit-action-column-from-a-list-view-in-an-asp-net-application)
+    
+    [Cómo: Especificar el centro de mapas utilizando una ubicación legible en lugar de coordenadas numéricas](https://docs.devexpress.com/eXpressAppFramework/115176/analytics/maps/how-to-specify-the-map-center-using-human-readable-location-instead-of-numeric-coordinates)
+    
+-   **Implementar un editor de listas personalizado**
+    
+    Puede utilizar un editor de listas personalizado si los editores de listas integrados de XAF no cumplen sus requisitos. En los artículos siguientes se describe cómo crear un editor de listas y utilizarlo para implementar funciones adicionales:
+    
+    [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor)
+    
+    [Cómo acceder a XafApplication y al origen de la colección desde un editor de listas personalizado](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexListEditor)
+    
+    [Cómo: Implementar un editor de listas de WinForms personalizado](https://docs.devexpress.com/eXpressAppFramework/112659/ui-construction/list-editors/how-to-implement-a-custom-list-editor-winforms)
+    
+    [Cómo: Admitir un menú contextual para un editor de lista de WinForms personalizado](https://docs.devexpress.com/eXpressAppFramework/112660/ui-construction/list-editors/how-to-support-a-context-menu-for-a-custom-winforms-list-editor)
+    
+    [Cómo: Implementar un editor de listas de formularios Web Forms ASP.NET mediante un control personalizado](https://docs.devexpress.com/eXpressAppFramework/113126/ui-construction/list-editors/how-to-use-a-custom-control-to-implement-list-editor-web-forms)
