@@ -15134,14 +15134,14 @@ Esta sección contiene las formas más comunes de personalizar los editores de l
     
     En el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor), vaya a  **Vistas**  |  **_<ListView>_**  y establezca la propiedad  **EditorType**  en el tipo requerido del Editor de listas:
     
-    ![Uploading image.png…]()
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/99867b4c-8f01-448c-b57d-b215be33f2ae)
 
     
 -   **Cambiar el Editor de listas predeterminado para todas las vistas de lista**
     
     En el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112830/installation-upgrade-version-history/visual-studio-integration/model-editor), navegue hasta el nodo  **Vistas**  y establezca la propiedad  **DefaultListEditor**  en el tipo requerido del Editor de listas:
     
-    ![Uploading image.png…]()
+    
 
     
 -   **Personalizar el control de un editor de listas determinado**
