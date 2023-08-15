@@ -1,4 +1,4 @@
-# Interfaz de usuario y personalización del comportamiento
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a287cc57-7301-47ab-b5d0-f6a4f8fee590)# Interfaz de usuario y personalización del comportamiento
 
 La construcción de la interfaz de usuario es un paso principal en la creación de una aplicación empresarial. eXpressApp Framework genera automáticamente una interfaz de usuario basada en su modelo de negocio y el modelo de aplicación. Puede usar la interfaz de usuario predeterminada o personalizarla a través de un modelo de aplicación o en código. Los temas de esta sección proporcionan información detallada sobre los elementos de la interfaz de usuario de XAF y los mecanismos de su creación e interacción.
 
@@ -15482,6 +15482,7 @@ El  **eXpressApp Framework**  se envía con una serie de  [editores de listas in
 
 La siguiente imagen muestra el Editor de listas implementado en una vista de lista de álbumes:
 
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/86788932-2af6-484c-85f6-b2eaeb222615)
 
 
 >NOTA
@@ -15612,3 +15613,798 @@ public class ASPxCustomListEditor : ListEditor {
 }
 ```
 
+
+# Cómo: Usar un componente personalizado para implementar el Editor de listas (Blazor)
+
+
+En este tema se describe cómo implementar un editor de listas personalizado que muestra imágenes en una aplicación ASP.NET Core Blazor. El Editor de listas muestra un componente Razor con objetos personalizados. Estos objetos implementan una interfaz personalizada para almacenar imágenes y sus subtítulos. `IPictureItem`
+
+[Ver ejemplo:  Cómo: Usar un componente personalizado para implementar el Editor de listas (Blazor)](https://github.com/DevExpress-Examples/xaf-custom-list-editor-blazor)
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/da1164ea-ce28-4af8-a1c3-260d1dfb370a)
+
+Para agregar un editor de listas personalizado a la aplicación ASP.NET Core Blazor,  [defina el modelo de datos necesario](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#define-the-data-model)  e implemente los siguientes componentes en el  [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  ASP.NET Core Blazor (**YourSolutionName.Blazor.Server**).
+
+-   [Componente de maquinilla de afeitar](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#razor-component)  - para definir el marcado requerido;
+-   [Modelo de componente](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#component-model): para cambiar el estado del componente;
+-   [Component Renderer](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#component-renderer)  - para enlazar el modelo de componente con el componente;
+-   [Editor de listas](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#list-editor): para integrar el componente en su aplicación XAF.
+
+## Definir el modelo de datos
+
+1.  En el proyecto  _CustomEditorEF.Module_, cree una nueva interfaz y asígnele el nombre  **IPictureItem**. En esta interfaz, declare las propiedades y. Esto permite que el Editor de listas trabaje con diferentes tipos de objetos que implementan esta interfaz. `Image``Text`
+    
+    **Archivo:**  _CustomEditorEF.Module\BusinessObjects\IPictureItem.cs_
+    
+
+    
+    ```csharp
+    namespace CustomEditorEF.Module.BusinessObjects;
+    public interface IPictureItem {
+        byte[] Image { get; }
+        string Text { get; }
+    }
+    
+    ```
+    
+2.  En el proyecto  _CustomEditorEF.Module_, cree una clase empresarial que implemente la interfaz. Asigne a esta clase el nombre .`IPictureItem``PictureItem`
+    
+    **Archivo:**  _CustomEditorEF.Module\BusinessObjects\PictureItem.cs_
+    
+
+    
+    ```csharp
+    using DevExpress.Persistent.Base;
+    using DevExpress.Persistent.BaseImpl;
+    using DevExpress.Persistent.BaseImpl.EF;
+    
+    namespace CustomEditorEF.Module.BusinessObjects;
+    [DefaultClassOptions]
+    public class PictureItem : BaseObject, IPictureItem {
+        [ImageEditor]
+        public virtual byte[] Image { get; set; }
+        public virtual string Text { get; set; }
+    }
+    
+    ```
+    
+3.  Registre la entidad en el :`PictureItems``DbContext`
+    
+    **Archivo:**  _CustomEditorEF.Module\BusinessObjects\CustomEditorEFDbContext.cs_
+    
+
+    
+    ```csharp
+    namespace CustomEditorEF.Module.BusinessObjects;
+    
+    // ...
+    public class CustomEditorEFContextInitializer : DbContextTypesInfoInitializerBase {
+    // ...
+    [TypesInfoInitializer(typeof(CustomEditorEFContextInitializer))]
+    public class CustomEditorEFEFCoreDbContext : DbContext {
+        public CustomEditorEFEFCoreDbContext(DbContextOptions<CustomEditorEFEFCoreDbContext> options) : base(options) {
+        }
+        public DbSet<PictureItem> PictureItems { get; set; }
+        // ...
+        }
+    }
+    
+    ```
+    
+
+## Componente de razor
+
+1.  Cree un nuevo  [componente  Razor](https://docs.microsoft.com/en-us/aspnet/core/blazor/components)  (en este ejemplo) en el  [proyecto de aplicación](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  ASP.NET Core Blazor (**CustomEditorEF.Blazor.Server**).`PictureItemListView`
+    
+2.  Asegúrese de que la propiedad  [`Acción de generación`](https://docs.microsoft.com/en-us/visualstudio/ide/build-actions) del componente está establecida en .`Content`
+    
+3.  Declare los parámetros y componente. `Data``ItemClick`
+    
+4.  Iterar a través de la colección y definir el marcado para cada objeto de datos. `Data`
+    
+5.  Especifique el controlador de eventos delegado para un objeto de datos. Consulte el tema siguiente para obtener más información:  [ASP.NET Control de  eventos Core Blazor](https://docs.microsoft.com/en-us/aspnet/core/blazor/components/event-handling). `@onclick`
+    
+
+>NOTA
+>
+>El componente solo admite imágenes PNG.`PictureItemListView`
+
+**Archivo:**  _CustomEditorEF.Blazor.Server\Editors\CustomList\PictureItemListView.razor_
+
+-   razor
+
+```
+@using CustomEditorEF.Module.BusinessObjects;
+@using Microsoft.AspNetCore.Components.Web
+
+@if (Data is not null) {
+    <div class="row">
+        @foreach (var item in Data) {
+            <div class="col-auto" style="cursor: pointer;"
+                 @onclick=@(async () => await ItemClick.InvokeAsync(item))>
+                @if (item.Image is null) {
+                    <div class="border d-flex justify-content-center align-items-center"
+                         style="height:150px; width: 104px;">
+                        No image
+                    </div>
+                }
+                else {
+                    <img src="data:image/png;base64,@Convert.ToBase64String(item.Image)" alt=@item.Text
+                         style="height:150px; width: 104px;">
+                }
+                <div class="text-center" style="width: 104px;">
+                    @item.Text
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<IPictureItem> Data { get; set; }
+    [Parameter]
+    public EventCallback<IPictureItem> ItemClick { get; set; }
+}
+
+```
+
+## Modelo de componentes
+
+Cree un descendiente con el siguiente nombre: . En esta clase, declare propiedades que describan el componente y su interacción con un usuario.`ComponentModelBase``PictureItemListViewModel`
+
+**Archivo:**  _CustomEditorEF.Blazor.Server\Editors\CustomList\PictureItemListViewModel.cs_
+
+
+
+```csharp
+using System;
+using System.Collections.Generic;
+using CustomEditorEF.Module.BusinessObjects;
+using DevExpress.ExpressApp.Blazor.Components.Models;
+
+namespace CustomEditorEF.Blazor.Server.Editors.CustomList {
+    public class PictureItemListViewModel : ComponentModelBase {
+        public IEnumerable<IPictureItem> Data {
+            get => GetPropertyValue<IEnumerable<IPictureItem>>();
+            set => SetPropertyValue(value);
+        }
+        public void Refresh() => RaiseChanged();
+        public void OnItemClick(IPictureItem item) =>
+            ItemClick?.Invoke(this, new PictureItemListViewModelItemClickEventArgs(item));
+        public event EventHandler<PictureItemListViewModelItemClickEventArgs> ItemClick;
+    }
+    public class PictureItemListViewModelItemClickEventArgs : EventArgs {
+        public PictureItemListViewModelItemClickEventArgs(IPictureItem item) {
+            Item = item;
+        }
+        public IPictureItem Item { get; }
+    }
+}
+
+```
+
+## Renderizador de componentes
+
+1.  Cree un nuevo componente Razor con el siguiente nombre: . `PictureItemListViewRenderer`
+    
+2.  Asegúrese de que la propiedad  [`Acción de generación`](https://docs.microsoft.com/en-us/visualstudio/ide/build-actions) del componente está establecida en .`Content`
+    
+3.  Agregue el componente Razor que creamos en la sección  [Razor Component](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#razor-component)  a 'PictureItemListViewRenderer.`PictureItemListView`
+    
+4.  Declare PictureItemListView' en su modelo. `ComponentModel parameter to bind`
+    
+5.  Especifique los parámetros y para asignarlos a las propiedades del modelo.`PictureItemListView.Data``PictureItemListView.ItemClick`
+    
+6.  Implemente el método para crear  [RenderFragment](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.components.renderfragment) y agregar el contenido al diseño de vista de lista.`PictureItemListViewRenderer.Create``PictureItemListViewRenderer`
+    
+
+**Archivo:**  _CustomEditorEF.Blazor.Server\Editors\CustomList\PictureItemListViewRenderer.razor_
+
+-   razor
+
+```
+<PictureItemListView Data=@ComponentModel.Data ItemClick=@ComponentModel.OnItemClick />
+
+@code {
+    public static RenderFragment Create(PictureItemListViewModel componentModel) =>
+    @<PictureItemListViewRenderer ComponentModel=@componentModel />;
+[Parameter]
+public PictureItemListViewModel ComponentModel { get; set; }
+}
+
+```
+
+## Editor de listas
+
+>PROPINA
+>
+>Puede encontrar el código de archivo completo del Editor de listas al final de este tema: [BlazorCustomListEditor.cs](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#full-list-editor-code).
+
+1.  Cree un descendiente de  [ListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor)  con el siguiente nombre: .`BlazorCustomListEditor`
+    
+2.  Aplique el siguiente  [ListEditorAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditorAttribute)  a la clase: . Este valor de atributo es el editor predeterminado para cualquier vista de lista.`BlazorCustomListEditor``[ListEditor(typeof(IPictureItem))]``BlazorCustomListEditor``IPictureItem`
+    
+3.  Cree una clase anidada que implemente la interfaz y asígnele el nombre . Utilice el método implementado en la sección  [Representador de componentes](https://docs.devexpress.com/eXpressAppFramework/403258/ui-construction/list-editors/how-to-use-a-custom-component-to-implement-list-editor-blazor#component-renderer)  para crear un  [RenderFragment](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.components.renderfragment) con el diseño del Editor de lista.`IComponentContentHolder``PictureItemListViewHolder``PictureItemListViewRenderer.Create`
+    
+    **Archivo:**  _CustomEditorEF.Blazor.Server\Editors\CustomList\BlazorCustomListEditor.cs
+    
+
+    
+    ```csharp
+    using System;
+    using System.Collections;
+    using System.ComponentModel;
+    using System.Linq;
+    using CustomEditorEF.Module.BusinessObjects;
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Blazor;
+    using DevExpress.ExpressApp.Blazor.Components;
+    using DevExpress.ExpressApp.Editors;
+    using DevExpress.ExpressApp.Model;
+    using Microsoft.AspNetCore.Components;
+    
+    namespace CustomEditorEF.Blazor.Server.Editors.CustomList {
+        [ListEditor(typeof(IPictureItem))]
+        public class BlazorCustomListEditor : ListEditor {
+            public class PictureItemListViewHolder : IComponentContentHolder {
+                private RenderFragment componentContent;
+                public PictureItemListViewHolder(PictureItemListViewModel componentModel) {
+                    ComponentModel =
+                        componentModel ?? throw new ArgumentNullException(nameof(componentModel));
+                }
+                private RenderFragment CreateComponent() =>
+                    ComponentModelObserver.Create(ComponentModel,
+                                                    PictureItemListViewRenderer.Create(ComponentModel));
+                public PictureItemListViewModel ComponentModel { get; }
+                RenderFragment IComponentContentHolder.ComponentContent =>
+                    componentContent ??= CreateComponent();
+            }
+            // ...
+            public BlazorCustomListEditor(IModelListView model) : base(model) { }
+            // ...
+        }
+        // ...
+    }
+    
+    ```
+    
+4.  Reemplace el método para devolver una instancia. Tenga en cuenta que en una aplicación XAF Blazor, debe devolver una instancia que implemente la interfaz.`CreateControlsCore``PictureItemListViewHolder``CreateControlsCore``IComponentContentHolder`
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        protected override object CreateControlsCore() =>
+            new PictureItemListViewHolder(new PictureItemListViewModel());
+            // ...
+    }
+    
+    ```
+    
+5.  Anule el método. En este método, asigne el origen de datos del Editor de listas al modelo de componentes. Si el origen de datos implementa la interfaz  [`IBindingList`](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.ibindinglist), controle las notificaciones de cambio de datos.`AssignDataSourceToControl`
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        protected override void AssignDataSourceToControl(object dataSource) {
+            if (Control is PictureItemListViewHolder holder) {
+                if (holder.ComponentModel.Data is IBindingList bindingList) {
+                    bindingList.ListChanged -= BindingList_ListChanged;
+                }
+                holder.ComponentModel.Data =
+                    (dataSource as IEnumerable)?.OfType<IPictureItem>().OrderBy(i => i.Text);
+                if (dataSource is IBindingList newBindingList) {
+                    newBindingList.ListChanged += BindingList_ListChanged;
+                }
+            }
+        }
+        // ...
+        private void BindingList_ListChanged(object sender, ListChangedEventArgs e) {
+            Refresh();
+        }
+        // ...
+    }
+    
+    ```
+    
+6.  Anule el método. En este método, suscríbase al evento del modelo de componente. En el controlador de eventos, establezca el campo en el elemento en el que se ha hecho clic y llame a los métodos y para controlar la selección de un elemento.`OnControlsCreated``ItemClick``ComponentModel_ItemClick``selectedObjects``OnSelectionChanged``OnProcessSelectedItem`
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        private IPictureItem[] selectedObjects = Array.Empty<IPictureItem>();
+        // ...
+        protected override void OnControlsCreated() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.ItemClick += ComponentModel_ItemClick;
+            }
+            base.OnControlsCreated();
+        }
+        // ...
+        private void ComponentModel_ItemClick(object sender,
+                                                PictureItemListViewModelItemClickEventArgs e) {
+            selectedObjects = new IPictureItem[] { e.Item };
+            OnSelectionChanged();
+            OnProcessSelectedItem();
+        }
+        // ...
+    }
+    
+    ```
+    
+7.  Reemplace el método  [BreakLinksToControls().](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.BreakLinksToControls)  En este método, cancele la suscripción a los eventos del modelo de componentes y restablezca sus datos para liberar recursos. Reemplace el método  [Refresh().](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Refresh)  En este método, llame al método para actualizar el diseño de ListEditor cuando se cambien sus datos.`PictureItemListViewModel.Refresh`
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        public override void BreakLinksToControls() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.ItemClick -= ComponentModel_ItemClick;
+            }
+            AssignDataSourceToControl(null);
+            base.BreakLinksToControls();
+        }
+        // ...
+        public override void Refresh() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.Refresh();
+            }
+        }
+        // ...
+    }
+    
+    ```
+    
+8.  Reemplace la propiedad  [SelectionType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.SelectionType)  para devolver  [SelectionType.Full.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SelectionType)  Esta configuración permite al usuario abrir la Vista detallada haciendo clic.
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        public override SelectionType SelectionType => SelectionType.Full;
+        // ...
+    }
+    
+    ```
+    
+9.  Reemplace el método  [GetSelectedObjects().](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.GetSelectedObjects)  En este método, devuelva el valor del campo.`selectedObjects`
+    
+
+    
+    ```csharp
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+    // ...
+        public override IList GetSelectedObjects() => selectedObjects;
+    }
+    
+    ```
+    
+
+### Código del editor de lista completa
+
+El código de archivo completo  _BlazorCustomListEditor.cs_:
+
+
+
+```csharp
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Linq;
+using CustomEditorEF.Module.BusinessObjects;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Blazor;
+using DevExpress.ExpressApp.Blazor.Components;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Model;
+using Microsoft.AspNetCore.Components;
+
+namespace CustomEditorEF.Blazor.Server.Editors.CustomList {
+    [ListEditor(typeof(IPictureItem))]
+    public class BlazorCustomListEditor : ListEditor {
+        public class PictureItemListViewHolder : IComponentContentHolder {
+            private RenderFragment componentContent;
+            public PictureItemListViewHolder(PictureItemListViewModel componentModel) {
+                ComponentModel =
+                    componentModel ?? throw new ArgumentNullException(nameof(componentModel));
+            }
+            private RenderFragment CreateComponent() =>
+                ComponentModelObserver.Create(ComponentModel,
+                                                PictureItemListViewRenderer.Create(ComponentModel));
+            public PictureItemListViewModel ComponentModel { get; }
+            RenderFragment IComponentContentHolder.ComponentContent =>
+                componentContent ??= CreateComponent();
+        }
+        private IPictureItem[] selectedObjects = Array.Empty<IPictureItem>();
+        public BlazorCustomListEditor(IModelListView model) : base(model) { }
+        protected override object CreateControlsCore() =>
+            new PictureItemListViewHolder(new PictureItemListViewModel());
+        protected override void AssignDataSourceToControl(object dataSource) {
+            if (Control is PictureItemListViewHolder holder) {
+                if (holder.ComponentModel.Data is IBindingList bindingList) {
+                    bindingList.ListChanged -= BindingList_ListChanged;
+                }
+                holder.ComponentModel.Data =
+                    (dataSource as IEnumerable)?.OfType<IPictureItem>().OrderBy(i => i.Text);
+                if (dataSource is IBindingList newBindingList) {
+                    newBindingList.ListChanged += BindingList_ListChanged;
+                }
+            }
+        }
+        protected override void OnControlsCreated() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.ItemClick += ComponentModel_ItemClick;
+            }
+            base.OnControlsCreated();
+        }
+        public override void BreakLinksToControls() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.ItemClick -= ComponentModel_ItemClick;
+            }
+            AssignDataSourceToControl(null);
+            base.BreakLinksToControls();
+        }
+        public override void Refresh() {
+            if (Control is PictureItemListViewHolder holder) {
+                holder.ComponentModel.Refresh();
+            }
+        }
+        private void BindingList_ListChanged(object sender, ListChangedEventArgs e) {
+            Refresh();
+        }
+        private void ComponentModel_ItemClick(object sender,
+                                                PictureItemListViewModelItemClickEventArgs e) {
+            selectedObjects = new IPictureItem[] { e.Item };
+            OnSelectionChanged();
+            OnProcessSelectedItem();
+        }
+        public override SelectionType SelectionType => SelectionType.Full;
+        public override IList GetSelectedObjects() => selectedObjects;
+    }
+}
+
+```
+
+El Editor de listas personalizado solo admite el modo de acceso a datos de  [cliente](https://docs.devexpress.com/eXpressAppFramework/118449/ui-construction/views/list-view-data-access-modes/client-mode). Establezca el modo de acceso a datos de cliente en el método estático como se describe en la sección  [Especificar modo](https://docs.devexpress.com/eXpressAppFramework/113683/ui-construction/views/list-view-data-access-modes#specify-data-access-mode)  de acceso a datos del tema siguiente:  [Modos de acceso a datos de vista de lista](https://docs.devexpress.com/eXpressAppFramework/113683/ui-construction/views/list-view-data-access-modes).`DataAccessModeHelper.RegisterEditorSupportedModes`
+
+**Archivo**:  _CustomEditorEF.Blazor.Server\BlazorModule.cs_
+
+
+
+```csharp
+using DevExpress.ExpressApp.Utils;
+// ...
+public sealed class CustomEditorEFBlazorModule : ModuleBase {
+    public CustomEditorEFBlazorModule() {
+        DataAccessModeHelper.RegisterEditorSupportedModes(typeof(BlazorCustomListEditor),
+                                 new[] { CollectionSourceDataAccessMode.Client });
+    }
+    // ...
+}
+
+```
+
+## Acceda ala aplicación Xaf y al espacio de objetospara consultar y manipular datos (realizar operaciones CRUD)
+
+Un editor de lista personalizado puede requerir acceso al objeto de aplicación o al origen de colección de vista de lista (el origen de datos de vista de lista). Si es así, implemente la interfaz como se muestra en el tema siguiente:  [IComplexListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexListEditor). `IComplexListEditor`
+
+Utilice el método  [IComplexListEditor.Setup](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.IComplexListEditor.Setup(DevExpress.ExpressApp.CollectionSourceBase-DevExpress.ExpressApp.XafApplication))  para obtener los objetos  [XafApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication)  y  [CollectionSourceBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CollectionSourceBase). La clase  [CollectionSourceBase](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CollectionSourceBase)  es la clase base de las clases de origen de colección que permiten manipular datos de ObjectSpace.
+
+
+# Cómo: Admitir un menú contextual para un editor de listas personalizado de WinForms
+
+
+En las aplicaciones XAF,  [las vistas de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  pueden tener menús contextuales llenos de  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Para ello, el  [Editor de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  que muestra una vista de lista debe admitir las interfaces IRequireContextMenu e  **IRequireDXMenuManager**.  En este tema se describe cómo implementar estas interfaces en el  **WinCustomListEditor**  que se muestra en el tema  [Cómo: Implementar un editor de lista de WinForms personalizado](https://docs.devexpress.com/eXpressAppFramework/112659/ui-construction/list-editors/how-to-implement-a-custom-list-editor-winforms).
+
+La siguiente imagen ilustra el menú contextual invocado para  **WinCustomListEditor**.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a931b9e5-c2ff-43d0-b9a7-7fc7d251798d)
+
+NOTA
+
+Puede ver el código implementado aquí en la demostración del **Centro de características** instalada con **XAF**. Esta demostración se encuentra en _%PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework.  XPO_ por defecto.
+
+Para habilitar el menú contextual en un editor de listas personalizado, modifique su código de la siguiente manera.
+
+
+
+```csharp
+[ListEditor(typeof(IPictureItem))]
+public class WinCustomListEditor : ListEditor, /* ...*/ IRequireContextMenu, IRequireDXMenuManager {
+    #region IRequireContextMenu Members
+    private void BarManager_QueryShowPopupMenu(object sender, QueryShowPopupMenuEventArgs e) {
+        if (e.Control != control) {
+            e.Cancel = true;
+            e.BreakShowPopupMenu = false;
+        }
+    }
+    public void SetMenu(PopupMenu popupMenu, BarManager barManager) {
+        barManager.SetPopupContextMenu(control, popupMenu);
+        barManager.QueryShowPopupMenu += BarManager_QueryShowPopupMenu;
+    }
+        #endregion
+
+        #region IRequireDXMenuManager Members
+        public void SetMenuManager(IDXMenuManager menuManager) { }
+        #endregion
+}
+
+```
+
+Si implementa un Editor de lista utilizando un descendiente del control EditorContainer, inicialice la propiedad  [EditorContainer.MenuManager](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.Container.EditorContainer)  en el método  [SetMenuManager.](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.Container.EditorContainer.MenuManager)
+
+En el controlador de eventos  **QueryShowPopupMenu**, puede especificar si desea cancelar o no mostrando el menú contextual para la región actual del control mediante el parámetro  **e.Cancel.**  Por ejemplo, puede utilizar la siguiente lógica para el control  [GridView](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView).
+
+
+
+```csharp
+GridHitTest hitTest = gridView.CalcHitInfo(gridControl.PointToClient(e.Position)).HitTest;
+e.Cancel = !(((hitTest == GridHitTest.Row) || 
+    (hitTest == GridHitTest.RowCell) || (hitTest == GridHitTest.EmptyRow) || 
+    (hitTest == GridHitTest.RowDetail) || (hitTest == GridHitTest.None)));
+```
+
+
+# Cómo: Mostrar una vista de lista como un gráfico
+
+
+Los  [editores de lista predeterminados](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  utilizados para visualizar  [vistas](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  en aplicaciones XAF son GridListEditor y  [ASPxGridListEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.ASPx.ASPxGridListEditor)  (utilizados en aplicaciones WinForms y ASP.NET formularios Web Forms, respectivamente).[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.GridListEditor)  Estos editores de lista predeterminados visualizan las vistas de lista como cuadrículas. En este tema se muestra cómo visualizar una vista de lista como un gráfico, utilizando las capacidades proporcionadas por el  [módulo de gráfico](https://docs.devexpress.com/eXpressAppFramework/113302/analytics/chart-module). La vista de lista, visualizada por los editores de lista ChartListEditor y  [ASPxChartListEditor,](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.Web.ASPxChartListEditor)  se definirá en el  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works).[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.Win.ChartListEditor)  También se mostrarán las personalizaciones de la configuración del gráfico mediante el  [Diseñador de gráficos](https://docs.devexpress.com/WindowsForms/114070/controls-and-libraries/chart-control/design-time-features/chart-designer).
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no admiten el módulo Chart.[](https://docs.devexpress.com/eXpressAppFramework/113302/analytics/chart-module)
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e2840/how-to-display-a-list-view-as-a-chart](https://supportcenter.devexpress.com/ticket/details/e2840/how-to-display-a-list-view-as-a-chart) .
+
+La implementación de la aplicación de ejemplo que demuestra el uso de editores de listas de gráficos consta de las siguientes etapas.
+
+-   [Implementar objeto persistente de ejemplo](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#1)
+-   [Crear un nuevo nodo de vista de lista](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#2)
+-   [Crear el elemento de navegación para la vista de lista de gráficos](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#3)
+-   [Agregar el módulo de gráficos](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#4)
+-   [Cambiar el editor de lista de la vista de lista](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#5)
+-   [Especificar la configuración del gráfico](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#6)
+-   [Ejecutar la aplicación](https://docs.devexpress.com/eXpressAppFramework/113314/ui-construction/list-editors/how-to-display-a-list-view-as-a-chart#7)
+
+>PROPINA
+>
+>Puede ver ejemplos con Chart List Editors en la demostración del **Centro de características** incluida con XAF. Esta demostración se encuentra en _%PUBLIC%\Documents\DevExpress Demos 23.1\Componentes\XAF\Centro de características.NETFramework.  XPO_, por defecto.
+
+## Implementar objeto persistente de ejemplo
+
+Consideremos la siguiente clase persistente  **de empleado**  o la misma clase principal de Entity Framework.
+
+**EF Core**
+
+```
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl.EF;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+//...
+[DefaultClassOptions,DefaultProperty(nameof(FullName)),ImageName("BO_Person")]
+public class Employee : BaseObject {
+    [VisibleInListView(false)]
+    public virtual string FirstName { get; set; }
+    [VisibleInListView(false)]
+    public virtual string LastName { get; set; }
+    [VisibleInDetailView(false)]
+    public string FullName {
+        get { return String.Format("{0} {1}", FirstName, LastName); }
+    }
+    public virtual string Position { get; set; }
+}
+
+// Make sure that you use options.UseChangeTrackingProxies() in your DbContext settings.
+
+```
+
+**XPO**
+
+
+```csharp
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System.ComponentModel;
+//...
+[DefaultClassOptions, DefaultProperty(nameof(FullName)), ImageName("BO_Person")]
+public class Employee : BaseObject {
+    public Employee(Session session) : base(session) {}
+    private string firstName;
+    private string lastName;
+    private string position;
+    [VisibleInListView(false)]
+    public string FirstName {
+        get { return firstName; }
+        set { SetPropertyValue(nameof(FirstName), ref firstName, value); }
+    }
+    [VisibleInListView(false)]
+    public string LastName {
+        get { return lastName; }
+        set { SetPropertyValue(nameof(LastName), ref lastName, value); }
+    }
+    [VisibleInDetailView(false)]
+    public string FullName {
+        get { return String.Format("{0} {1}", FirstName, LastName); }
+    }
+    public string Position {
+        get { return position; }
+        set { SetPropertyValue(nameof(Position), ref position, value); }
+    }
+}
+```
+
+>NOTA
+>
+>Aunque **Employee** es una clase persistente de XPO, el enfoque que se muestra aquí también se puede utilizar con Entity Framework.
+
+En este ejemplo, crearemos el gráfico de empleados, que se puede usar para comparar cantidades de empleados con diferentes posiciones.
+
+## Crear un nuevo nodo de vista de lista
+
+Siga los pasos que se indican a continuación para crear un nodo Vista de lista, que define una vista de lista que visualizará un Editor de listas de gráficos.
+
+-   Invoque el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  para el  [proyecto de módulo independiente](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)  de la plataforma.
+-   Navegar a las  **vistas**  |  **Employee_ListView**  nodo, que se genera automáticamente para el objeto persistente  **Employee**. Haga clic derecho en él y seleccione  **Clonar**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/1d6a2abb-28fe-4229-87a8-3c4a449bcda5)
+
+    
+    Se creará una copia del nodo Vista de lista.
+    
+-   Cambie la propiedad  [IModelView.Id](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView.Id)  del nuevo nodo a "Employee_ListView_Chart".
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/76c71fe0-c02a-4e1c-a257-05654fdbabd7)
+
+    
+
+## Crear el elemento de navegación para la vista de lista de gráficos
+
+La vista  **de lista de Employee_ListView_Chart**  creada en la etapa anterior debe ser accesible para los usuarios finales. Por lo tanto, cree el  [elemento de navegación](https://docs.devexpress.com/eXpressAppFramework/113198/application-shell-and-base-infrastructure/navigation-system)  del  **gráfico del empleado**, que tiene la propiedad  [IModelNavigationItem.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.IModelNavigationItem.View)  establecida en "Employee_ListView_Chart".
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/7e002645-7642-4e4c-a375-fc48b830b625)
+
+
+La creación de elementos de navegación se detalla en el tutorial  [Agregar un elemento al control de navegación](https://docs.devexpress.com/eXpressAppFramework/402131/getting-started/in-depth-tutorial-blazor/customize-navigation-between-views/add-an-item-to-navigation-control).
+
+>NOTA
+>
+>Como alternativa, puede definir una [variante](https://docs.devexpress.com/eXpressAppFramework/113011/application-shell-and-base-infrastructure/view-variants-module)  de vista  que apunte a la **Employee_ListView_Chart** vista de lista. Los usuarios finales podrán elegir si desean mostrar la vista de lista de  **empleados**  como  una cuadrícula o como un gráfico. La vista de lista del gráfico también se puede utilizar como elemento del panel (vea [Cómo: Mostrar varias vistas en paralelo](https://docs.devexpress.com/eXpressAppFramework/113296/ui-construction/views/layout/display-several-views-side-by-side)).
+
+## Agregar el módulo de gráficos
+
+Los editores de listas de gráficos son proporcionados por el  **módulo de gráficos**. Como este módulo está representado por dos proyectos de módulos específicos de la plataforma, debe agregarlos por separado a sus aplicaciones WinForms y ASP.NET Web Forms.
+
+1.  Agregue los paquetes NuGet específicos de la plataforma necesarios de la tabla siguiente:
+
+    
+    **DevExpress.ExpressApp.Chart.Win**
+    Proyecto de aplicación específico de WinForms (_MySolution.Win_)
+    
+    **DevExpress.ExpressApp.Chart.Web**
+    Proyecto   de  aplicación específico de ASP.NET Web Forms (Mi solución._Telaraña_)
+    
+2.  En el constructor de la aplicación, agregue el módulo Charts específico de la plataforma a la colección  [Modules](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.Modules):
+    
+    **Archivo WinForms**  
+    :  _MySolution.Win\WinApplication.cs._
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.Chart.Win;
+    // ...
+    public partial class MySolutionWindowsFormsApplication : WinApplication {
+        public MySolutionWindowsFormsApplication() {
+            // ...
+            Modules.Add(new ChartWindowsFormsModule());
+        }
+        // ...
+    }
+    
+    ```
+    
+    ASP.NET  **Archivo**  **de formularios Web Forms**  
+    :  _MySolution.Web\WebApplication.cs._
+    
+
+    
+    ```csharp
+    using DevExpress.ExpressApp.Chart.Web;
+    // ...
+    public partial class MySolutionAspNetApplication : WebApplication {
+        public MySolutionAspNetApplication() {
+            // ...
+            Modules.Add(new ChartAspNetModule());
+        }
+        // ...
+    }
+    
+    ```
+    
+
+## Cambiar el editor de lista de la vista de lista
+
+Después de agregar el módulo de gráficos, el Editor de lista de gráficos se puede especificar mediante la propiedad  [IModelListView.EditorType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelListView.EditorType)  del nodo  **Vista de lista**. Como hay dos editores de listas de gráficos específicos de la plataforma, debe cambiar la configuración por separado para las aplicaciones WinForms y ASP.NET formularios Web Forms.
+
+-   Invoque el  **Editor de modelos**  para el proyecto de aplicación WinForms. Navegar a las  **vistas**  |  **Employee_ListView_Chart**  nodo. En el menú desplegable de la propiedad  **EditorType**, seleccione "DevExpress.ExpressApp.Chart.Win.ChartListEditor".
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6ff5c1b2-a2da-42c6-9947-9e6b4f56e625)
+
+    
+-   Invoque el  **Editor de modelos**  para el proyecto de aplicación ASP.NET formularios Web Forms. Navegar a las  **vistas**  |  **Employee_ListView_Chart**  nodo. En el menú desplegable de la propiedad  **EditorType**, seleccione "DevExpress.ExpressApp.Chart.Web.ASPxChartListEditor".
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8d8daad6-a5d1-4951-a791-ef2c18b0b72b)
+
+    
+
+## Especificar la configuración del gráfico
+
+El módulo de gráficos amplía los nodos de  **vista de lista**  con el nodo secundario  **ChartSettings**  ([IModelChartSettings](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.IModelChartSettings)). Para especificar la configuración de gráficos para la aplicación WinForms, invoque el Editor de modelos para el proyecto de aplicación WinForms y realice los pasos siguientes.
+
+-   Navegar a las  **vistas**  |  **Employee_ListView_Chart**  |  **Nodo ChartSettings**. Haga clic en el botón de puntos suspensivos situado a la derecha del valor de la propiedad  [IModelChartSettings.Settings.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.IModelChartSettings.Settings)
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6c587242-3142-42a5-8e0d-1850d9e45b68)
+
+    
+    Se invocará el formulario  [Diseñador de gráficos](https://docs.devexpress.com/WindowsForms/114070/controls-and-libraries/chart-control/design-time-features/chart-designer). De forma predeterminada, se muestra  **la página Opciones**  del gráfico principal con la configuración de apariencia, comportamiento y borde.
+    
+-   Haga clic en el botón  **Agregar elemento de gráfico**  (  ![AddChartElement](https://docs.devexpress.com/eXpressAppFramework/images/addchartelement122942.png)  ) en la esquina superior izquierda, elija "Serie ..." y el tipo de vista  **Barra**  en la ventana invocada.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8da44c52-95ea-46b3-8409-fb1355d5729d)
+
+    
+-   Establezca la nueva propiedad  **Name**  de la serie en "Posiciones".
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/733dd235-3f7a-443a-a524-27e4fddf3aa0)
+
+    
+-   Switch to the  **Data**  tab. To define chart data, drag the  **Position**  data member to the  **Argument**  cell.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/909492ff-1ac6-43fb-9498-e3e15b5008d8)
+
+    
+-   Switch to the  **Properties**  tab. In the  **Data**  group, find the  **Summary Function**  property and click the ellipsis button on the right. In the invoked window, choose  **Count**  and click  **OK**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/f6643e1c-af6a-4300-9e4c-aa28d607ea69)
+
+    
+-   Haga clic en  **Aceptar**  para cerrar el  **Diseñador de gráficos**. La configuración del gráfico en formato XML se establecerá en la propiedad  **Settings**  del  **Editor de modelos**.
+
+>NOTA
+>
+>Los usuarios finales pueden invocar el **Diseñador de gráficos** en tiempo de ejecución haciendo clic con el botón derecho en un gráfico y seleccionando **Asistente de invocación**. Puede desactivar esta función configurando la propiedad **ICustomizationEnabledProvider.CustomizationEnabled** del nodo **ChartSettings** en **False**. Para obtener información detallada sobre las capacidades del **Diseñador de gráficos**, consulte el tema de ayuda del **Diseñador de gráficos**.
+
+Para especificar la configuración de gráficos para la aplicación ASP.NET formularios Web Forms, invoque el Editor de modelos para el proyecto de aplicación ASP.NET formularios Web Forms y realice los mismos pasos. Tenga en cuenta que hay dos propiedades adicionales del nodo  **ChartSettings**  disponibles para la aplicación ASP.NET formularios Web Forms: IModelWebChartSettings.PreferredWidth e  [IModelWebChartSettings.PreferredHeight.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.Web.IModelWebChartSettings.PreferredWidth)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Chart.Web.IModelWebChartSettings.PreferredHeight)La propiedad  **PreferredWidth**  especifica el ancho mínimo posible de un gráfico en píxeles (el control de gráfico ajusta su ancho automáticamente para que se ajuste al espacio disponible). La propiedad  **PreferredHeight**  especifica el alto exacto.
+
+## Ejecutar la aplicación
+
+Ejecute la aplicación WinForms. Cree varios objetos  **Employee**  con diferentes posiciones para proporcionar datos para el gráfico.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/3163f8be-8d52-478f-a46f-bbaaae4aeea8)
+
+Seleccione el elemento de navegación  **Gráfico de empleados**. Se mostrará el gráfico.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/535aa1c3-7b16-4775-97bb-6480b668ab27)
+
+Ejecute la aplicación ASP.NET Web Forms y compruebe que el  **Gráfico de empleados**  también esté disponible.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8a5a6ca0-1f3c-4410-9bf2-d261047dbf3e)
