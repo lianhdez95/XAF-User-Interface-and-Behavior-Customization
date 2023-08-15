@@ -16408,3 +16408,857 @@ Seleccione el elemento de navegación  **Gráfico de empleados**. Se mostrará e
 Ejecute la aplicación ASP.NET Web Forms y compruebe que el  **Gráfico de empleados**  también esté disponible.
 
 ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/8a5a6ca0-1f3c-4410-9bf2-d261047dbf3e)
+
+
+
+# Cómo: Mostrar una vista de lista como una tabla y un gráfico de cuadrícula dinámica
+
+
+En este tema se muestra cómo mostrar una  [vista de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  predeterminada como una tabla dinámica en aplicaciones XAF:
+
+-   [Agregar el módulo de cuadrícula dinámica](https://docs.devexpress.com/eXpressAppFramework/119740/ui-construction/list-editors/how-to-display-a-list-view-as-a-pivot-grid-table-and-chart#add-the-pivot-grid-module)
+-   [Cambiar el editor de lista de la vista de lista](https://docs.devexpress.com/eXpressAppFramework/119740/ui-construction/list-editors/how-to-display-a-list-view-as-a-pivot-grid-table-and-chart#change-the-list-views-list-editor)
+-   [Especificar la configuración del gráfico](https://docs.devexpress.com/eXpressAppFramework/119740/ui-construction/list-editors/how-to-display-a-list-view-as-a-pivot-grid-table-and-chart#specify-pivot-grid-settings)
+-   [Ejecutar la aplicación](https://docs.devexpress.com/eXpressAppFramework/119740/ui-construction/list-editors/how-to-display-a-list-view-as-a-pivot-grid-table-and-chart#run-the-application)
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no admiten el módulo de cuadrícula dinámica.[](https://docs.devexpress.com/eXpressAppFramework/113303/analytics/pivot-grid-module)
+
+El artículo utiliza un  [objeto de negocio de](https://docs.devexpress.com/eXpressAppFramework/112570/business-model-design-orm/business-model-design-with-xpo/business-classes-vs-database-tables)  ejemplo con los campos , , , , y .`Order``Customer``Product Name``Product Category``Price``Units Purchased`
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/33a31460-6303-48af-880b-b9bb9829dc8b)
+
+Puede mostrar la  [vista Lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  de  **pedidos**  como una tabla dinámica agregando el módulo de cuadrícula dinámica a la aplicación y reemplazando el Editor de lista de cuadrícula predeterminado por el  [Editor de lista](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  de  [cuadrícula dinámica](https://docs.devexpress.com/eXpressAppFramework/113303/analytics/pivot-grid-module). La siguiente captura de pantalla muestra el resultado.
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/4b927819-3dcb-4b5a-acae-0b08c958f3bb)
+
+Puede ver ejemplos con editores de listas de cuadrícula dinámica en la demostración de  **FeatureCenter**  incluida con XAF. La ubicación predeterminada de la aplicación es %_PUBLIC%\Documents\DevExpress Demos  23.1\Components\XAF\FeatureCenter.NETFramework.XPO._
+
+## Agregar el módulo de cuadrícula dinámica
+
+1.  Haga doble clic en el archivo WinModule  _del proyecto Module.Win.cs_  para invocar al  [Diseñador de módulos](https://docs.devexpress.com/eXpressAppFramework/112828/installation-upgrade-version-history/visual-studio-integration/module-designer)  para este proyecto[.](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)
+2.  Arrastre el elemento  [PivotGridWindowsFormsModule](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule)  del  **Cuadro de herramientas**  al panel  **Módulos necesarios**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/6934e48c-4ca7-4f86-92b6-2e4cf66d0805)
+
+    
+3.  Haga doble clic en el archivo WebModule  _del proyecto Module.Web.cs_  para invocar al diseñador de módulos para este proyecto[.](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure)
+4.  Arrastre el elemento  [PivotGridAspNetModule](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule)  del  **Cuadro de herramientas**  al panel  **Módulos necesarios**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/ad2d76d0-8679-47d8-a517-47491e95906f)
+
+    
+5.  Guardar cambios.
+6.  Vuelva a generar la solución.
+
+>NOTA
+>
+>-   Puede agregar módulos a la aplicación cuando utilice el [Asistente para soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard) para crear una nueva solución XAF. Seleccione módulos en el paso  **Elegir módulos adicionales**.
+>    
+>-   Para agregar un módulo adicional en el código, agréguelo a la [XafApplication.Modules](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.Modules) o [ModuleBase.RequiredModuleTypes](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.RequiredModuleTypes) (agregar una referencia al conjunto del módulo es insuficiente).
+>
+>-   En las aplicaciones .NET 6+, puede llamar al método  [AddPivotGrid(IModuleBuilder<IWinApplicationBuilder>)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.ApplicationBuilder.PivotGridApplicationBuilderExtensions.AddPivotGrid(IModuleBuilder-IWinApplicationBuilder-))  en el generador de aplicaciones de formularios de Windows.
+    
+
+## Cambiar el editor de lista de la vista de lista
+
+1.  Haga doble clic en el archivo  _Model.DesignedDiffs.xafml_  del proyecto  **Module.Win**  para invocar el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  para este proyecto.
+2.  Navegar a las  **vistas**  |  **Order_ListView**  nodo. En la lista desplegable de la propiedad  **EditorType**  ([IModelListView.EditorType](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelListView.EditorType)), seleccione "DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" en lugar del Editor de lista predeterminado de XAF.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/5497bd29-a3e9-4102-9377-6df0313d4033)
+
+    
+3.  Haga doble clic en el archivo  _Model.DesignedDiffs.xafml_  del proyecto  **Module.Web**  para invocar el Editor de modelos para este proyecto.
+4.  Navegar a las  **vistas**  |  **Order_ListView**  nodo. En la lista desplegable de la propiedad  **EditorType**, seleccione en lugar del Editor de lista predeterminado de XAF.`DevExpress.ExpressApp.PivotGrid.Web.ASPxPivotGridListEditor`
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/372eccf4-0c72-4901-92be-8ebdb0451731)
+
+    
+
+## Especificar la configuración de la cuadrícula dinámica
+
+1.  Invoque el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor)  desde el proyecto  **Module.Win.**
+2.  Navegar a las  **vistas**  |  **Order_ListView_PivotGrid**  |  **Nodo PivotSettings**.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/eae9a19c-1bbe-4c39-a680-51e9e936bcbb)
+
+    
+3.  Establezca el valor de la propiedad IPivotSettings.ShowChart en y  [IPivotSettings.CustomizationEnabled](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PivotGrid.IPivotSettings.CustomizationEnabled)  en  [.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PivotGrid.IPivotSettings.ShowChart)`true``false`
+4.  Seleccione la propiedad  [IPivotSettings.Settings](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PivotGrid.IPivotSettings.Settings)  y haga clic en el botón de puntos suspensivos para invocar el  [Diseñador de cuadrícula dinámica](https://docs.devexpress.com/WindowsForms/1825/controls-and-libraries/pivot-grid/design-time-features/pivotgrid-designer).
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/71ea3708-dc7a-4241-954d-2be6d6bc9b40)
+
+    
+5.  En el Diseñador de  **cuadrícula dinámica**, vaya a  **Principal**  |  **Diseño**. Coloque el campo  **Nombre del producto**  en el área de encabezado de fila, el campo  **Cliente**  en el área Área de encabezado de columna y el campo  **Unidades compradas**  en el  [área de encabezado](https://docs.devexpress.com/WindowsForms/1685/controls-and-libraries/pivot-grid/ui-elements/row-header-area)  de  [datos](https://docs.devexpress.com/WindowsForms/1688/controls-and-libraries/pivot-grid/ui-elements/data-header-area), como se muestra en la captura de pantalla.[](https://docs.devexpress.com/WindowsForms/1686/controls-and-libraries/pivot-grid/ui-elements/column-header-area)  Arrastre los campos  **Categoría de producto**  y  **Precio**  al área  [Área de encabezado de filtro](https://docs.devexpress.com/WindowsForms/1684/controls-and-libraries/pivot-grid/ui-elements/filter-header-area)  para excluirlos de la tabla dinámica. Esto produce una tabla de cuadrícula dinámica que resume las ventas por cliente.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/a13763de-63c6-49aa-9156-1e90d1784328)
+
+    
+6.  De la misma manera, especifique la configuración del  [módulo de cuadrícula dinámica](https://docs.devexpress.com/eXpressAppFramework/113303/analytics/pivot-grid-module)  en el proyecto  **Module.Web.**
+
+## Ejecutar la aplicación
+
+1.  Ejecute la aplicación de Windows Forms y seleccione el  [elemento de navegación](https://docs.devexpress.com/eXpressAppFramework/113198/application-shell-and-base-infrastructure/navigation-system)  **Ordenar**  para mostrar la tabla dinámica.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/62a5b4c0-ebbe-458f-a8a8-4b07e579dda6)
+
+    
+2.  Ejecute la aplicación ASP.NET formularios Web Forms y compruebe que la tabla dinámica  **Pedir**  también está disponible.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/1a1761b5-8731-409c-b594-6495b1abba2d)
+
+    
+
+>PROPINA
+>
+>Para obtener información adicional sobre cómo trabajar con tablas dinámicas, consulte el artículo Control de cuadrícula dinámica  (Windows Forms/ASP.NET Web Forms) y vea los vídeos de DevExpress Pivot Grid: Introducción ([Windows](https://docs.devexpress.com/WindowsForms/3409/controls-and-libraries/pivot-grid)  Forms  /[ASP.NET](https://docs.devexpress.com/AspNet/5830/components/pivot-grid)  [Web Forms  ](https://www.youtube.com/watch?v=wkCJqb0pTvQ)[](https://www.youtube.com/watch?v=xGXfxCXcWB0) ).
+
+
+
+# Cómo: Obtener acceso al componente de cuadrícula en una vista de lista
+
+En este artículo se explica cómo tener acceso a las propiedades de un componente de cuadrícula que se muestra en una vista de lista.
+
+Puede utilizar esta técnica con cualquier control  [Editor de listas](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  en ASP.NET Core Blazor, Windows Forms o ASP.NET aplicaciones de formularios Web Forms.
+
+## Instrucciones paso a paso
+
+1.  En  **el Explorador de soluciones**, navegue a:
+    -   Un proyecto específico de la plataforma en una aplicación .NET 6 ASP.NET Core Blazor o Windows Forms.
+    -   Un proyecto de módulo específico de la plataforma en una aplicación de .NET Framework ASP.NET formularios Web Forms o Windows Forms.
+2.  Agregue un controlador de vista a la carpeta  _Controladores_.
+3.  Herede el controlador de la clase y reemplace el método como se muestra en el siguiente ejemplo de código:`ObjectViewController<ViewType, ObjectType>``OnViewControlsCreated`
+    
+**ASP.NET Core Blazor**
+    
+   ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Blazor.Editors;
+    using DevExpress.ExpressApp.Blazor.Editors.Models;
+    using YourApplicationName.Module.BusinessObjects;
+    
+    namespace YourApplicationName.Blazor.Server.Controllers;
+    
+    public class GridViewController : ObjectViewController<ListView, TargetClassName> {
+        protected override void OnViewControlsCreated() {
+            base.OnViewControlsCreated();
+            if (View.Editor is DxGridListEditor gridListEditor) {
+                // Obtain the Component Adapter.
+                IDxGridAdapter dataGridAdapter = gridListEditor.GetGridAdapter();
+    
+                // Access grid property.
+                dataGridAdapter.GridModel.PagerVisible = false;
+    
+                // Access grid columns.
+                // Use column settings to disable the sorting and grouping functionality. 
+                foreach (DxGridDataColumnModel columnModel in dataGridAdapter.GridDataColumnModels) {
+                    columnModel.AllowSort = false;
+                    columnModel.AllowGroup = false;
+                }
+            }
+        }
+    }
+    
+   ```
+
+
+**Windows Forms**
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Win.Editors;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
+using YourApplicationName.Module.BusinessObjects;
+
+namespace YourApplicationName.Win.Controllers;
+
+public class GridViewController : ObjectViewController<ListView, TargetClassName> {
+    protected override void OnViewControlsCreated() {
+        base.OnViewControlsCreated();
+        // Obtain the List Editor: XAF's abstraction over the UI control.
+        if (View.Editor is GridListEditor gridListEditor && gridListEditor.GridView != null) {
+            // Access the GridView object (part of the DevExpress WinForms Grid Control architecture). 
+            GridView gridView = gridListEditor.GridView;
+            // Specify the behavior of the grid's columns.
+            // Access grid columns.
+            // Use column settings to disable the sorting and grouping functionality. 
+            foreach (GridColumn columnModel in gridView.Columns) {
+                columnModel.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.False;
+                columnModel.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            }
+        }
+    }
+}
+```    
+
+**ASP.NET Web Forms**
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Web.Editors.ASPx;
+using YourApplicationName.Module.BusinessObjects;
+
+namespace YourApplicationName.Module.Web.Controllers {
+    public partial class GridViewController : ObjectViewController<ListView, TargetClassName> {
+        protected override void OnViewControlsCreated() {
+            base.OnViewControlsCreated();
+            // Obtain the List Editor: XAF's abstraction over the UI control.
+            ASPxGridListEditor listEditor = ((ListView)View).Editor as ASPxGridListEditor;
+            if (listEditor != null) {
+                // Use the grid control's behavior settings to disable the sort and group functionality.
+                listEditor.Grid.SettingsBehavior.AllowSort = false;
+                listEditor.Grid.SettingsBehavior.AllowGroup = false;
+
+            }
+        }
+    }
+}
+```
+
+## Eventos específicos de la plataforma para la personalización del control
+
+En aplicaciones de formularios Windows Forms o ASP.NET formularios Web Forms, es posible que un control View Item o un control List Editor no estén listos para la personalización inmediatamente después de la creación. Si la técnica descrita en este tema no tiene el efecto deseado, controle los eventos específicos de la plataforma que se enumeran a continuación.
+
+**Windows Forms**:
+
+El evento  [HandleCreated](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.handlecreated) ,  [VisibleChanged](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.visiblechanged) o  [ParentChanged](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.parentchanged) del objeto  [Control](https://docs.microsoft.com/dotnet/api/system.windows.forms.control).
+
+También puede controlar o cualquier evento similar si el tipo de control actual lo expone.`Load`
+
+**ASP.NET formularios web**:
+
+El evento del lado del servidor  [Load](https://docs.microsoft.com/dotnet/api/system.web.ui.control.load) o  [Init](https://docs.microsoft.com/dotnet/api/system.web.ui.control.init) del objeto  [Control](https://docs.microsoft.com/dotnet/api/system.web.ui.control).
+
+Como alternativa, es posible que deba controlar el evento  [WebWindow.PagePreRender.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow.PagePreRender)  Utilice la propiedad estática  [CurrentRequestWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow.CurrentRequestWindow)  para obtener el objeto  [WebWindow](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebWindow)  actual.
+
+Si la aplicación también requiere personalización en el lado del cliente, consulte el tema siguiente para obtener información adicional:  [Funcionalidad del lado cliente](https://docs.devexpress.com/AspNet/4222/common-concepts/client-side-functionality).
+
+Póngase en contacto con nuestro  [Centro  de soporte](https://supportcenter.devexpress.com/ticket/list)  si necesita ayuda.
+
+
+# Formas de obtener acceso a los elementos de la interfaz de usuario y sus controles
+
+
+En este tema se describe cómo obtener acceso a elementos de la interfaz de usuario como  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions),  [Elementos de vista](https://docs.devexpress.com/eXpressAppFramework/112612/ui-construction/view-items-and-property-editors), Editores de  [lista, Editores](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors)  de propiedades y sus controles  [subyacentes](https://docs.devexpress.com/eXpressAppFramework/113097/ui-construction/view-items-and-property-editors/property-editors).
+
+Cree un descendiente de ViewController personalizado (o un ViewController<ViewType genérico> u  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2)) e implemente una solución desde una de las siguientes secciones:[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1)
+
+-   [Tareas con elementos de vista y editores de propiedades](https://docs.devexpress.com/eXpressAppFramework/120092/ui-construction/ways-to-access-ui-elements-and-their-controls/ways-to-access-ui-elements-and-their-controls#tasks-with-view-items-and-property-editors)
+-   [Tareas con editores de listas](https://docs.devexpress.com/eXpressAppFramework/120092/ui-construction/ways-to-access-ui-elements-and-their-controls/ways-to-access-ui-elements-and-their-controls#tasks-with-list-editors)
+-   [Tareas con elementos de vista complejos](https://docs.devexpress.com/eXpressAppFramework/120092/ui-construction/ways-to-access-ui-elements-and-their-controls/ways-to-access-ui-elements-and-their-controls#tasks-with-complex-view-items)
+-   [Tareas con acciones](https://docs.devexpress.com/eXpressAppFramework/120092/ui-construction/ways-to-access-ui-elements-and-their-controls/ways-to-access-ui-elements-and-their-controls#tasks-with-actions)
+
+Para tener acceso a una vista detallada en  [MasterDetailMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.MasterDetailMode), utilice la propiedad  [EditView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.EditView).
+
+## Tareas con elementos de vista y editores de propiedades
+
+### Obtener el objeto Verelemento o Editor de propiedades
+
+Use el método  [CompositeView.FindItem(String)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.FindItem(System.String))  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado**.**  El nombre del elemento de vista debe coincidir con las  **vistas**  correspondientes |  **CompositeView**  |  **Artículos**  |  **ViewItem**  Propiedad  **ID**  del nodo Model. El ID predeterminado del editor de propiedades coincide con el  [nombre](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.PropertyEditor.PropertyName)  de la propiedad.
+
+**Ejemplos**:  [Acceder al control Dashboard](https://docs.devexpress.com/eXpressAppFramework/117454/analytics/dashboards/access-the-dashboard-control)  |  [Abrir una vista detallada cuando se hace clic en la fila de cuadrícula en el panel (WinForms y ASP.NET formularios web forms)](https://docs.devexpress.com/eXpressAppFramework/118348/analytics/dashboards/open-a-detail-view-when-the-grid-row-is-clicked-in-the-dashboard-winforms-web-forms)
+
+### Obtener la colección de objetos Ver elemento deView
+
+Use la propiedad  [CompositeView.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.Items)  del controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado**.**
+
+### Obtener todos los objetos Verelemento de un tipo específico
+
+Use el método  [CompositeView.GetItems<T>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.GetItems--1)  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado**.**
+
+**Ejemplo**:  [Cómo obtener acceso a los controles de vista previa de informes (ASP.NET formularios Web Forms)](https://docs.devexpress.com/eXpressAppFramework/113612/shape-export-print-data/reports/task-based-help/how-to-access-the-report-preview-controls-web)
+
+### Obtener acceso al control subyacente de un elemento de vista
+
+Utilice el método  [DetailViewExtensions.CustomizeViewItemControl(DetailView, Controller, Action<ViewItem>, String[])](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailViewExtensions.CustomizeViewItemControl(DetailView--Controller--Action-ViewItem---String--))  para tener acceso a un control de un elemento de vista personalizado.
+
+**Ejemplos**:  [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)  |  [Acceder a la configuración de un editor de propiedades en una vista detallada](https://docs.devexpress.com/eXpressAppFramework/402153/getting-started/in-depth-tutorial-blazor/customize-data-display-and-view-layout/access-editor-settings)  |  [Personalizar un editor de propiedades integrado (Blazor)](https://docs.devexpress.com/eXpressAppFramework/402188/ui-construction/view-items-and-property-editors/property-editors/customize-a-built-in-property-editor-blazor)  |  [Administrar la visibilidad de los botones en un editor de propiedades de búsqueda de Blazor.](https://docs.devexpress.com/eXpressAppFramework/403870/ui-construction/view-items-and-property-editors/property-editors/manage-the-visibility-of-buttons-inside-the-blazor-lookup-property-editor)
+
+### Acceder a un elemento de vista de vista incrustado o anidado
+
+Utilice la propiedad  [NestedFrame.ViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.NestedFrame.ViewItem)  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado**.**
+
+**Ejemplos**:  [Cómo: Inicializar un objeto creado mediante la nueva acción](https://docs.devexpress.com/eXpressAppFramework/112912/ui-construction/controllers-and-actions/actions/how-to-initialize-an-object-created-using-the-new-action)  |  [Cómo: Obtener acceso al entorno de la vista de detalles maestra y a la vista de lista anidada](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment)
+
+### Personalizar un control de un editor de propiedades utilizado tanto en una vista de lista como en una vista de detalles globalmente
+
+Cree un descendiente del editor de propiedades y personalícelo. Aplique el Editor de propiedades personalizado a las propiedades de destino en el Editor de modelos. También puede utilizar este Editor de propiedades para todas las propiedades de un tipo específico.
+
+**Ejemplos**: Cómo: Personalizar un editor de propiedades integrado ([WinForms](https://docs.devexpress.com/eXpressAppFramework/113104/ui-construction/view-items-and-property-editors/property-editors/customize-a-built-in-property-editor-winforms)  |  [ASP.NET formularios web](https://docs.devexpress.com/eXpressAppFramework/113114/ui-construction/view-items-and-property-editors/property-editors/customize-a-built-in-property-editor-asp-net))
+
+### Acceder a la vista principal de un elemento de vista
+
+Use la propiedad  [ViewItem.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.View)  en el controlador de eventos ViewController.Activated o el método virtual  **ViewController.OnActivated**  reemplazado[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)
+
+### Tener acceso al control de diseño y sus elementos
+
+Siga los pasos del tema  [Control de diseño de acceso](https://docs.devexpress.com/eXpressAppFramework/404428/ui-construction/views/layout/access-layout-control).
+
+## Tareas con editores de listas
+
+### Obtener el objeto Editor de lista
+
+Utilice la propiedad  [ListView.Editor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.Editor)  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado**.**
+
+**Ejemplo**:  [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)
+
+### Obtener acceso al control subyacente de un editor de listas
+
+XAF incluye varios  [editores de listas específicos de la plataforma](https://docs.devexpress.com/eXpressAppFramework/113189/ui-construction/list-editors). Cada editor tiene propiedades, métodos y eventos para acceder al control de un editor. Controle el evento View.ControlsCreated,  [ListEditor.ControlsCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.ControlsCreated)  o  [ViewController.ViewControlsCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.ViewControlsCreated)  y use esta API en el controlador[.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.ControlsCreated)
+
+**Ejemplos**:  [ListEditor.Control](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ListEditor.Control)  |  [Cómo: Obtener acceso al componente de cuadrícula en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/402154/ui-construction/list-editors/how-to-access-list-editor-control)
+
+### Obtener acceso al control de celda de datos de un editor de listas
+
+No existe una solución común para todos los editores de listas. Un editor de listas puede crear instancias de un editor de propiedades interno para propagar la configuración a los controles de celda de datos subyacentes en los modos de vista y edición. Utilice los miembros del Editor de listas o personalice su control subyacente directamente como se describe en la documentación del control. Si desea personalizar un control globalmente para las vistas de lista y detalle, consulte la sección  [Personalizar un control de un editor de propiedades utilizado tanto en una vista de lista como en una vista de detalles globalmente](https://docs.devexpress.com/eXpressAppFramework/120092/ui-construction/ways-to-access-ui-elements-and-their-controls/ways-to-access-ui-elements-and-their-controls#customize-a-control-of-a-property-editor-used-both-in-a-list-and-detail-view-globally).
+
+**Ejemplos**:  [DxGridListEditor.CustomizeViewItemControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor.CustomizeViewItemControl--1(DevExpress.ExpressApp.Controller-System.Action---0-))  (Blazor) |  [ComplexWebListEditor.FindPropertyEditor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.Editors.ComplexWebListEditor.FindPropertyEditor(DevExpress.ExpressApp.Model.IModelMemberViewItem-DevExpress.ExpressApp.Editors.ViewEditMode))  (formularios Web Forms) |  [Cómo agregar una columna independiente a GridListEditor](https://github.com/DevExpress-Examples/XAF_how-to-add-an-unbound-column-to-gridlisteditor-to-execute-a-custom-action-for-a-record-e1748) (WinForms)
+
+## Tareas con elementos de vista complejos
+
+### Obtener acceso a un control de una acción incluida en un diseño de vista detallada
+
+Para tener acceso a un control  [ActionContainerViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ActionContainerViewItem), siga las instrucciones del tema  [Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout).
+
+### Obtener acceso a un control del editor de propiedadesList
+
+1.  Use el método  [CompositeView.FindItem(String)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.FindItem(System.String))  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado y convierta el valor devuelto en  **ListPropertyEditor****.**
+2.  Controle el evento  **ControlCreated**  de  **ListPropertyEditor**.
+3.  En el controlador de eventos, use la propiedad  **ListView**  de  **ListPropertyEditor**  para obtener una vista de lista subyacente.
+4.  Controle el evento  [View.ControlsCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.ControlsCreated)  de la vista de lista subyacente.
+5.  En el controlador de eventos, utilice la propiedad  [ListView.Editor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.Editor)  para obtener un Editor.
+6.  Utilice los métodos o propiedades de este editor (por ejemplo,  [WinColumnsListEditor.Grid](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Win.Editors.WinColumnsListEditor.Grid)) para tener acceso a un control.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Win.Editors;
+using DevExpress.XtraGrid;
+// ...
+public class MyViewController : ViewController<ListView> {
+    protected override void OnActivated() {
+        base.OnActivated();
+        ListPropertyEditor editorForCollectionProperty = View.FindItem("CollectionProperty") as ListPropertyEditor;
+        editorForCollectionProperty.ControlCreated += (s, e) => {
+            ListView nestedListView = ((ListPropertyEditor)s).ListView;
+            nestedListView.ControlsCreated += (s1, e1) => {
+                GridListEditor gridListEditor = ((ListView)s1).Editor as GridListEditor;
+                if (gridListEditor != null) {
+                    GridControl grid = gridListEditor.Grid;
+                }
+            };
+        };
+    }
+}
+
+```
+
+### Obtener acceso al control de un elemento del Editor de propiedades de detalleo dela vistade panel
+
+1.  Use el método  [CompositeView.FindItem(String)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.CompositeView.FindItem(System.String))  en el controlador de eventos ViewController.Activated o el método virtual  [ViewController.OnActivated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated)  reemplazado y convierta el valor devuelto en  **DetailPropertyEditor**  o  **DashboardViewItem.**
+2.  Controle el evento  [ViewItem.ControlCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.ControlCreated)  de  **DetailPropertyEditor**  o  **DashboardViewItem**.
+3.  En el controlador de eventos, use la propiedad  **Frame**  de  **DetailPropertyEditor**  o  **DashboardViewItem**  para tener acceso a su marco anidado.
+4.  Utilice la propiedad  [NestedFrame.ViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.NestedFrame.ViewItem)  para obtener el elemento de vista anidado.
+5.  Utilice la propiedad  [ViewItem.Control](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.Control)  para tener acceso a un control.
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+// ...
+public class MyViewController : ViewController<DetailView> {
+    protected override void OnActivated() {
+        base.OnActivated();
+        DetailPropertyEditor editorForReferenceProperty =
+        View.FindItem("ReferenceProperty") as DetailPropertyEditor;
+        editorForReferenceProperty.ControlCreated += (s, e) => {
+            NestedFrame nestedFrame = ((DetailPropertyEditor)s).Frame as NestedFrame;
+            ViewItem nestedFrameViewItem = nestedFrame.ViewItem;
+            if (nestedFrameViewItem.Control != null) { /* ... */ }
+        };
+    }
+}
+
+```
+
+## Tareas con acciones
+
+### Acceder a una acción
+
+Utilice el método  [Frame.GetController<ControllerType>()](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)  para obtener el controlador de la acción y la propiedad  [Controller.Actions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Actions)  para obtener la acción de este controlador. Consulte el siguiente tema de ayuda para determinar un identificador de acción:  [Determinar el controlador y el identificador de una acción](https://docs.devexpress.com/eXpressAppFramework/113484/ui-construction/controllers-and-actions/determine-an-actions-controller-and-identifier).
+
+**Ejemplo**:  [Controller.Actions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Actions)
+
+## Información adicional
+
+-   XAF utiliza DevExpress WinForms y ASP.NET controles de formularios Web Forms en las aplicaciones. Puede acceder y personalizar estos controles y widgets utilizando sus miembros. Si necesita ayuda,  [envíe un nuevo ticket](https://supportcenter.devexpress.com/ticket/create) al Centro de soporte y especifique la plataforma del control en el campo  **Plataforma/Categoría**.
+-   Si personaliza un control como se describe en las secciones anteriores y esto no surte efecto, controle uno de los siguientes eventos específicos de la plataforma:
+![Sin título](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/d1d34f13-f6e6-4aff-b447-f5bb9ad71ba0)
+
+
+-   En ASP.NET aplicaciones de formularios Web Forms, también puede realizar personalizaciones específicas en el lado cliente (vea  [Información general sobre la funcionalidad del lado cliente](https://docs.devexpress.com/AspNet/4222/common-concepts/client-side-functionality)).
+    
+-   La mayoría de los elementos y editores de vista integrados también proporcionan propiedades para tener acceso a un control (por ejemplo,  **GridListEditor.Grid**, ASPxPropertyEditor.Editor,  **ASPxLookupPropertyEditor.DropDown**, etc.).  Recorrer la jerarquía de controles y acceder a los controles internos mediante un índice () sólo si no hay ninguna solución para su escenario en este tema y en la documentación del control.`control.Controls[index]`
+-   Si personaliza las opciones del  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112580/ui-construction/application-model-ui-settings-storage/how-application-model-works)  de un control existente, esta personalización no afecta al control hasta su siguiente creación. Personalice el control directamente o sus opciones correspondientes del modelo de aplicación antes de crear y representar el control.
+
+
+# Cómo: Obtener acceso a objetos seleccionados en la vista actual
+
+
+Cuando se trabaja con aplicaciones  **XAF**, los usuarios finales pueden seleccionar los objetos mostrados en una  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views). Es posible que a menudo necesite acceder a estos objetos desde  [Controllers](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  y  [Actions](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  para realizar diversas tareas empresariales. Por ejemplo, al implementar una acción, es posible que necesite acceder a un objeto enfocado para modificar sus valores de propiedad cuando se ejecuta una acción. En este tema se explican los conceptos básicos de la manipulación de objetos enfocados y seleccionados, y se proporcionan fragmentos de código de ejemplo.
+
+>PROPINA
+>
+>Un proyecto de ejemplo completo está disponible en la base de datos de ejemplos de código de DevExpress en [https://supportcenter.Devexpress.  com/ticket/details/e3016/how-to-access-objects-selected-in-the-current-view](https://supportcenter.devexpress.com/ticket/details/e3016/how-to-access-objects-selected-in-the-current-view) .
+
+## Acceder a objetos seleccionados actualmente cuando se ejecuta una acción
+
+Cuando se ejecuta una acción, se activa su evento  **Execute**. Independientemente del tipo Action, los argumentos pasados al controlador de eventos contienen las propiedades SimpleActionExecuteEventArgs.CurrentObject y  [SimpleActionExecuteEventArgs.SelectedObjects.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs.SelectedObjects)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs.CurrentObject)La propiedad  **CurrentObject**  especifica el objeto actual de la vista activa. Si una vista activa es una vista de lista, esta propiedad especifica el objeto de enfoque. Si la vista es una vista detallada, la propiedad especifica el objeto que muestra.  **SelectedObjects**  es una colección de los objetos seleccionados en la vista activa. En el caso de una vista de detalle, esta propiedad devuelve el  **objeto CurrentObject**  ajustado en una lista.
+
+El siguiente fragmento de código muestra una acción destinada a un tipo de contacto. Cuando se ejecuta la acción, agrega una nueva línea que muestra información (sobre el momento en que se transfiere el salario) al valor de la propiedad  **Note**  de los objetos seleccionados actualmente en una vista de lista o un objeto mostrado en una vista de detalle.
+
+
+
+```csharp
+using System;
+using System.Collections;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.EF;
+//...
+public partial class MyNotesController : ViewController {
+    public MyNotesController() {
+        SimpleAction myAction = new SimpleAction(this, "Salary Info", "Edit");
+        myAction.SelectionDependencyType = SelectionDependencyType.RequireMultipleObjects;
+        myAction.TargetObjectType = typeof(Contact);
+        myAction.Execute += myAction_Execute;
+        Actions.Add(myAction);
+    }
+    void myAction_Execute(object sender, SimpleActionExecuteEventArgs e) {
+        ArrayList SelectedContacts = new ArrayList();
+        if ((e.SelectedObjects.Count > 0) && (e.SelectedObjects[0] is IObjectRecord)) {
+            foreach (var selectedObject in e.SelectedObjects) {
+                SelectedContacts.Add((Contact)ObjectSpace.GetObject(selectedObject));
+            }
+        }
+        else {
+            SelectedContacts = (ArrayList)e.SelectedObjects;
+        }
+        foreach (Contact selectedContact in SelectedContacts) {
+            DateTime now = DateTime.Now;
+            selectedContact.Notes += "\r\n[INFO] Your salary is transfered " + 
+                now.ToString("M/d/yy") + " at " + now.ToString("hh:mm");
+        }
+        ObjectSpace.CommitChanges();
+        ObjectSpace.Refresh();
+    }
+}
+
+```
+
+>NOTA
+>
+>Con el código anterior, cada objeto  **Contact**  seleccionado  se obtiene a través de una solicitud de base de datos independiente.
+
+Se puede mostrar una vista específica cuando se ejecuta una acción especificando la propiedad  [ActionBaseEventArgs.ShowViewParameters](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBaseEventArgs.ShowViewParameters)  del controlador de eventos  **Execute**  o mediante  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction). Sin embargo, independientemente del tipo de acción, los argumentos del controlador de eventos  **Execute**  siempre contienen objetos enfocados y seleccionados de la vista para la que se invocó la acción, y no para la vista que se mostró como resultado de la acción.
+
+## Acceder a objetos seleccionados actualmente con un controlador de View
+
+Una tarea menos común es acceder a objetos enfocados y seleccionados de una vista desde un controlador. En este caso, debe utilizar las propiedades  [View.CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObject)  y View.SelectedObjects del objeto View especificado por la propiedad  [ViewController.View.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.View)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.SelectedObjects)Las propiedades expuestas por el objeto View tienen los eventos de notificación de cambios correspondientes:  [View.CurrentObjectChanged y View.SelectionChanged.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObjectChanged)  [](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.SelectionChanged)Por lo tanto, el mejor enfoque para acceder a los objetos enfocados y seleccionados desde un controlador es controlar estos eventos.
+
+El siguiente fragmento de código muestra un controlador destinado a las vistas de detalles de contacto. Cambia el  [ActionBase.ConfirmationMessage](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.ConfirmationMessage)  de  [DeleteObjectsViewController.DeleteAction.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.DeleteObjectsViewController.DeleteAction)  Si va a eliminar un contacto, el  **Nombre completo**  del  **contacto**  que se va a eliminar se agregará al  **Mensaje de confirmación**. Si desea eliminar varios contactos, se agregará el recuento de contactos seleccionado en su lugar.
+
+
+```csharp
+public class MyConfirmationController : ViewController {
+    private string defaultMessage;
+    DeleteObjectsViewController deleteObjectsViewController;
+    public MyConfirmationController() {
+        this.TargetObjectType = typeof(Contact);
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        deleteObjectsViewController = Frame.GetController<DeleteObjectsViewController>();
+        if (deleteObjectsViewController != null) {
+            defaultMessage = deleteObjectsViewController.DeleteAction.GetFormattedConfirmationMessage();
+            View.SelectionChanged += View_SelectionChanged;
+            UpdateConfirmationMessage();                
+        }
+    }
+    void View_SelectionChanged(object sender, System.EventArgs e) {
+        UpdateConfirmationMessage();
+    }
+    private void UpdateConfirmationMessage() {
+        if (View.SelectedObjects.Count == 1) {
+            deleteObjectsViewController.DeleteAction.ConfirmationMessage =
+                String.Format("You are about to delete the '{0}' Contact. Do you want to proceed?",
+                ((Contact)View.CurrentObject).FullName);
+        }
+        else {
+            deleteObjectsViewController.DeleteAction.ConfirmationMessage =
+                String.Format("You are about to delete {0} Contacts. Do you want to proceed?",
+                (View.SelectedObjects.Count));
+        }
+    }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        if (deleteObjectsViewController != null) {
+            View.SelectionChanged -= View_SelectionChanged;
+            deleteObjectsViewController.DeleteAction.ConfirmationMessage = defaultMessage;
+            deleteObjectsViewController = null;
+        }
+    }
+}
+
+```
+
+>NOTA
+>
+>Las propiedades **View.CurrentObject** y  **View.SelectedObjects** devuelven contenedores de  [`IObjectRecord`](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectRecord) lugar de objetos empresariales originales cuando la vista funciona en el modo de acceso a datos Vista de datos, Vista de servidor, Comentarios instantáneos o Vista de comentariosinstantáneos[](https://docs.devexpress.com/eXpressAppFramework/113683/ui-construction/views/list-view-data-access-modes). Para obtener el objeto real, utilice la **View.ObjectSpace.GetObject(obj)**.
+
+
+
+# Cómo: Crear y mostrar una vista detallada del objeto seleccionado en una ventana emergente
+
+
+En este tema se muestra un controlador de vista que permite mostrar una vista  [detallada](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  del objeto seleccionado de la  [vista](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  de lista en una ventana emergente.
+
+Para ello, siga los pasos a continuación:
+
+1.  Cree un controlador de vista con  [PopupWindowShowAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction).
+2.  Controle el evento  [PopupWindowShowAction.CustomizePopupWindowParams](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizePopupWindowParams)  de la acción.
+3.  En el controlador de eventos, utilice el método  [XafApplication.CreateObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateObjectSpace.overloads)  para crear un  [espacio de objetos](https://docs.devexpress.com/eXpressAppFramework/113707/data-manipulation-and-business-logic/object-space).
+4.  Utilice el método  [IObjectSpace.GetObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.GetObject(System.Object))  para obtener el objeto  [View.CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObject)  del objeto creado en el paso anterior.`IObjectSpace`
+5.  Cree una nueva vista detallada mediante el método  [XafApplication.CreateDetailView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateDetailView.overloads)  y pásela al parámetro  [CustomizePopupWindowParamsEventArgs.View.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.View)
+6.  Opcionalmente, puede personalizar las propiedades de Vista detallada (por ejemplo, el valor  [DetailView.ViewEditMode](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailView.ViewEditMode)).
+
+    
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Actions;
+    using DevExpress.ExpressApp.Editors;
+    using DevExpress.Persistent.Base;
+    //...
+    public class ShowDetailViewController : ViewController<ListView> {
+        public ShowDetailViewController() {
+            PopupWindowShowAction showDetailViewAction = new PopupWindowShowAction(
+                this, "ShowDetailView", PredefinedCategory.Edit);
+            showDetailViewAction.SelectionDependencyType = SelectionDependencyType.RequireSingleObject;
+            showDetailViewAction.TargetObjectsCriteria = "Not IsNewObject(This)";
+            showDetailViewAction.CustomizePopupWindowParams += showDetailViewAction_CustomizePopupWindowParams;
+        }
+        void showDetailViewAction_CustomizePopupWindowParams(
+            object sender, CustomizePopupWindowParamsEventArgs e) {
+            IObjectSpace newObjectSpace = Application.CreateObjectSpace(View.ObjectTypeInfo.Type);
+            Object objectToShow = newObjectSpace.GetObject(View.CurrentObject);
+            if (objectToShow != null) {
+                DetailView createdView = Application.CreateDetailView(newObjectSpace, objectToShow);
+                createdView.ViewEditMode = ViewEditMode.Edit;
+                e.View = createdView;
+            }
+        }
+    }
+    
+    ```
+    
+
+Después de ejecutar el código anterior:
+
+1.  XAF agrega una nueva acción  **Mostrar vista detallada**  a una barra de herramientas Vista de lista. Esta acción requiere que un usuario seleccione un único objeto en una vista de lista (para obtener más información, consulte el tema siguiente:  [SelectionDependencyType.RequireSingleObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SelectionDependencyType)).
+    
+2.  Cuando un usuario hace clic en esta acción, la aplicación abre una vista detallada para el objeto seleccionado en una ventana emergente.
+    
+    ![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/83c5af99-05f9-4849-9fd4-d102cf3c4db0)
+
+    
+3.  La ventana emergente utiliza un espacio de objetos independiente y muestra la acción  **de guardar**  que permite a los usuarios confirmar explícitamente los cambios. Puede utilizar cualquiera de las siguientes opciones para personalizar este comportamiento:
+    
+    -   Llame al método a sobrecargar con el parámetro. `CreateDetailView``isRoot`
+    -   Acceda a un espacio de objetos anidado o existente en lugar de uno nuevo.
+    
+    Para obtener más información, consulte la documentación de la propiedad  [View.IsRoot.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.IsRoot)
+
+
+# Cómo: Detectar una vista de lista de búsqueda en código
+
+
+En este tema se muestra cómo comprobar si la vista actual es una  [vista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)  de lista de búsqueda. Esto puede ser útil si desea personalizar solo las búsquedas, por ejemplo, para ocultar la  **Nueva**  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions)  que se muestra debajo de la Vista de lista de búsquedas.
+
+>NOTA
+>
+>Las aplicaciones ASP.NET Core Blazor no muestran la nueva acción en los editores de listas de búsqueda, pero puede utilizar este enfoque para implementar otras personalizaciones.
+
+[Implemente un controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  de vistas destinado únicamente a vistas de lista y anule el método  **OnActivated**. Compruebe que el valor  [de Frame.Context](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.Context)  es  **LookupControl**  o  **LookupWindow**. Si la condición es verdadera, esto significa que la vista de lista actual es una vista de lista de búsqueda.
+
+Ahora puede, por ejemplo, desactivar la  **Nueva**  acción en todas las búsquedas. Utilice el método  [Frame.GetController<ControllerType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Frame.GetController--1)  para obtener NewObjectViewController y, a continuación, utilice la propiedad  [NewObjectViewController.NewObjectAction](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController.NewObjectAction)  para tener acceso a la  **nueva**  acción.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.NewObjectViewController)
+
+
+
+```csharp
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.SystemModule;
+// ...
+public class DeactivateNewActionInLookupsController : ViewController<ListView> {
+    protected override void OnActivated() {
+        base.OnActivated();
+        if (Frame.Context == TemplateContext.LookupControl || Frame.Context == TemplateContext.LookupWindow) {
+            NewObjectViewController controller = Frame.GetController<NewObjectViewController>();
+            if (controller != null) {
+                controller.NewObjectAction.Active.SetItemValue("LookupListView", false);
+            }
+        }
+    }
+}
+
+```
+
+Ejecute una aplicación para asegurarse de que la  **nueva**  acción está desactivada en todas las vistas de lista de búsqueda.
+
+También puede detectar una vista de lista de búsqueda por su  [View.Id](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.Id): todas las vistas de lista de búsqueda tienen identificadores con el sufijo "_LookupListView" de forma predeterminada. Sin embargo, esto también detecta vistas que se diseñaron inicialmente como búsquedas, pero que no se utilizan como búsquedas.
+
+>PROPINA
+>
+>Si desea ocultar la  **New** acción para una vista de lista de búsqueda determinada, busque el nodo Vista correspondiente en el [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor) y establezca la [`IModelView.AllowNew`](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Model.IModelView.AllowNew) sea **false**.
+
+
+
+# Cómo: Obtener acceso al entorno de la vista de detalles maestra y a la vista de lista anidada
+
+
+En este tema se explica cómo usar  [Controllers](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  para acceder a un entorno de vista de  [lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview)  anidada o de una  [vista de detalle](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview)  maestra ([marcos, controladores](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames),  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions), objetos, etc.).
+
+Este artículo cubre dos enfoques:
+
+-   [Cómo: Obtener acceso al entorno de una vista detallada maestra desde un controlador de vista de lista anidada](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment#fromnested)
+-   [Cómo: Obtener acceso al entorno de una vista de lista anidada desde un controlador de vista de detalle maestra](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment#fromdetail)
+
+En este tema se usa el escenario 'Vista de detalles de  **contacto**  con una vista de lista anidada de  **tareas**'. Puede encontrar las clases de negocio  **Contact**  y  **DemoTask**  correspondientes en la aplicación MainDemo (%_PUBLIC%\Documents\DevExpress Demos  23.1\Components\XAF\MainDemo_).
+
+![image](https://github.com/lianhdez95/XAF-User-Interface-and-Behavior-Customization/assets/126447472/0f93b779-c3f5-4928-9e55-d5fe9901d6d1)
+
+>NOTA
+>
+>XAF crea vistas de lista anidadas para [las propiedades de la colección](https://docs.devexpress.com/eXpressAppFramework/113568/business-model-design-orm/data-types-supported-by-built-in-editors/collection-properties). Estas propiedades se utilizan a menudo en [las relaciones entre objetos persistentes](https://docs.devexpress.com/eXpressAppFramework/112654/business-model-design-orm/business-model-design-with-xpo/relationships-between-persistent-objects-in-code-and-ui).
+
+## Cómo: Obtener acceso al entorno de una vista detallada maestra desde un controlador de vista de lista anidada
+
+Elija el mejor enfoque para su escenario:
+
+-   [Acceder al marco de una vista maestra de detalles y sus controladores](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment#frame)
+-   [Acceso al objeto actual de una vista maestra de detalles (el enfoque de elemento de vista)](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment#objdetail)
+-   [Acceso al objeto actual de una vista maestra de detalles (el enfoque de origen de la colección de propiedades)](https://docs.devexpress.com/eXpressAppFramework/113161/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-access-master-detail-view-and-nested-list-view-environment#objcollection)
+
+Si necesita acceder a la vista maestra  [](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views)desde  [DashboardViewItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.DashboardViewItem)  o  **DetailPropertyEditor**, utilice el enfoque  _Acceder al marco de una vista detallada maestra y sus controladores_. Consulte el artículo  [E4916](https://github.com/DevExpress-Examples/XAF_how-to-implement-dependent-views-in-a-dashboardview-filter-based-on-selection-e4916) para ver un ejemplo.
+
+### Acceder al marco de una vista maestra de detalles y sus controladores
+
+Este enfoque requiere dos controladores: El primero es un  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  de vista de lista anidado. En el código siguiente,  **NestedListViewFrameController**  recibe el objeto Frame primario en el método  **AssignMasterFrame**.[](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  Puede usar este marco para personalizar sus controladores y  [acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions). Consulte  [Personalizar controladores y acciones](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions)  para obtener más información.
+
+>NOTA
+>
+>Los controladores de vista de lista  anidados no pueden acceder al marco de vista detallada, los controladores y las acciones primarios a menos que el controlador de la vista detallada  pase el marco de vista detallada al controlador de vista de lista anidado.[](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview)[](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview)
+
+
+
+```csharp
+public class NestedListViewFrameController : ViewController {
+    private Frame masterFrame;
+    public NestedListViewFrameController() {
+        TargetViewType = ViewType.ListView;
+        TargetViewNesting = Nesting.Nested;
+    }
+    public void AssignMasterFrame(Frame parentFrame) {
+        masterFrame = parentFrame;
+        // Use this Frame to get Controllers and Actions. 
+    }
+}
+
+```
+
+El segundo es un controlador maestro de  [vista detallada](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview). MasterDetailViewController a continuación adquiere el  [marco](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  de vista de detalle y lo pasa a  **NestedListViewFrameController**.  Use la suscripción al evento  **ListPropertyEditor.FrameChanged**  para asegurarse de que existe la vista de lista anidada.
+
+
+
+```csharp
+public class MasterDetailViewController : ViewController {
+    private void PushFrameToNestedController(Frame frame) {
+        foreach (Controller c in frame.Controllers) {
+            if (c is NestedListViewFrameController) {
+                ((NestedListViewFrameController)c).AssignMasterFrame(Frame);
+            }
+        }
+    }
+    private void lpe_FrameChanged(object sender, EventArgs e) {
+        PushFrameToNestedController(((ListPropertyEditor)sender).Frame);
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        foreach (ListPropertyEditor lpe in ((DetailView)View).GetItems<ListPropertyEditor>()) {
+            if (lpe.Frame != null) {
+                PushFrameToNestedController(lpe.Frame);
+            }
+            else {
+                lpe.FrameChanged += lpe_FrameChanged;
+            }
+        }
+    }
+    protected override void OnDeactivated() {
+        foreach (ListPropertyEditor lpe in ((DetailView)View).GetItems<ListPropertyEditor>()) {
+            lpe.FrameChanged -= new EventHandler<EventArgs>(lpe_FrameChanged);
+        }
+        base.OnDeactivated();
+    }
+    public MasterDetailViewController() {
+        TargetViewType = ViewType.DetailView;
+    }
+}
+
+```
+
+>PROPINA
+>
+>Descargue el ejemplo  [E1012](https://github.com/DevExpress-Examples/XAF_how-to-access-the-master-detailview-information-from-a-nested-listview-controller-e1012) para ver este enfoque en una aplicación de ejemplo.
+
+### Acceso al objeto actual de una vista maestra de detalles (el enfoque de elemento de vista)
+
+El  **AccessParentDetailViewController**  siguiente es un controlador de  [vista de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview)  anidado. El  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  utiliza el evento  [CurrentObjectChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObjectChanged)  para actualizar el  [título](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.Caption)  maestro de la vista detallada cada vez que cambia el  [objeto CurrentObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.CurrentObject).
+
+
+
+```csharp
+public class AccessParentDetailViewController : ViewController {
+    private void UpdateDetailViewCaption() {
+        if (Frame is NestedFrame) {
+            if (View.CurrentObject != null) {
+                ((NestedFrame)Frame).ViewItem.View.Caption = ((DemoTask)View.CurrentObject).Subject;
+            }
+        }
+    }
+    private void View_CurrentObjectChanged(object sender, EventArgs e) {
+        UpdateDetailViewCaption();
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        View.CurrentObjectChanged += View_CurrentObjectChanged;
+        UpdateDetailViewCaption();
+    }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        View.CurrentObjectChanged -= new EventHandler(View_CurrentObjectChanged);
+    }
+    public AccessParentDetailViewController() {
+        TargetViewType = ViewType.ListView;
+        TargetViewNesting = Nesting.Nested;
+        TargetObjectType = typeof(DemoTask);
+    }
+}
+
+```
+
+### Acceso al objeto actual de una vista maestra de detalles (el enfoque de origen de la colección de propiedades)
+
+El  **AccessMasterObjectController**  siguiente es un controlador de  [vista de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview)  anidado. El tipo  [CollectionSource](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ListView.CollectionSource)  de la vista de lista anidada es  [PropertyCollectionSource](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PropertyCollectionSource)  porque la vista de lista representa una  [propiedad de colección](https://docs.devexpress.com/eXpressAppFramework/113568/business-model-design-orm/data-types-supported-by-built-in-editors/collection-properties). El Controller controla el evento  [MasterObjectChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PropertyCollectionSource.MasterObjectChanged)  y procesa el  [MasterObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.PropertyCollectionSource.MasterObject)  actual cuando cambia el objeto maestro.
+
+
+
+```csharp
+public class AccessMasterObjectController : ViewController<ListView> {
+    private void UpdateMasterObject(object masterObject) {
+        Contact MasterObject = (Contact)masterObject;
+        // Use the master object as required.            
+    }
+    private void OnMasterObjectChanged(object sender, System.EventArgs e) {
+        UpdateMasterObject(((PropertyCollectionSource)sender).MasterObject);
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        PropertyCollectionSource collectionSource = View.CollectionSource as PropertyCollectionSource;
+        if (collectionSource != null) {
+            collectionSource.MasterObjectChanged += OnMasterObjectChanged;
+            if (collectionSource.MasterObject != null){
+                UpdateMasterObject(collectionSource.MasterObject);
+            }
+        }
+    }
+    protected override void OnDeactivated() {
+        PropertyCollectionSource collectionSource = View.CollectionSource as PropertyCollectionSource;
+        if (collectionSource != null) {
+            collectionSource.MasterObjectChanged -= OnMasterObjectChanged;
+        }
+        base.OnDeactivated();
+    }
+    public AccessMasterObjectController() {
+        TargetViewNesting = Nesting.Nested;
+        TargetObjectType = typeof(DemoTask);
+    }
+}
+
+```
+
+>PROPINA
+>
+>Descargue el ejemplo  [E950](https://github.com/DevExpress-Examples/XAF_how-to-access-the-master-object-from-the-nested-list-view-e950) para ver este enfoque en una aplicación de ejemplo.
+
+## Cómo: Obtener acceso al entorno de una vista de lista anidada desde un controlador de vista detallada
+
+El  **AccessNestedListViewController**  siguiente es un controlador  [de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#detailview). El  [controlador](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers)  controla los eventos  [CurrentObjectChanged](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.CurrentObjectChanged)  y  [ControlCreated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.ViewItem.ControlCreated)  para obtener el  [marco](https://docs.devexpress.com/eXpressAppFramework/112608/ui-construction/windows-and-frames)  y el objeto de la  [vista de lista](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views#listview)  anidados actuales. Puede procesarlos en los métodos  **PerformLogicWithCurrentListViewObject**  y  **PerformLogicInNestedListViewController,**  tal como se describe en el tema  [Customize Controllers and Actions](https://docs.devexpress.com/eXpressAppFramework/112676/ui-construction/controllers-and-actions/customize-controllers-and-actions).
+
+>NOTA
+>
+>También puede utilizar este enfoque para personalizar el elemento de vista de panel  y el **DetailPropertyEditor**,  ya que estos elementos de vista contienen un marco con una  [vista](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.DashboardViewItem) interna. Consulte el artículo  [E4916  ](https://github.com/DevExpress-Examples/XAF_how-to-implement-dependent-views-in-a-dashboardview-filter-based-on-selection-e4916)  para ver un ejemplo.
+
+
+
+```csharp
+public class AccessNestedListViewController : ViewController {
+    private void PerformLogicWithCurrentListViewObject(Object obj) {
+        // Use the object in the nested List View as required.
+    }
+    private void PerformLogicInNestedListViewController(Frame nestedFrame) {
+        // Use the nested Frame as required.
+    }
+    private void nestedListView_CurrentObjectChanged(object sender, EventArgs e) {
+        PerformLogicWithCurrentListViewObject((DemoTask)((ListView)sender).CurrentObject);
+    }
+    private void listPropertyEditor_ControlCreated(object sender, EventArgs e) {
+        ProcessListPropertyEditor((ListPropertyEditor)sender);
+    }
+    private void ProcessListPropertyEditor(ListPropertyEditor listPropertyEditor) {
+        ListView nestedListView = listPropertyEditor.ListView;
+        PerformLogicWithCurrentListViewObject(nestedListView.CurrentObject);
+        PerformLogicInNestedListViewController(listPropertyEditor.Frame);
+        nestedListView.CurrentObjectChanged += nestedListView_CurrentObjectChanged;
+    }
+    protected override void OnActivated() {
+        base.OnActivated();
+        ListPropertyEditor listPropertyEditor = ((DetailView)View).FindItem("Tasks") as ListPropertyEditor;
+        if (listPropertyEditor != null) {
+            if (listPropertyEditor.Control != null) {
+                ProcessListPropertyEditor(listPropertyEditor);
+            }
+            else {
+                listPropertyEditor.ControlCreated += listPropertyEditor_ControlCreated;
+            }
+        }
+    }
+    protected override void OnDeactivated() {
+        ListPropertyEditor listPropertyEditor = ((DetailView)View).FindItem("Tasks") as ListPropertyEditor;
+        if (listPropertyEditor != null) {
+            listPropertyEditor.ControlCreated -= new EventHandler<EventArgs>(listPropertyEditor_ControlCreated);
+        }
+        base.OnDeactivated();
+    }
+    public AccessNestedListViewController() {
+        TargetViewType = ViewType.DetailView;
+        TargetObjectType = typeof(Contact);
+    }
+}
+```
